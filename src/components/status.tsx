@@ -150,25 +150,18 @@ export function StatusSection() {
 function ActivityCard({ activity }: { activity: LanyardActivity }) {
   const { current, total, percent } = useActivityTimeline(activity.timestamps);
 
-  const resolveAssetUrl = (assetId?: string, width?: number, height?: number) => {
+  const resolveAssetUrl = (assetId?: string) => {
     if (!assetId) return null;
 
-    let rawUrl = '';
     if (assetId.startsWith('mp:external')) {
-      rawUrl = assetId.replace('mp:external/', 'https://media.discordapp.net/external/');
+      return assetId.replace('mp:external/', 'https://media.discordapp.net/external/');
     } else {
-      rawUrl = `https://cdn.discordapp.com/app-assets/${activity.application_id}/${assetId}.png`;
+      return `https://cdn.discordapp.com/app-assets/${activity.application_id}/${assetId}.png`;
     }
-
-    let proxyUrl = `/api/proxy?url=${encodeURIComponent(rawUrl)}`;
-    if (width) proxyUrl += `&w=${width}`;
-    if (height) proxyUrl += `&h=${height}`;
-
-    return proxyUrl;
   };
 
-  const largeImageUrl = resolveAssetUrl(activity.assets?.large_image, 80, 80);
-  const smallImageUrl = resolveAssetUrl(activity.assets?.small_image, 28, 28);
+  const largeImageUrl = resolveAssetUrl(activity.assets?.large_image);
+  const smallImageUrl = resolveAssetUrl(activity.assets?.small_image);
   const hasProgressBar = total !== null;
 
   return (

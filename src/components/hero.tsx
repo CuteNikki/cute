@@ -18,27 +18,10 @@ const badges = [
 export function Hero() {
   const { presence } = useLanyard();
 
-  const getProxiedUrl = (originalUrl: string, fallbackUrl: string, width?: number, height?: number) => {
-    if (!originalUrl) return fallbackUrl;
-
-    if (originalUrl.startsWith('/')) {
-      return originalUrl;
-    }
-
-    let proxyUrl = `/api/proxy?url=${encodeURIComponent(originalUrl)}`;
-    if (width) proxyUrl += `&w=${width}`;
-    if (height) proxyUrl += `&h=${height}`;
-
-    return proxyUrl;
-  };
-
-  const rawBannerUrl = presence?.kv?.banner || '/banner.png';
-  const bannerUrl = getProxiedUrl(rawBannerUrl, '/banner.png', 800);
-
-  const rawAvatarUrl = presence?.discord_user?.avatar
+  const bannerUrl = presence?.kv?.banner || '/banner.png';
+  const avatarUrl = presence?.discord_user?.avatar
     ? `https://cdn.discordapp.com/avatars/${presence.discord_user.id}/${presence.discord_user.avatar}.png`
     : '/avatar.png';
-  const avatarUrl = getProxiedUrl(rawAvatarUrl, '/avatar.png', 128, 128);
 
   return (
     <section className='relative'>
