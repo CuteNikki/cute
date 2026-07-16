@@ -19,8 +19,11 @@ export function Hero() {
   const { presence } = useLanyard();
 
   const bannerUrl = presence?.kv?.banner || '/banner.png';
+  
+  const isAnimated = presence?.discord_user?.avatar?.startsWith('a_');
+  const extension = isAnimated ? 'gif' : 'webp';
   const avatarUrl = presence?.discord_user?.avatar
-    ? `https://cdn.discordapp.com/avatars/${presence.discord_user.id}/${presence.discord_user.avatar}.png`
+    ? `https://cdn.discordapp.com/avatars/${presence.discord_user.id}/${presence.discord_user.avatar}.${extension}`
     : '/avatar.png';
 
   return (
