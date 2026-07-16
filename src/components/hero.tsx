@@ -51,7 +51,7 @@ export function Hero() {
               priority
               width={128}
               height={128}
-              unoptimized={avatarUrl.startsWith('http') || avatarUrl.startsWith('/api') || isAnimated}
+              unoptimized={avatarUrl.startsWith('http') || avatarUrl.startsWith('/api') || avatarUrl.includes('.gif') || isAnimated}
               className='object-cover'
             />
           </div>
