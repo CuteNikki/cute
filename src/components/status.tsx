@@ -177,7 +177,7 @@ function ActivityCard({ activity }: { activity: LanyardActivity }) {
         <div className='relative size-20 shrink-0'>
           <div className='relative flex size-full items-center justify-center rounded-lg bg-accent text-accent-foreground overflow-hidden'>
             {largeImageUrl ? (
-              <Image src={largeImageUrl} alt={activity.assets?.large_text || activity.name} fill unoptimized className='object-cover' />
+              <Image src={largeImageUrl} alt={activity.assets?.large_text || activity.name} width={80} height={80} className='object-cover' />
             ) : (
               <Gamepad2Icon className='size-8' aria-hidden='true' />
             )}
@@ -186,7 +186,7 @@ function ActivityCard({ activity }: { activity: LanyardActivity }) {
           {smallImageUrl && (
             <div className='absolute -bottom-1 -right-1 size-7 rounded-full bg-card p-0.5 overflow-hidden' title={activity.assets?.small_text}>
               <div className='relative size-full'>
-                <Image src={smallImageUrl} alt={activity.assets?.small_text || 'Status icon'} fill unoptimized className='rounded-full object-cover' />
+                <Image src={smallImageUrl} alt={activity.assets?.small_text || 'Status icon'} width={28} height={28} className='rounded-full object-cover' />
               </div>
             </div>
           )}

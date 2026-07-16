@@ -18,7 +18,7 @@ const badges = [
 export function Hero() {
   const { presence } = useLanyard();
 
-  const bannerUrl = presence?.kv?.banner || '/banner.gif';
+  const bannerUrl = presence?.kv?.banner || '/transparent.png';
 
   const isAnimated = presence?.discord_user?.avatar?.startsWith('a_');
   const extension = isAnimated ? 'gif' : 'webp';
@@ -46,10 +46,12 @@ export function Hero() {
           <div className='relative size-28 overflow-hidden rounded-full sm:size-32'>
             <Image
               src={avatarUrl}
-              alt="Nikki Sophie's dynamic avatar"
+              alt='dynamic avatar'
               fill
               priority
-              unoptimized={avatarUrl.startsWith('http') || avatarUrl.startsWith('/api')}
+              width={128}
+              height={128}
+              unoptimized={avatarUrl.startsWith('http') || avatarUrl.startsWith('/api') || isAnimated}
               className='object-cover'
             />
           </div>
