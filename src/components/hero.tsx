@@ -20,7 +20,7 @@ export function Hero() {
 
   const bannerUrl = presence?.kv?.banner || '/transparent.png';
 
-  const isAnimated = presence?.discord_user?.avatar?.startsWith('a_');
+  const isAnimated = presence?.discord_user?.avatar?.startsWith('a_') || false;
   const extension = isAnimated ? 'gif' : 'webp';
   const avatarUrl = presence?.discord_user?.avatar
     ? `https://cdn.discordapp.com/avatars/${presence.discord_user.id}/${presence.discord_user.avatar}.${extension}`
@@ -31,11 +31,11 @@ export function Hero() {
       <div className='relative h-44 w-full overflow-hidden rounded-3xl border border-border bg-secondary sm:h-56'>
         <Image
           src={bannerUrl}
-          fetchPriority='high'
           alt='Cute pastel banner'
           fill
           priority
-          unoptimized={bannerUrl.startsWith('http') || bannerUrl.startsWith('/api')}
+          sizes='(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 1200px'
+          unoptimized={bannerUrl.startsWith('/api')}
           className='object-cover'
         />
       </div>
@@ -47,11 +47,10 @@ export function Hero() {
             <Image
               src={avatarUrl}
               alt='dynamic avatar'
-              fill
-              priority
               width={128}
               height={128}
-              unoptimized={avatarUrl.startsWith('http') || avatarUrl.startsWith('/api') || avatarUrl.includes('.gif') || isAnimated}
+              priority
+              unoptimized={isAnimated || avatarUrl.includes('.gif') || avatarUrl.startsWith('/api')}
               className='object-cover'
             />
           </div>
