@@ -18,13 +18,13 @@ const badges = [
 export function Hero() {
   const { presence } = useLanyard();
 
-  const bannerUrl = presence?.kv?.banner || '/banner.png';
-  
+  const bannerUrl = presence?.kv?.banner || '/banner.gif';
+
   const isAnimated = presence?.discord_user?.avatar?.startsWith('a_');
   const extension = isAnimated ? 'gif' : 'webp';
   const avatarUrl = presence?.discord_user?.avatar
     ? `https://cdn.discordapp.com/avatars/${presence.discord_user.id}/${presence.discord_user.avatar}.${extension}`
-    : '/avatar.png';
+    : '/avatar.gif';
 
   return (
     <section className='relative'>
