@@ -114,12 +114,12 @@ export function StatusSection() {
               <div className='rounded-3xl border border-border bg-card p-6 shadow-sm min-w-0 w-full overflow-hidden'>
                 <p className='text-xs font-bold uppercase tracking-wider text-muted-foreground'>Current Mood</p>
                 <div className='mt-3 flex items-center gap-4'>
-                  <div className='flex size-20 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-foreground'>
-                    <SparklesIcon className='size-8 text-primary/85 animate-pulse' aria-hidden='true' />
+                  <div className='flex size-20 shrink-0 items-center justify-center rounded-lg bg-secondary text-accent-foreground'>
+                    <SparklesIcon className='size-8 text-primary animate-pulse' aria-hidden='true' />
                   </div>
                   <div className='min-w-0 flex-1'>
-                    <p className='font-display text-base font-semibold text-foreground'>Cozy & relaxing</p>
-                    <p className='text-sm text-muted-foreground truncate'>Taking a small break from coding</p>
+                    <p className='font-display text-base font-semibold text-foreground'>cozy & relaxing</p>
+                    <p className='text-sm text-muted-foreground truncate'>taking a small break</p>
                   </div>
                 </div>
               </div>
