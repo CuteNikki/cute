@@ -172,19 +172,31 @@ export function Gallery() {
               event.preventDefault();
               triggerRef.current?.focus({ preventScroll: true });
             }}
-            className='fixed left-1/2 top-1/2 z-50 flex max-h-[90vh] w-[calc(100%-2rem)] max-w-md -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-[2rem] border border-border bg-card shadow-2xl focus:outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95'
+            className='fixed left-1/2 max-w-3xl top-1/2 z-50 flex max-h-[90vh] w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-[2rem] border border-border bg-card shadow-2xl focus:outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95'
           >
             {selected && (
               <div className='flex min-h-0 flex-col overflow-y-auto'>
-                <div className='relative aspect-4/3 w-full shrink-0 bg-secondary'>
+                <div className='relative aspect-square sm:aspect-4/3 w-full shrink-0 overflow-hidden bg-secondary'>
+                  <Image
+                    key={`bg-${selected.images[activePhoto]}`}
+                    src={selected.images[activePhoto]}
+                    alt=''
+                    role='none'
+                    fill
+                    className='object-cover blur-md scale-105 opacity-40 dark:opacity-20 select-none'
+                    unoptimized
+                  />
+
                   <Image
                     key={selected.images[activePhoto]}
                     src={selected.images[activePhoto]}
-                    fill
                     alt={`${selected.name} photo ${activePhoto + 1}`}
-                    className='object-contain'
+                    fill
+                    priority
+                    className='object-contain z-10'
                   />
-                  <Dialog.Close className='absolute right-3 top-3 flex size-8 items-center justify-center rounded-full bg-background/80 text-foreground backdrop-blur transition-colors hover:bg-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring'>
+
+                  <Dialog.Close className='absolute right-3 top-3 z-20 flex size-8 items-center justify-center rounded-full bg-background/80 text-foreground backdrop-blur transition-colors hover:bg-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring'>
                     <XIcon className='size-4' aria-hidden='true' />
                     <span className='sr-only'>Close</span>
                   </Dialog.Close>
@@ -209,12 +221,14 @@ export function Gallery() {
                   </div>
                 )}
 
-                <div className='p-6'>
+                <div className='p-6 max-w-md'>
                   <Dialog.Title className='flex items-center gap-2 font-display text-xl font-bold text-primary'>
                     <HeartIcon className='size-5 shrink-0' aria-hidden='true' />
                     {selected.name}
                   </Dialog.Title>
-                  <Dialog.Description className='mt-2 leading-relaxed text-muted-foreground whitespace-pre-line'>{selected.description}</Dialog.Description>
+                  <Dialog.Description className='mt-2 leading-relaxed text-muted-foreground whitespace-pre-line text-pretty'>
+                    {selected.description}
+                  </Dialog.Description>
 
                   <dl className='mt-4 space-y-2'>
                     {selected.details.map((detail) => (
