@@ -35,8 +35,6 @@ export function Hero() {
           fill
           priority
           fetchPriority='high'
-          sizes='(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 1200px'
-          unoptimized={bannerUrl.startsWith('/api')}
           className='object-cover'
         />
       </div>
