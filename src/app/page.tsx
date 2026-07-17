@@ -1,10 +1,12 @@
+import { LanyardProvider } from '@/context/lanyard';
+
 import { AboutSection } from '@/components/about';
 import { Footer } from '@/components/footer';
+import { Gallery } from '@/components/gallery';
 import { Hero } from '@/components/hero';
 import { Socials } from '@/components/socials';
 import { StatusSection } from '@/components/status';
 import { ThemeToggle } from '@/components/theme-toggle';
-import { LanyardProvider } from '@/context/lanyard';
 
 export default function Home() {
   return (
@@ -30,7 +32,7 @@ export default function Home() {
             <div className='space-y-10 sm:space-y-12'>
               <AboutSection />
               <StatusSection />
-              {/* <Creations /> */}
+              <Gallery />
               <Footer />
             </div>
           </div>
