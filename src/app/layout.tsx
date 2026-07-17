@@ -18,7 +18,7 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
-  title: 'niso ⋅ pastel portfolio ♡',
+  title: 'niso ⋅ pastel corner ♡',
   description: 'A soft, pastel-pink corner of the internet — plushies, cats & kindness.',
 };
 
