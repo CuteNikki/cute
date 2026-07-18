@@ -152,7 +152,7 @@ export function getActivityImages(activity: LanyardActivity) {
     ? `https://media.discordapp.net/${activity.assets.large_image.replace('mp:', '')}`
     : activity.assets?.large_image
       ? `https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.large_image}.png`
-      : `https://dcdn.dstn.to/app-icons/${activity.application_id}`;
+      : `https://dcdn.dstn.to/app-icons/${activity.application_id}?size=128`;
 
   const smallImageUrl = activity.assets?.small_image
     ? activity.assets.small_image.startsWith('mp:external')

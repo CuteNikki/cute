@@ -18,7 +18,7 @@ const badges = [
 export function Hero() {
   const { presence } = useLanyard();
 
-  const bannerUrl = presence?.kv?.banner || '/transparent.png';
+  const bannerUrl = `https://dcdn.dstn.to/banners/${presence?.discord_user?.id}?size=1024`;
 
   const isAnimated = presence?.discord_user?.avatar?.startsWith('a_') || false;
   const extension = isAnimated ? 'gif' : 'webp';
