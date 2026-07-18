@@ -20,6 +20,23 @@ const nunito = Nunito({
 export const metadata: Metadata = {
   title: 'niso ⋅ pastel corner ♡',
   description: 'A soft, pastel-pink corner of the internet — plushies, cats & kindness.',
+  openGraph: {
+    title: 'niso ⋅ pastel corner ♡',
+    description: 'A soft, pastel-pink corner of the internet — plushies, cats & kindness.',
+    url: 'https://niso.vercel.app',
+    siteName: 'niso ⋅ pastel corner ♡',
+    images: [
+      {
+        url: 'https://cute.niso.moe/avatar.gif',
+        width: 430,
+        height: 430,
+      },
+    ],
+    type: 'website',
+  },
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 export const viewport: Viewport = {
