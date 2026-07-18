@@ -29,14 +29,7 @@ export function Hero() {
   return (
     <section className='relative'>
       <div className='relative h-44 w-full overflow-hidden rounded-3xl border border-border bg-secondary sm:h-56'>
-        <Image
-          src={bannerUrl}
-          alt='Cute pastel banner'
-          fill
-          priority
-          fetchPriority='high'
-          className='object-cover'
-        />
+        <Image src={bannerUrl} alt='Cute pastel banner' fill priority fetchPriority='high' className='object-cover' />
       </div>
       <Sparkles />
 

@@ -147,21 +147,26 @@ export function StatusSection() {
   );
 }
 
+export function getActivityImages(activity: LanyardActivity) {
+  const largeImageUrl = activity.assets?.large_image?.startsWith('mp:external')
+    ? `https://media.discordapp.net/${activity.assets.large_image.replace('mp:', '')}`
+    : activity.assets?.large_image
+      ? `https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.large_image}.png`
+      : `https://dcdn.dstn.to/app-icons/${activity.application_id}`;
+
+  const smallImageUrl = activity.assets?.small_image
+    ? activity.assets.small_image.startsWith('mp:external')
+      ? `https://media.discordapp.net/${activity.assets.small_image.replace('mp:', '')}`
+      : `https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.small_image}.png`
+    : null;
+
+  return { largeImageUrl, smallImageUrl };
+}
+
 function ActivityCard({ activity }: { activity: LanyardActivity }) {
   const { current, total, percent } = useActivityTimeline(activity.timestamps);
 
-  const resolveAssetUrl = (assetId?: string) => {
-    if (!assetId) return null;
-
-    if (assetId.startsWith('mp:external')) {
-      return assetId.replace('mp:external/', 'https://media.discordapp.net/external/');
-    } else {
-      return `https://cdn.discordapp.com/app-assets/${activity.application_id}/${assetId}.png`;
-    }
-  };
-
-  const largeImageUrl = resolveAssetUrl(activity.assets?.large_image);
-  const smallImageUrl = resolveAssetUrl(activity.assets?.small_image);
+  const { largeImageUrl, smallImageUrl } = getActivityImages(activity);
   const hasProgressBar = total !== null;
 
   return (
@@ -175,7 +180,7 @@ function ActivityCard({ activity }: { activity: LanyardActivity }) {
 
       <div className='flex items-center gap-4 min-w-0 w-full max-w-full'>
         <div className='relative size-20 shrink-0'>
-          <div className='relative flex size-full items-center justify-center rounded-lg bg-accent text-accent-foreground overflow-hidden'>
+          <div className='relative flex size-full items-center justify-center rounded-lg bg-secondary text-primary overflow-hidden'>
             {largeImageUrl ? (
               <Image src={largeImageUrl} alt={activity.assets?.large_text || activity.name} width={80} height={80} className='object-cover' />
             ) : (
