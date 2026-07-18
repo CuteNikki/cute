@@ -101,6 +101,7 @@ export function StatusSection() {
               <p className='text-xs font-bold uppercase tracking-wider text-muted-foreground'>Current status</p>
               <ul className='mt-3 space-y-2.5 min-w-0 w-full'>
                 <StatusRowSkeleton />
+                <StatusRowSkeleton />
               </ul>
             </div>
           </div>
@@ -126,7 +127,7 @@ export function StatusSection() {
             )}
           </div>
 
-          <div className='rounded-3xl border border-border bg-secondary/60 p-6 shadow-sm flex flex-col justify-between min-h-48 min-w-0 w-full overflow-hidden'>
+          <div className='rounded-3xl border border-border bg-secondary/60 p-6 shadow-sm flex flex-col justify-between h-fit min-w-0 w-full overflow-hidden'>
             <div className='min-w-0 w-full'>
               <p className='text-xs font-bold uppercase tracking-wider text-muted-foreground'>Current status</p>
               <ul className='mt-3 space-y-2.5 min-w-0 w-full'>
@@ -199,7 +200,7 @@ function ActivityCard({ activity }: { activity: LanyardActivity }) {
 
         <div className='min-w-0 flex-1 w-full flex flex-col overflow-hidden'>
           <div className='min-w-0 w-full max-w-full overflow-hidden'>
-            {activity.details && <p className='truncate text-sm text-muted-foreground w-full block max-w-full'>{activity.details}</p>}
+            <p className='truncate text-sm text-muted-foreground w-full block max-w-full'>{activity.details ?? 'Active Session'}</p>
             {activity.state && <p className='truncate text-sm text-muted-foreground w-full block max-w-full'>{activity.state}</p>}
           </div>
 
