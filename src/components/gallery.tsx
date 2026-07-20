@@ -196,7 +196,7 @@ export function Gallery() {
                     className='object-contain z-10'
                   />
 
-                  <Dialog.Close className='absolute right-3 top-3 z-20 flex size-8 items-center justify-center rounded-full bg-background/80 text-foreground backdrop-blur transition-colors hover:bg-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring'>
+                  <Dialog.Close className='fixed right-3 top-3 z-20 flex size-8 items-center justify-center rounded-full bg-background/80 text-foreground backdrop-blur transition-colors hover:bg-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring'>
                     <XIcon className='size-4' aria-hidden='true' />
                     <span className='sr-only'>Close</span>
                   </Dialog.Close>
