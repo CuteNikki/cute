@@ -1,6 +1,6 @@
 # Cute - Personal Portfolio
 
-A modern, elegant personal portfolio and showcase website built with Next.js, featuring a hero section, gallery, live status integration, and a beautiful themed experience.
+A modern, elegant personal portfolio and showcase website built with Next.js, featuring a hero section, gallery, live status integration and a beautiful themed experience.
 
 ## 🎨 Features
 
@@ -12,14 +12,14 @@ A modern, elegant personal portfolio and showcase website built with Next.js, fe
 - **Social Links** - Easy access to your social media profiles
 - **About Section** - Tell your story
 - **Performance Optimized** - Built with Vercel Analytics and Speed Insights for monitoring
-- **Modern Stack** - TypeScript, Tailwind CSS, Radix UI, and React Compiler for optimal performance
+- **Modern Stack** - TypeScript, Tailwind CSS, Radix UI and React Compiler for optimal performance
 
 ## 🚀 Quick Start
 
 ### Prerequisites
 
 - Node.js 18+
-- Bun, npm, yarn, or pnpm
+- Bun, npm, yarn or pnpm
 
 ### Installation & Development
 
@@ -37,9 +37,7 @@ bun dev
 # or npm run dev / yarn dev / pnpm dev
 ```
 
-3. Open [http://localhost:3000](http://localhost:3000) to view your portfolio
-
-The site auto-reloads as you edit files.
+3. Open [http://localhost:3000](http://localhost:3000) to view the website
 
 ## 📁 Project Structure
 
@@ -106,20 +104,20 @@ This project is optimized for deployment on [Vercel](https://vercel.com), the pl
 
 ## 📚 Dependencies
 
-- **Next.js 16** — React framework with App Router
-- **React 19** — Modern React with latest features
-- **TypeScript** — Type safety for JavaScript
-- **Tailwind CSS 4** — Utility-first CSS framework
-- **Radix UI** — Unstyled, accessible components
-- **Next Themes** — Dark mode and theme switching
-- **Vercel Analytics & Speed Insights** — Performance monitoring
+- **Next.js 16** - React framework with App Router
+- **React 19** - Modern React with latest features
+- **TypeScript** - Type safety for JavaScript
+- **Tailwind CSS 4** - Utility-first CSS framework
+- **Radix UI** - Unstyled, accessible components
+- **Next Themes** - Dark mode and theme switching
+- **Vercel Analytics & Speed Insights** - Performance monitoring
 
 ## 📖 Learn More
 
-- [Next.js Documentation](https://nextjs.org/docs)
-- [Tailwind CSS](https://tailwindcss.com)
-- [Radix UI](https://www.radix-ui.com)
-- [Lanyard API](https://github.com/phineas/lanyard) — Discord status
+- [Next.js Documentation](https://nextjs.org/docs) - React framework
+- [Tailwind CSS](https://tailwindcss.com) - CSS framework
+- [Radix UI](https://www.radix-ui.com) - UI components
+- [Lanyard API](https://github.com/phineas/lanyard) - Discord status
 
 ## 📝 License
 
