@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/next';
 import type { Metadata, Viewport } from 'next';
 import { Fredoka, Nunito } from 'next/font/google';
 
@@ -56,6 +57,7 @@ export default function RootLayout({
       <body className='bg-background font-sans antialiased'>
         <ThemeProvider attribute='class' defaultTheme='light' enableSystem disableTransitionOnChange>
           {children}
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>
