@@ -1,6 +1,8 @@
-import { Analytics } from '@vercel/analytics/next';
 import type { Metadata, Viewport } from 'next';
 import { Fredoka, Nunito } from 'next/font/google';
+
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 import { ThemeProvider } from '@/components/theme-provider';
 
@@ -58,6 +60,7 @@ export default function RootLayout({
         <ThemeProvider attribute='class' defaultTheme='light' enableSystem disableTransitionOnChange>
           {children}
           <Analytics />
+          <SpeedInsights />
         </ThemeProvider>
       </body>
     </html>
