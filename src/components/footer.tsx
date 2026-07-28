@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import { HeartIcon, SparklesIcon } from 'lucide-react';
 
 export function Footer() {
@@ -10,7 +12,12 @@ export function Footer() {
       </p>
 
       <div className='flex flex-col sm:flex-row items-center justify-center gap-x-1.5 gap-y-1 text-xs text-muted-foreground max-w-full px-2'>
-        <p className='leading-normal'>&copy;{new Date().getFullYear()} – Nikki Sophie</p>
+        <p className='leading-normal'>
+          &copy;{new Date().getFullYear()} –{' '}
+          <Link href='https://github.com/CuteNikki/cute' target='_blank' rel='noreferrer' className='underline'>
+            Nikki
+          </Link>
+        </p>
 
         <span className='hidden sm:inline' aria-hidden='true'>
           ·
