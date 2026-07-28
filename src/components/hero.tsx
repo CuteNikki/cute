@@ -15,6 +15,9 @@ const badges = [
   { icon: SparklesIcon, label: 'plushie collector' },
 ];
 
+const dateOfBirth = new Date('2004-09-26');
+const age = Math.floor((Date.now() - dateOfBirth.getTime()) / (1000 * 60 * 60 * 24 * 365.25));
+
 export function Hero() {
   const { presence } = useLanyard();
 
@@ -48,12 +51,12 @@ export function Hero() {
           </div>
         </div>
 
-        <h1 className='mt-4 flex flex-wrap items-center justify-center gap-x-2 font-display text-3xl font-bold tracking-tight text-primary text-balance sm:text-4xl md:text-5xl'>
+        <h1 className='mt-4 flex flex-wrap items-center justify-center gap-x-2 font-display text-3xl font-bold tracking-tight text-primary text-balance sm:text-4xl'>
           <span>Nikki Sophie</span>
           <span className='inline-block animate-wiggle'>🌸</span>
         </h1>
 
-        <p className='mt-1 font-display text-base text-accent-foreground text-balance sm:text-lg'>{'21 · she/her · meow ♡'}</p>
+        <p className='mt-1 font-display text-base text-accent-foreground text-balance sm:text-lg'>{`♡ ${age} years old · she/her ☆`}</p>
         <p className='mt-4 max-w-md leading-relaxed text-muted-foreground whitespace-pre-line text-balance'>
           {
             '♡ an angel who loves plushies, pastel colors & cats ★彡\na soft little corner of the internet where i get to be small & silly, built on respect & kindness only.'

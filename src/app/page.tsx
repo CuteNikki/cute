@@ -10,7 +10,7 @@ import { ThemeToggle } from '@/components/theme-toggle';
 
 export default function Home() {
   return (
-    <main className='relative flex min-h-screen justify-center bg-background px-4 py-10 sm:px-6 sm:py-14 lg:py-20'>
+    <main className='relative flex min-h-screen justify-center bg-background px-4 py-10 sm:px-6 sm:py-10'>
       {/* soft radial glow backdrop */}
       <div
         aria-hidden='true'
@@ -23,13 +23,13 @@ export default function Home() {
         <LanyardProvider>
           <div className='grid gap-10 sm:gap-12 lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)] lg:items-start lg:gap-10 xl:grid-cols-[minmax(0,25rem)_minmax(0,1fr)]'>
             {/* Profile sidebar */}
-            <div className='space-y-10 sm:space-y-12 lg:sticky lg:top-16'>
+            <div className='space-y-8 lg:sticky'>
               <Hero />
               <Socials />
             </div>
 
             {/* Content */}
-            <div className='space-y-10 sm:space-y-12'>
+            <div className='space-y-8'>
               <AboutSection />
               <StatusSection />
               <Gallery />

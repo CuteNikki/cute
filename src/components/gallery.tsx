@@ -18,7 +18,7 @@ type CuteThing = {
 
 const things: CuteThing[] = [
   {
-    images: ['/items/plushies.png', '/items/pusheen-together-3.png', '/items/pusheen-together.png'],
+    images: ['/items/plush-family.jpg', '/items/plushies.png', '/items/pusheen-together-3.png'],
     name: 'plush family',
     short: 'my cuddle buddies',
     description:
@@ -26,11 +26,11 @@ const things: CuteThing[] = [
     details: [
       { label: 'softness', value: '10/10 squish' },
       { label: 'cuddly', value: 'always' },
-      { label: 'favorite', value: 'goma (gray cat)' },
+      { label: 'favourite', value: 'goma (gray cat)' },
     ],
   },
   {
-    images: ['/items/backpack.png', '/items/backpack-2.png', '/items/backpack-3.png'],
+    images: ['/items/backpack-3.png', '/items/backpack-2.png', '/items/backpack.png'],
     name: 'display backpack',
     short: 'my soft carryall',
     description: "a pastel pink backpack with a bunch of different metal pins. it's perfect for carrying my essentials on cozy adventures.",
@@ -45,11 +45,34 @@ const things: CuteThing[] = [
     name: 'pastel pacifier',
     short: 'my comfort chew',
     description:
-      'a pastel pink adult pacifier decorated with tiny yellow stars, fluffy little clouds and a sweet center graphic of cuddling kittens.\nit is the perfect cozy companion for winding down, relaxing and feeling safe and small.',
+      'a pastel pink adult pacifier decorated with tiny yellow stars, fluffy little clouds and a sweet centre graphic of cuddling kittens.\nit is the perfect cozy companion for winding down, relaxing and feeling safe and small.',
     details: [
-      { label: 'color', value: 'pastel pink' },
+      { label: 'colour', value: 'pastel pink' },
       { label: 'material', value: 'silicone' },
       { label: 'design', value: 'peach and goma' },
+    ],
+  },
+  {
+    images: ['/items/onesie.jpg', '/items/onesie-goma.jpg'],
+    name: 'cozy onesie',
+    short: 'my snuggly outfit',
+    description: "a blue shark onesie. perfect for lounging around and feeling cozy when it's cold.",
+    details: [
+      { label: 'material', value: 'soft cotton' },
+      { label: 'comfort', value: 'extremely cozy' },
+      { label: 'approved by', value: 'goma (gray cat)' },
+    ],
+  },
+  {
+    images: ['/items/dress.jpg', '/items/selfie.jpg', '/items/selfie-2.jpg', '/items/selfie-3.jpg', '/items/selfie-4.jpg'],
+    name: 'selfie collection',
+    short: 'my cozy memories',
+    description:
+      'a collection of selfies and photos of me. i like to take photos of myself when i feel cozy and happy, and they remind me of those moments when i look back at them.',
+    details: [
+      { label: 'type', value: 'selfies & photos' },
+      { label: 'mood', value: 'cozy & happy' },
+      { label: 'frequency', value: 'whenever i feel like it' },
     ],
   },
   // {
