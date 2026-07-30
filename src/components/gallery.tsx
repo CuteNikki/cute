@@ -18,7 +18,14 @@ type CuteThing = {
 
 const things: CuteThing[] = [
   {
-    images: ['/items/plush-family.jpg', '/items/plushies.png', '/items/pusheen-together-3.png'],
+    images: [
+      '/items/pusheen.jpg',
+      '/items/pusheen-2.jpg',
+      '/items/plushies-2.jpg',
+      '/items/plushies-3.jpg',
+      '/items/plushies.png',
+      '/items/pusheen-together-3.png',
+    ],
     name: 'plush family',
     short: 'my cuddle buddies',
     description:
