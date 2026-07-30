@@ -3,9 +3,9 @@ import {
   Code2Icon,
   CompassIcon,
   DogIcon,
+  Gamepad2Icon,
   HeartHandshakeIcon,
   HeartIcon,
-  IceCreamIcon,
   MedalIcon,
   MusicIcon,
   PaletteIcon,
@@ -17,18 +17,18 @@ import {
 
 import { SectionTitle } from '@/components/section-title';
 
-const favouriteThings = [
+const interestsList = [
   { icon: CatIcon, label: 'cats/kittens' },
   { icon: HeartIcon, label: 'plushies' },
-  { icon: PaletteIcon, label: 'pastel colours' },
-  { icon: IceCreamIcon, label: 'strawberry milk' },
+  { icon: PaletteIcon, label: 'pastels' },
+  { icon: Gamepad2Icon, label: 'gaming' },
   { icon: MusicIcon, label: 'music' },
   { icon: SparklesIcon, label: 'being silly' },
   { icon: HeartHandshakeIcon, label: 'being kind' },
-  { icon: PopcornIcon, label: 'eating snacks' },
-  { icon: Code2Icon, label: 'programming' },
+  { icon: PopcornIcon, label: 'snacking' },
+  { icon: Code2Icon, label: 'coding' },
 ];
-const favouriteMoviesShows = [
+const favouriteMedia = [
   { icon: DogIcon, label: 'bluey' },
   { icon: StarIcon, label: 'how to train your dragon' },
   { icon: SwordsIcon, label: 'star wars' },
@@ -63,7 +63,7 @@ export function AboutSection() {
           <div className='rounded-3xl border border-border bg-secondary/60 p-6 shadow-sm'>
             <h3 className='font-display text-lg font-semibold text-accent-foreground'>favourite movies & shows ♡</h3>
             <ul className='mt-3 flex flex-wrap gap-2'>
-              {favouriteMoviesShows.map(({ label, icon: Icon }) => (
+              {favouriteMedia.map(({ label, icon: Icon }) => (
                 <li key={label} className='flex items-center gap-2 rounded-full bg-card px-3 py-2 text-sm font-medium text-foreground'>
                   <Icon className='size-4 shrink-0 text-primary' aria-hidden='true' />
                   <span>{label}</span>
@@ -76,8 +76,8 @@ export function AboutSection() {
         {/* Right column - Things I love */}
         <div className='rounded-3xl border border-border bg-secondary/60 p-6 shadow-sm sm:col-span-2'>
           <h3 className='font-display text-lg font-semibold text-accent-foreground'>things i love ♡</h3>
-          <ul className='mt-3 flex flex-wrap gap-2'>
-            {favouriteThings.map(({ icon: Icon, label }) => (
+          <ul className='mt-3 flex flex-wrap sm:grid sm:grid-cols-1 gap-2'>
+            {interestsList.map(({ icon: Icon, label }) => (
               <li key={label} className='flex items-center gap-2 rounded-full bg-card px-3 py-2 text-sm font-medium text-foreground'>
                 <Icon className='size-4 shrink-0 text-primary' aria-hidden='true' />
                 <span>{label}</span>
