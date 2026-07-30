@@ -64,7 +64,7 @@ export function Hero() {
           <span className='inline-block animate-wiggle'>🌸</span>
         </h1>
 
-        <p className='mt-1 font-display text-base text-accent-foreground text-balance sm:text-lg'>{`☆ ${age} years old · she/her ♡`}</p>
+        <p className='mt-1 font-display text-base text-accent-foreground text-balance sm:text-lg'>{`☆ ${age} years old · german · she/her ♡`}</p>
         <p className='mt-4 max-w-md leading-relaxed text-muted-foreground whitespace-pre-line text-balance'>
           {
             '♡ an angel who loves plushies, pastel colors & cats ★彡\na soft little corner of the internet where i get to be small & silly, built on respect & kindness only.'
