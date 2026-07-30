@@ -37,6 +37,7 @@ export function Hero() {
           alt='Cute pastel banner'
           fill
           priority
+          unoptimized
           fetchPriority='high'
           className='object-cover'
         />
