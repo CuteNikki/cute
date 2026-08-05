@@ -2,13 +2,21 @@
 
 import * as Tooltip from '@radix-ui/react-tooltip';
 import Image from 'next/image';
+import { useState } from 'react';
 
-import { BabyIcon, HeartIcon, InfoIcon, Sparkles as SparklesIcon, TransgenderIcon } from 'lucide-react';
+import { BabyIcon, HeartIcon, InfoIcon, Sparkles as SparklesIcon, TransgenderIcon, type LucideIcon } from 'lucide-react';
 
-import { Sparkles } from '@/components/sparkles';
 import { useLanyard } from '@/context/lanyard';
 
-const badges = [
+import { Sparkles } from '@/components/sparkles';
+
+interface Badge {
+  icon: LucideIcon;
+  label: string;
+  explanation?: string;
+}
+
+const badges: Badge[] = [
   {
     icon: TransgenderIcon,
     label: 'transfem',
@@ -26,6 +34,38 @@ const badges = [
 
 const dateOfBirth = new Date('2004-09-26');
 const age = Math.floor((Date.now() - dateOfBirth.getTime()) / (1000 * 60 * 60 * 24 * 365.25));
+
+function BadgeTooltip({ icon: Icon, label, explanation }: { icon: LucideIcon; label: string; explanation: string }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <Tooltip.Root open={open} onOpenChange={setOpen}>
+      <Tooltip.Trigger asChild>
+        <button
+          type='button'
+          onClick={() => setOpen((prev) => !prev)}
+          className='group flex cursor-pointer items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-sm font-semibold text-foreground shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2'
+        >
+          <Icon className='size-4 text-primary' aria-hidden='true' />
+          {label}
+          <InfoIcon className='size-4 text-muted-foreground transition-colors group-hover:text-primary' aria-hidden='true' />
+        </button>
+      </Tooltip.Trigger>
+      <Tooltip.Portal>
+        <Tooltip.Content
+          side='top'
+          align='center'
+          sideOffset={6}
+          onPointerDownOutside={() => setOpen(false)}
+          className='z-50 max-w-[calc(100vw-2rem)] w-80 rounded-lg border border-border bg-popover p-4 text-sm leading-relaxed text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2'
+        >
+          {explanation}
+          <Tooltip.Arrow className='fill-popover' />
+        </Tooltip.Content>
+      </Tooltip.Portal>
+    </Tooltip.Root>
+  );
+}
 
 export function Hero() {
   const { presence } = useLanyard();
@@ -95,31 +135,7 @@ export function Hero() {
                 );
               }
 
-              return (
-                <Tooltip.Root key={label}>
-                  <Tooltip.Trigger asChild>
-                    <button
-                      type='button'
-                      className='group flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-sm font-semibold text-foreground shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2'
-                    >
-                      <Icon className='size-4 text-primary' aria-hidden='true' />
-                      {label}
-                      <InfoIcon className='size-4 text-muted-foreground transition-colors group-hover:text-primary' aria-hidden='true' />
-                    </button>
-                  </Tooltip.Trigger>
-                  <Tooltip.Portal>
-                    <Tooltip.Content
-                      side='top'
-                      align='center'
-                      sideOffset={6}
-                      className='z-50 max-w-sm rounded-lg border border-border bg-popover p-4 text-sm text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 leading-relaxed'
-                    >
-                      {explanation}
-                      <Tooltip.Arrow className='fill-popover' />
-                    </Tooltip.Content>
-                  </Tooltip.Portal>
-                </Tooltip.Root>
-              );
+              return <BadgeTooltip key={label} icon={Icon} label={label} explanation={explanation} />;
             })}
           </ul>
         </div>
