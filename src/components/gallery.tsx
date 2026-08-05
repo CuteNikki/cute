@@ -20,11 +20,14 @@ const things: CuteThing[] = [
   {
     images: [
       '/items/pusheen.jpg',
-      '/items/pusheen-2.jpg',
-      '/items/plushies-2.jpg',
       '/items/plushies-3.jpg',
+      '/items/pusheen-together-2.jpg',
+      '/items/plushies-2.jpg',
       '/items/plushies.png',
-      '/items/pusheen-together-3.png',
+      '/items/mayo-tuna.png',
+      '/items/nebula-snuggles-stack.png',
+      '/items/pusheen-together.png',
+      '/items/shark-stack.png'
     ],
     name: 'plush family',
     short: 'my cuddle buddies',
@@ -48,7 +51,7 @@ const things: CuteThing[] = [
     ],
   },
   {
-    images: ['/items/pacifier-2.png', '/items/pacifier.png'],
+    images: ['/items/pacifier.png', '/items/pacifier-2.png'],
     name: 'pastel pacifier',
     short: 'my comfort chew',
     description:
@@ -233,7 +236,7 @@ export function Gallery() {
                 </div>
 
                 {selected.images.length > 1 && (
-                  <div className='flex gap-2 px-6 pt-4'>
+                  <div className='flex gap-2 px-4 pt-4 overflow-x-scroll pb-2'>
                     {selected.images.map((image, index) => (
                       <button
                         key={`${selected.name}-thumb-${index}`}
@@ -251,7 +254,7 @@ export function Gallery() {
                   </div>
                 )}
 
-                <div className='p-6 max-w-md'>
+                <div className='p-6 pt-2 max-w-md'>
                   <Dialog.Title className='flex items-center gap-2 font-display text-xl font-bold text-primary'>
                     <HeartIcon className='size-5 shrink-0' aria-hidden='true' />
                     {selected.name}
