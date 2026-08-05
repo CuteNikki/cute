@@ -236,7 +236,7 @@ export function Gallery() {
                 </div>
 
                 {selected.images.length > 1 && (
-                  <div className='flex gap-2 px-4 pt-4 overflow-x-scroll pb-2'>
+                  <div className='flex gap-2 px-4 pt-4 flex-wrap pb-2'>
                     {selected.images.map((image, index) => (
                       <button
                         key={`${selected.name}-thumb-${index}`}
