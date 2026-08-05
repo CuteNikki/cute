@@ -4,7 +4,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
 
-import { HeartIcon, XIcon } from 'lucide-react';
+import { ChevronLeftIcon, ChevronRightIcon, HeartIcon, XIcon } from 'lucide-react';
 
 import { SectionTitle } from '@/components/section-title';
 
@@ -27,7 +27,7 @@ const things: CuteThing[] = [
       '/items/mayo-tuna.png',
       '/items/nebula-snuggles-stack.png',
       '/items/pusheen-together.png',
-      '/items/shark-stack.png'
+      '/items/shark-stack.png',
     ],
     name: 'plush family',
     short: 'my cuddle buddies',
@@ -85,64 +85,6 @@ const things: CuteThing[] = [
       { label: 'frequency', value: 'whenever i feel like it' },
     ],
   },
-  // {
-  //   images: ['/items/angel-bunny.png', '/items/angel-bunny-2.png', '/items/angel-bunny-3.png'],
-  //   name: 'Angel Bunny',
-  //   short: 'my little guardian',
-  //   description:
-  //     'A fluffy pink bunny with tiny angel wings and a gold halo. She sits on my shelf and watches over all my other plushies like a sweet little guardian.',
-  //   details: [
-  //     { label: 'nickname', value: 'Angel' },
-  //     { label: 'vibe', value: 'heavenly & soft' },
-  //     { label: 'from', value: 'a birthday gift' },
-  //   ],
-  // },
-  // {
-  //   images: ['/items/strawberry-milk.png', '/items/strawberry-milk-2.png', '/items/strawberry-milk-3.png'],
-  //   name: 'Strawberry Milk',
-  //   short: 'my forever drink',
-  //   description:
-  //     'Pink strawberry milk is my absolute comfort drink. I always have a bottle in the fridge for sipping while doodling or watching comfort shows.',
-  //   details: [
-  //     { label: 'flavor', value: 'strawberry ♡' },
-  //     { label: 'best with', value: 'a striped straw' },
-  //     { label: 'mood', value: 'instant cozy' },
-  //   ],
-  // },
-  // {
-  //   images: ['/items/pastel-keyboard.png', '/items/pastel-keyboard-2.png', '/items/pastel-keyboard-3.png'],
-  //   name: 'Pastel Keyboard',
-  //   short: 'clicky & cute',
-  //   description:
-  //     'A pastel pink mechanical keyboard with round retro keycaps and little heart keys. It makes the softest clicky sounds and matches my whole setup.',
-  //   details: [
-  //     { label: 'keycaps', value: 'round & pastel' },
-  //     { label: 'sound', value: 'soft & clicky' },
-  //     { label: 'extras', value: 'heart keys ♡' },
-  //   ],
-  // },
-  // {
-  //   images: ['/items/star-lamp.png', '/items/star-lamp-2.png', '/items/star-lamp-3.png'],
-  //   name: 'Star Night Light',
-  //   short: 'my cozy glow',
-  //   description: 'A glowing star and moon lamp that gives my room the dreamiest warm glow. I turn it on every night before bed for maximum coziness.',
-  //   details: [
-  //     { label: 'shape', value: 'star & moon' },
-  //     { label: 'glow', value: 'warm pink' },
-  //     { label: 'used for', value: 'sleepy nights' },
-  //   ],
-  // },
-  // {
-  //   images: ['/items/cat-mug.png', '/items/cat-mug-2.png', '/items/cat-mug-3.png'],
-  //   name: 'Cat Mug',
-  //   short: 'cocoa in style',
-  //   description: 'An adorable cat-shaped mug with little ears and blushy cheeks. Perfect for warm cocoa with tiny marshmallows on chilly cozy days.',
-  //   details: [
-  //     { label: 'shape', value: 'chubby cat' },
-  //     { label: 'holds', value: 'cocoa & tea' },
-  //     { label: 'topping', value: 'mini marshmallows' },
-  //   ],
-  // },
 ];
 
 export function Gallery() {
@@ -166,8 +108,8 @@ export function Gallery() {
           if (!open) setSelected(null);
         }}
       >
-        <div className='grid grid-cols-1 xxs:grid-cols-2 gap-4 sm:grid-cols-3'>
-          {things.map((thing) => (
+        <div className='grid grid-cols-1 gap-4 xxs:grid-cols-2 sm:grid-cols-3'>
+          {things.map((thing, index) => (
             <Dialog.Trigger key={thing.name} asChild>
               <button
                 type='button'
@@ -180,7 +122,7 @@ export function Gallery() {
                     alt={thing.name}
                     fill
                     sizes='(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 250px'
-                    priority={things.indexOf(thing) < 3}
+                    priority={index < 3}
                     className='object-cover transition-transform duration-300 group-hover:scale-105'
                   />
                   {thing.images.length > 1 && (
@@ -199,42 +141,66 @@ export function Gallery() {
         </div>
 
         <Dialog.Portal>
-          <Dialog.Overlay className='fixed inset-0 z-50 bg-foreground/40 dark:bg-background/40 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0' />
+          <Dialog.Overlay className='fixed inset-0 z-50 bg-foreground/40 backdrop-blur-sm data-[state=closed]:animate-out data-[state=open]:animate-in data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 dark:bg-background/40' />
           <Dialog.Content
             onCloseAutoFocus={(event) => {
               event.preventDefault();
               triggerRef.current?.focus({ preventScroll: true });
             }}
-            className='fixed left-1/2 max-w-3xl top-1/2 z-50 flex max-h-[90vh] w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-[2rem] border border-border bg-card shadow-2xl focus:outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95'
+            className='fixed left-1/2 top-1/2 z-50 flex max-h-[98vh] w-[calc(100%-1rem)] max-w-3xl -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-[2rem] border border-border bg-card shadow-2xl focus:outline-none'
           >
             {selected && (
               <div className='flex min-h-0 flex-col overflow-y-auto'>
+                {/* Main Image Viewport with responsive aspect ratio */}
                 <div className='relative aspect-square sm:aspect-4/3 w-full shrink-0 overflow-hidden bg-secondary'>
                   <Image
-                    key={`bg-${selected.images[activePhoto]}`}
+                    key={`bg-${activePhoto}`}
                     src={selected.images[activePhoto]}
                     alt=''
                     role='none'
                     fill
-                    className='object-cover blur-md scale-105 opacity-40 dark:opacity-20 select-none'
+                    className='scale-105 select-none object-cover opacity-40 blur-md dark:opacity-20'
                     unoptimized
                   />
 
                   <Image
-                    key={selected.images[activePhoto]}
+                    key={`main-${activePhoto}`}
                     src={selected.images[activePhoto]}
                     alt={`${selected.name} photo ${activePhoto + 1}`}
                     fill
                     priority
-                    className='object-contain z-10'
+                    className='z-10 object-contain'
                   />
 
-                  <Dialog.Close className='fixed right-3 top-3 z-20 flex size-8 items-center justify-center rounded-full bg-background/80 text-foreground backdrop-blur transition-colors hover:bg-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring'>
+                  {/* Previous / Next Controls */}
+                  {selected.images.length > 1 && (
+                    <>
+                      <button
+                        type='button'
+                        onClick={() => setActivePhoto((prev) => (prev - 1 + selected.images.length) % selected.images.length)}
+                        className='absolute left-3 top-1/2 z-20 flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-background/70 text-foreground backdrop-blur transition-all hover:bg-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring'
+                        aria-label='Previous photo'
+                      >
+                        <ChevronLeftIcon className='size-5' aria-hidden='true' />
+                      </button>
+                      <button
+                        type='button'
+                        onClick={() => setActivePhoto((prev) => (prev + 1) % selected.images.length)}
+                        className='absolute right-3 top-1/2 z-20 flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-background/70 text-foreground backdrop-blur transition-all hover:bg-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring'
+                        aria-label='Next photo'
+                      >
+                        <ChevronRightIcon className='size-5' aria-hidden='true' />
+                      </button>
+                    </>
+                  )}
+
+                  <Dialog.Close className='fixed right-3 top-3 z-30 flex size-8 items-center justify-center rounded-full bg-background/80 text-foreground backdrop-blur transition-colors hover:bg-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring'>
                     <XIcon className='size-4' aria-hidden='true' />
                     <span className='sr-only'>Close</span>
                   </Dialog.Close>
                 </div>
 
+                {/* Rigid Single-row Horizontal Scrolling Thumbnails */}
                 {selected.images.length > 1 && (
                   <div className='flex gap-2 px-4 pt-4 flex-wrap pb-2'>
                     {selected.images.map((image, index) => (
@@ -244,8 +210,8 @@ export function Gallery() {
                         onClick={() => setActivePhoto(index)}
                         aria-label={`View ${selected.name} photo ${index + 1}`}
                         aria-current={index === activePhoto}
-                        className={`relative size-14 shrink-0 overflow-hidden rounded-xl border-2 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
-                          index === activePhoto ? 'border-primary' : 'border-transparent opacity-70 hover:opacity-100'
+                        className={`relative size-12 shrink-0 snap-start overflow-hidden rounded-xl border-2 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:size-14 ${
+                          index === activePhoto ? 'scale-105 border-primary opacity-100' : 'border-transparent opacity-60 hover:opacity-100'
                         }`}
                       >
                         <Image src={image} alt='' fill sizes='56px' className='object-cover' />
@@ -254,12 +220,13 @@ export function Gallery() {
                   </div>
                 )}
 
-                <div className='p-6 pt-2 max-w-md'>
+                {/* Description Block */}
+                <div className='max-w-md p-6 pt-2'>
                   <Dialog.Title className='flex items-center gap-2 font-display text-xl font-bold text-primary'>
                     <HeartIcon className='size-5 shrink-0' aria-hidden='true' />
                     {selected.name}
                   </Dialog.Title>
-                  <Dialog.Description className='mt-2 leading-relaxed text-muted-foreground whitespace-pre-line text-pretty'>
+                  <Dialog.Description className='mt-2 text-pretty leading-relaxed text-muted-foreground whitespace-pre-line'>
                     {selected.description}
                   </Dialog.Description>
 
