@@ -1,4 +1,4 @@
-import { BirdIcon, CameraIcon, ClapperboardIcon, Code2Icon, Gamepad2Icon, PlayIcon } from 'lucide-react';
+import { BirdIcon, CameraIcon, ClapperboardIcon, CloudIcon, Code2Icon, Gamepad2Icon, PlayIcon, Share2Icon } from 'lucide-react';
 
 import { SectionTitle } from '@/components/section-title';
 
@@ -9,6 +9,8 @@ const socials = [
   { icon: PlayIcon, label: 'YouTube', handle: '@BlushingNikki', href: 'https://www.youtube.com/@BlushingNikki' },
   { icon: ClapperboardIcon, label: 'Twitch', handle: '/CuteNikki', href: 'https://www.twitch.tv/cutenikki' },
   { icon: Code2Icon, label: 'GitHub', handle: '/CuteNikki', href: 'https://github.com/CuteNikki' },
+  { icon: Share2Icon, label: 'Steam', handle: '/BlushingNikki', href: 'https://steamcommunity.com/id/blushingnikki/' },
+  { icon: CloudIcon, label: 'Bluesky', handle: '@niso.moe', href: 'https://bsky.app/profile/niso.moe' },
 ];
 
 export function Socials() {
