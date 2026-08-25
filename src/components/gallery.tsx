@@ -4,7 +4,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
 
-import { ChevronLeftIcon, ChevronRightIcon, HeartIcon, XIcon } from 'lucide-react';
+import { HeartIcon, XIcon } from 'lucide-react';
 
 import { SectionTitle } from '@/components/section-title';
 
@@ -171,28 +171,6 @@ export function Gallery() {
                     priority
                     className='z-10 object-contain'
                   />
-
-                  {/* Previous / Next Controls */}
-                  {selected.images.length > 1 && (
-                    <>
-                      <button
-                        type='button'
-                        onClick={() => setActivePhoto((prev) => (prev - 1 + selected.images.length) % selected.images.length)}
-                        className='absolute left-3 top-1/2 z-20 flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-background/70 text-foreground backdrop-blur transition-all hover:bg-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring'
-                        aria-label='Previous photo'
-                      >
-                        <ChevronLeftIcon className='size-5' aria-hidden='true' />
-                      </button>
-                      <button
-                        type='button'
-                        onClick={() => setActivePhoto((prev) => (prev + 1) % selected.images.length)}
-                        className='absolute right-3 top-1/2 z-20 flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-background/70 text-foreground backdrop-blur transition-all hover:bg-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring'
-                        aria-label='Next photo'
-                      >
-                        <ChevronRightIcon className='size-5' aria-hidden='true' />
-                      </button>
-                    </>
-                  )}
 
                   <Dialog.Close className='fixed right-3 top-3 z-30 flex size-8 items-center justify-center rounded-full bg-background/80 text-foreground backdrop-blur transition-colors hover:bg-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring'>
                     <XIcon className='size-4' aria-hidden='true' />
