@@ -114,7 +114,7 @@ export function Gallery() {
               <button
                 type='button'
                 onClick={(event) => openThing(thing, event)}
-                className='group relative flex flex-col overflow-hidden rounded-3xl border border-border bg-card text-left shadow-sm transition-transform duration-200 hover:-translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background'
+                className='group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card text-left shadow-sm transition-transform duration-200 hover:-translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background'
               >
                 <div className='relative aspect-square w-full overflow-hidden bg-background'>
                   <Image
