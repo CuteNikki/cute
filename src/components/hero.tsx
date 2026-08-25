@@ -14,13 +14,20 @@ interface Badge {
   icon: LucideIcon;
   label: string;
   explanation?: string;
+  milestones?: { label: string; date: string }[];
 }
 
 const badges: Badge[] = [
   {
     icon: TransgenderIcon,
-    label: 'transfem',
-    explanation: 'transfem is a term used to describe someone who was assigned male at birth but identifies and presents themselves in a feminine way.',
+    label: 'transgender',
+    explanation:
+      'transgender is a term used to describe someone whose gender identity differs from the sex they were assigned at birth. i was born male but identify as female.',
+    milestones: [
+      { label: 'realization', date: 'around 2015' },
+      { label: 'document change', date: '2025-02-02' },
+      { label: 'hormone therapy', date: '2026-03-17' },
+    ],
   },
   {
     icon: BabyIcon,
@@ -31,11 +38,34 @@ const badges: Badge[] = [
   { icon: HeartIcon, label: 'kindness first' },
   { icon: SparklesIcon, label: 'plushie collector' },
 ];
-
 const dateOfBirth = new Date('2004-09-26');
 const age = Math.floor((Date.now() - dateOfBirth.getTime()) / (1000 * 60 * 60 * 24 * 365.25));
 
-function BadgeTooltip({ icon: Icon, label, explanation }: { icon: LucideIcon; label: string; explanation: string }) {
+function formatMilestoneDate(dateString: string) {
+  const date = new Date(dateString);
+  if (isNaN(date.getTime())) return dateString;
+
+  const now = new Date();
+  const diffTime = now.getTime() - date.getTime();
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  const diffMonths = Math.floor(diffDays / 30);
+  const diffYears = Math.floor(diffDays / 365);
+
+  const absolute = new Intl.DateTimeFormat('en-GB', {
+    month: 'short',
+    year: 'numeric',
+  }).format(date);
+
+  let relative = '';
+  if (diffYears > 0) relative = `${diffYears}y ago`;
+  else if (diffMonths > 0) relative = `${diffMonths}mo ago`;
+  else if (diffDays > 0) relative = `${diffDays}d ago`;
+  else relative = 'recently';
+
+  return `${absolute} (${relative})`;
+}
+
+function BadgeTooltip(badge: Badge) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -46,8 +76,8 @@ function BadgeTooltip({ icon: Icon, label, explanation }: { icon: LucideIcon; la
           onClick={() => setOpen((prev) => !prev)}
           className='group flex cursor-pointer items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-sm font-semibold text-foreground shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2'
         >
-          <Icon className='size-4 text-primary' aria-hidden='true' />
-          {label}
+          <badge.icon className='size-4 text-primary' aria-hidden='true' />
+          {badge.label}
           <InfoIcon className='size-4 text-muted-foreground transition-colors group-hover:text-primary' aria-hidden='true' />
         </button>
       </Tooltip.Trigger>
@@ -59,7 +89,21 @@ function BadgeTooltip({ icon: Icon, label, explanation }: { icon: LucideIcon; la
           onPointerDownOutside={() => setOpen(false)}
           className='z-50 max-w-[calc(100vw-2rem)] w-80 rounded-lg border border-border bg-popover p-4 text-sm leading-relaxed text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2'
         >
-          {explanation}
+          <div className='flex flex-col gap-3'>
+            <span className='text-muted-foreground'>{badge.explanation}</span>
+
+            {badge.milestones && badge.milestones.length > 0 && (
+              <div className='mt-1 flex flex-col gap-1.5 border-t border-border pt-3'>
+                {badge.milestones.map((milestone) => (
+                  <div key={milestone.label} className='flex items-center justify-between text-xs'>
+                    <span className='font-medium text-foreground'>{milestone.label}</span>
+                    <span className='text-muted-foreground'>{formatMilestoneDate(milestone.date)}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
           <Tooltip.Arrow className='fill-popover' />
         </Tooltip.Content>
       </Tooltip.Portal>
@@ -117,25 +161,25 @@ export function Hero() {
           <p className='mt-1 font-display text-base text-accent-foreground text-balance sm:text-lg'>{`☆ ${age} years old · german · she/her ♡`}</p>
           <p className='mt-4 max-w-md leading-relaxed text-muted-foreground whitespace-pre-line text-balance'>
             {
-              '♡ an angel who loves plushies, pastel colors & cats ★彡\na soft little corner of the internet where i get to be small & silly, built on respect & kindness only.'
+              '♡ an angel who loves plushies, pastel colors & cats ★彡\nwelcome to my soft little corner of the internet where i get to be small & silly, built on respect & kindness.'
             }
           </p>
 
           <ul className='mt-6 flex flex-wrap items-center justify-center gap-2'>
-            {badges.map(({ icon: Icon, label, explanation }) => {
-              if (!explanation) {
+            {badges.map((badge) => {
+              if (!badge.explanation) {
                 return (
                   <li
-                    key={label}
+                    key={badge.label}
                     className='flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-sm font-semibold text-foreground shadow-sm'
                   >
-                    <Icon className='size-4 text-primary' aria-hidden='true' />
-                    {label}
+                    <badge.icon className='size-4 text-primary' aria-hidden='true' />
+                    {badge.label}
                   </li>
                 );
               }
 
-              return <BadgeTooltip key={label} icon={Icon} label={label} explanation={explanation} />;
+              return <BadgeTooltip key={badge.label} {...badge} />;
             })}
           </ul>
         </div>
