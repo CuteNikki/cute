@@ -18,7 +18,7 @@ import {
 import { SectionTitle } from '@/components/section-title';
 
 const interestsList = [
-  { icon: CatIcon, label: 'cats/kittens' },
+  { icon: CatIcon, label: 'kitties' },
   { icon: HeartIcon, label: 'plushies' },
   { icon: PaletteIcon, label: 'pastels' },
   { icon: Gamepad2Icon, label: 'gaming' },
@@ -27,7 +27,9 @@ const interestsList = [
   { icon: HeartHandshakeIcon, label: 'being kind' },
   { icon: PopcornIcon, label: 'snacking' },
   { icon: Code2Icon, label: 'coding' },
+  { icon: CompassIcon, label: 'adventures' },
 ];
+
 const favouriteMedia = [
   { icon: DogIcon, label: 'bluey' },
   { icon: StarIcon, label: 'how to train your dragon' },
@@ -57,6 +59,7 @@ export function AboutSection() {
                 "when i'm not online you'll find me doodling, programming, listening to music, rewatching comfort movies/shows, or reorganising my plushies for the hundredth time. thank you very much for stopping by! ✿"
               }
             </p>
+            <p className='mt-4 leading-relaxed text-pretty text-foreground'>{'i love my partner christian more than anything 💖'}</p>
           </div>
 
           {/* Movies & Shows card */}
