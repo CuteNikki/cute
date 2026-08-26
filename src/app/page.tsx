@@ -19,7 +19,7 @@ export default function Home() {
 
       <ThemeToggle />
 
-      <div className='relative w-full max-w-xl lg:max-w-6xl'>
+      <div className='relative w-full max-w-xl lg:max-w-7xl'>
         <LanyardProvider>
           <div className='grid gap-10 sm:gap-12 lg:items-start lg:gap-10 lg:grid-cols-[minmax(0,25rem)_minmax(0,1fr)]'>
             {/* Profile sidebar */}
