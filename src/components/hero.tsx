@@ -138,9 +138,9 @@ export function Hero() {
         </div>
         <Sparkles />
 
-        <div className='relative -mt-16 flex flex-col items-center text-center sm:-mt-16'>
-          <div className='animate-float-soft rounded-full border-4 border-card bg-card p-1 shadow-[0_10px_30px_-10px_oklch(0.72_0.16_350/0.6)]'>
-            <div className='relative size-28 overflow-hidden rounded-full sm:size-32'>
+        <div className='relative sm:-mt-10 -mt-8 flex flex-col items-center text-center'>
+          <div className='animate-float-soft rounded-full border-4 border-transparent bg-card'>
+            <div className='relative size-20 sm:size-24 overflow-hidden rounded-full'>
               <Image
                 src={avatarUrl}
                 alt='dynamic avatar'
@@ -153,19 +153,20 @@ export function Hero() {
             </div>
           </div>
 
-          <h1 className='mt-4 flex flex-wrap items-center justify-center gap-x-2 font-display text-3xl font-bold tracking-tight text-primary text-balance sm:text-4xl'>
+          
+          <h1 className='flex flex-wrap items-center justify-center gap-x-2 font-display text-3xl font-bold tracking-tight text-primary text-balance sm:text-4xl'>
             <span>Nikki Sophie</span>
-            <span className='inline-block animate-wiggle'>🌸</span>
+            <span className='mt-2 inline-block animate-wiggle'>🌸</span>
           </h1>
 
-          <p className='mt-1 font-display text-base text-accent-foreground text-balance sm:text-lg'>{`☆ ${age} years old · german · she/her ♡`}</p>
-          <p className='mt-4 max-w-md leading-relaxed text-muted-foreground whitespace-pre-line text-balance'>
+          <p className='font-display text-base text-accent-foreground text-balance sm:text-lg'>{`☆ ${age} years old · german · she/her ♡`}</p>
+          <p className='mt-2 max-w-md leading-relaxed text-muted-foreground whitespace-pre-line text-balance'>
             {
               '♡ an angel who loves plushies, pastel colors & cats ★彡\nwelcome to my soft little corner of the internet where i get to be small & silly, built on respect & kindness.'
             }
           </p>
 
-          <ul className='mt-6 flex flex-wrap items-center justify-center gap-2'>
+          <ul className='mt-2 flex flex-wrap items-center justify-center gap-2'>
             {badges.map((badge) => {
               if (!badge.explanation) {
                 return (

@@ -21,7 +21,7 @@ export default function Home() {
 
       <div className='relative w-full max-w-xl lg:max-w-6xl'>
         <LanyardProvider>
-          <div className='grid gap-10 sm:gap-12 lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)] lg:items-start lg:gap-10 xl:grid-cols-[minmax(0,25rem)_minmax(0,1fr)]'>
+          <div className='grid gap-10 sm:gap-12 lg:items-start lg:gap-10 lg:grid-cols-[minmax(0,25rem)_minmax(0,1fr)]'>
             {/* Profile sidebar */}
             <div className='space-y-8 lg:sticky'>
               <Hero />
