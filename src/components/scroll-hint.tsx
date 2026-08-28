@@ -28,9 +28,9 @@ export function ScrollHint() {
     };
   }, []);
 
-  function scrollToNext() {
+  function scrollToGallery() {
     setDismissed(true);
-    window.scrollBy({ top: window.innerHeight * 0.75, behavior: 'smooth' });
+    document.getElementById('gallery')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   return (
@@ -38,7 +38,7 @@ export function ScrollHint() {
       {!dismissed && (
         <motion.button
           type='button'
-          onClick={scrollToNext}
+          onClick={scrollToGallery}
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 12 }}
