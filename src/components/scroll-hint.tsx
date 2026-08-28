@@ -43,7 +43,7 @@ export function ScrollHint() {
           animate={{ opacity: 1, y: 0, scale: [0.9, 1.06, 1] }}
           exit={{ opacity: 0, y: 12, scale: 0.9 }}
           transition={{ duration: 0.6, delay: 0.6, ease: 'easeOut' }}
-          className='fixed inset-x-0 bottom-5 z-40 mx-auto flex w-fit items-center gap-2 rounded-full border-2 border-primary-foreground/30 bg-primary px-5 py-3 text-base font-bold text-primary-foreground shadow-xl shadow-primary/50 lg:hidden'
+          className='fixed inset-x-0 bottom-5 z-40 mx-auto flex w-fit items-center gap-2 rounded-full border-2 border-primary-foreground/30 bg-primary px-5 py-3 text-base font-bold text-primary-foreground shadow-md lg:hidden'
         >
           <span>take a look at the gallery</span>
           <ChevronDownIcon className='size-5' aria-hidden='true' />
