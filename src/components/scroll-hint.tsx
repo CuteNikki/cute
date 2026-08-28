@@ -39,14 +39,14 @@ export function ScrollHint() {
         <motion.button
           type='button'
           onClick={scrollToGallery}
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 12 }}
-          transition={{ duration: 0.4, delay: 0.6 }}
-          className='fixed inset-x-0 bottom-5 z-40 mx-auto flex w-fit items-center gap-1.5 rounded-full border border-border bg-card/90 px-4 py-2 text-sm font-semibold text-foreground shadow-md backdrop-blur-sm lg:hidden'
+          initial={{ opacity: 0, y: 12, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: [0.9, 1.06, 1] }}
+          exit={{ opacity: 0, y: 12, scale: 0.9 }}
+          transition={{ duration: 0.6, delay: 0.6, ease: 'easeOut' }}
+          className='fixed inset-x-0 bottom-5 z-40 mx-auto flex w-fit items-center gap-2 rounded-full border-2 border-primary-foreground/30 bg-primary px-5 py-3 text-base font-bold text-primary-foreground shadow-xl shadow-primary/50 lg:hidden'
         >
           <span>take a look at the gallery</span>
-          <ChevronDownIcon className='size-4 text-primary' aria-hidden='true' />
+          <ChevronDownIcon className='size-5' aria-hidden='true' />
           <span className='sr-only'>Scroll down to see the gallery</span>
         </motion.button>
       )}
