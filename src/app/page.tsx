@@ -1,9 +1,12 @@
 import { LanyardProvider } from '@/context/lanyard';
 
 import { AboutSection } from '@/components/about';
+import { AnimateIn } from '@/components/animate-in';
+import { AnimationRoot } from '@/components/animation-root';
 import { Footer } from '@/components/footer';
 import { Gallery } from '@/components/gallery';
 import { Hero } from '@/components/hero';
+import { ScrollHint } from '@/components/scroll-hint';
 import { Socials } from '@/components/socials';
 import { StatusSection } from '@/components/status';
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -19,25 +22,41 @@ export default function Home() {
 
       <ThemeToggle />
 
-      <div className='relative w-full max-w-xl lg:max-w-7xl'>
-        <LanyardProvider>
-          <div className='grid gap-10 sm:gap-12 lg:items-start lg:gap-10 lg:grid-cols-[minmax(0,25rem)_minmax(0,1fr)]'>
-            {/* Profile sidebar */}
-            <div className='space-y-8 lg:sticky'>
-              <Hero />
-              <Socials />
-            </div>
+      <AnimationRoot>
+        <div className='relative w-full max-w-xl lg:max-w-7xl'>
+          <LanyardProvider>
+            <div className='grid gap-10 sm:gap-12 lg:items-start lg:gap-10 lg:grid-cols-[minmax(0,25rem)_minmax(0,1fr)]'>
+              {/* Profile sidebar */}
+              <div className='space-y-8 lg:sticky'>
+                <AnimateIn delay={0}>
+                  <Hero />
+                </AnimateIn>
+                <AnimateIn delay={0.1}>
+                  <Socials />
+                </AnimateIn>
+              </div>
 
-            {/* Content */}
-            <div className='space-y-8'>
-              <AboutSection />
-              <StatusSection />
-              <Gallery />
-              <Footer />
+              {/* Content */}
+              <div className='space-y-8'>
+                <AnimateIn delay={0.15}>
+                  <AboutSection />
+                </AnimateIn>
+                <AnimateIn delay={0.2}>
+                  <StatusSection />
+                </AnimateIn>
+                <AnimateIn delay={0.25}>
+                  <Gallery />
+                </AnimateIn>
+                <AnimateIn delay={0.3}>
+                  <Footer />
+                </AnimateIn>
+              </div>
             </div>
-          </div>
-        </LanyardProvider>
-      </div>
+          </LanyardProvider>
+        </div>
+
+        <ScrollHint />
+      </AnimationRoot>
     </main>
   );
 }

@@ -99,7 +99,7 @@ export function Gallery() {
   }
 
   return (
-    <section aria-labelledby='gallery-heading' className='space-y-4'>
+    <section id='gallery' aria-labelledby='gallery-heading' className='space-y-4 scroll-mt-6'>
       <SectionTitle id='gallery-heading'>photo gallery</SectionTitle>
 
       <Dialog.Root
