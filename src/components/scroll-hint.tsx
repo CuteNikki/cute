@@ -45,9 +45,9 @@ export function ScrollHint() {
           transition={{ duration: 0.4, delay: 0.6 }}
           className='fixed inset-x-0 bottom-5 z-40 mx-auto flex w-fit items-center gap-1.5 rounded-full border border-border bg-card/90 px-4 py-2 text-sm font-semibold text-foreground shadow-md backdrop-blur-sm lg:hidden'
         >
-          <span>there&apos;s more below</span>
+          <span>take a look at the gallery</span>
           <ChevronDownIcon className='size-4 text-primary' aria-hidden='true' />
-          <span className='sr-only'>Scroll down for more</span>
+          <span className='sr-only'>Scroll down to see the gallery</span>
         </motion.button>
       )}
     </AnimatePresence>
