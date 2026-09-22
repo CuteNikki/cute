@@ -65,8 +65,19 @@ export function LanyardProvider({ children }: { children: ReactNode }) {
     };
 
     fetchStatus();
-    const interval = setInterval(fetchStatus, 15000);
-    return () => clearInterval(interval);
+    const interval = setInterval(() => {
+      if (document.visibilityState === 'visible') fetchStatus();
+    }, 15000);
+
+    function handleVisibilityChange() {
+      if (document.visibilityState === 'visible') fetchStatus();
+    }
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
   }, []);
 
   return <LanyardContext.Provider value={{ presence, loading }}>{children}</LanyardContext.Provider>;

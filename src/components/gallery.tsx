@@ -399,8 +399,9 @@ export function Gallery() {
                     alt=''
                     role='none'
                     fill
+                    sizes='(min-width: 768px) 768px, 100vw'
+                    quality={20}
                     className='scale-105 select-none object-cover opacity-40 blur-md dark:opacity-20'
-                    unoptimized
                   />
 
                   <motion.div
@@ -430,6 +431,7 @@ export function Gallery() {
                       src={selected.images[activePhoto]}
                       alt={`${selected.name} photo ${activePhoto + 1}`}
                       fill
+                      sizes='(min-width: 768px) 768px, 100vw'
                       priority
                       draggable={false}
                       className='object-contain'
@@ -559,6 +561,7 @@ export function Gallery() {
                   src={selected.images[activePhoto]}
                   alt={`${selected.name} photo ${activePhoto + 1}, full size`}
                   fill
+                  sizes='100vw'
                   priority
                   draggable={false}
                   className={cn('object-contain', fvDragging ? '' : 'transition-transform duration-200 ease-out')}

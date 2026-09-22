@@ -114,7 +114,12 @@ function BadgeTooltip(badge: Badge) {
 export function Hero() {
   const { presence } = useLanyard();
 
-  const bannerUrl = `https://dcdn.dstn.to/banners/${presence?.discord_user?.id}?size=1024`;
+  // dstn.to's banner URL has no hash/version in it (unlike the avatar URL below), so
+  // browsers happily cache it indefinitely and never notice when the banner changes.
+  // Busting the query string once a day forces a fresh fetch without relying on
+  // visitors manually clearing site data.
+  const cacheBust = new Date().toISOString().slice(0, 10);
+  const bannerUrl = `https://dcdn.dstn.to/banners/${presence?.discord_user?.id}?size=1024&cb=${cacheBust}`;
 
   const isAnimated = presence?.discord_user?.avatar?.startsWith('a_') || false;
   const extension = isAnimated ? 'gif' : 'webp';
@@ -130,6 +135,7 @@ export function Hero() {
             src={presence?.discord_user?.id ? bannerUrl : '/transparent.png'}
             alt='Cute pastel banner'
             fill
+            sizes='(min-width: 1024px) 400px, 100vw'
             priority
             unoptimized
             fetchPriority='high'
