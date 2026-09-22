@@ -23,7 +23,7 @@ export default function Home() {
       <ThemeToggle />
 
       <AnimationRoot>
-        <div className='relative w-full max-w-xl lg:max-w-7xl'>
+        <div className='relative w-full max-w-xl sm:max-w-2xl md:max-w-3xl lg:max-w-7xl'>
           <LanyardProvider>
             <div className='grid gap-10 sm:gap-12 lg:items-start lg:gap-10 lg:grid-cols-[minmax(0,25rem)_minmax(0,1fr)]'>
               {/* Profile sidebar */}
@@ -44,6 +44,10 @@ export default function Home() {
                 <AnimateIn delay={0.2}>
                   <StatusSection />
                 </AnimateIn>
+              </div>
+
+              {/* Full-width */}
+              <div className='space-y-8 lg:col-span-2'>
                 <AnimateIn delay={0.25}>
                   <Gallery />
                 </AnimateIn>
