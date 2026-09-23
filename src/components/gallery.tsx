@@ -1,6 +1,5 @@
 'use client';
 
-import * as Dialog from '@radix-ui/react-dialog';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 
@@ -11,6 +10,9 @@ import { ChevronLeftIcon, ChevronRightIcon, HeartIcon, Maximize2Icon, XIcon } fr
 import { cn } from '@/lib/utils';
 
 import { SectionTitle } from '@/components/section-title';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogPortal, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 
 type CuteThing = {
   images: string[];
@@ -88,6 +90,7 @@ const things: CuteThing[] = [
       { label: 'headphones', value: 'Sony WH-1000XM6' },
       { label: 'webcam', value: 'OBSBOT Meet 2' },
       { label: 'desk', value: 'Flexispot E7 Pro' },
+      { label: 'chair', value: 'SIHOO Doro C300' },
     ],
   },
   {
@@ -166,39 +169,22 @@ const things: CuteThing[] = [
   },
 ];
 
-export function Gallery() {
-  const [selected, setSelected] = useState<CuteThing | null>(null);
-  const [activePhoto, setActivePhoto] = useState(0);
-  const [fullView, setFullView] = useState(false);
+// Pan/zoom state (fvScale, fvPos, etc.) used to live on Gallery itself, but that meant every
+// pointermove while dragging or wheel event while zooming re-rendered the *entire* gallery -
+// the full grid of trigger buttons, thumbnails, and detail/spec lists - none of which visually
+// changes during a pan/zoom gesture. Isolating it here means only this small subtree re-renders
+// at drag/zoom frequency.
+function FullViewImage({ src, alt, onRequestClose }: { src: string; alt: string; onRequestClose: () => void }) {
   const [fvScale, setFvScale] = useState(1);
   const [fvPos, setFvPos] = useState({ x: 0, y: 0 });
   const [fvDragging, setFvDragging] = useState(false);
-  const triggerRef = useRef<HTMLButtonElement | null>(null);
-  const draggingRef = useRef(false);
-  const fullViewRef = useRef<HTMLDivElement | null>(null);
   const fvContainerRef = useRef<HTMLDivElement | null>(null);
   const fvPanRef = useRef<{ pointerId: number; startX: number; startY: number; originX: number; originY: number; moved: boolean } | null>(null);
-  const suppressNextOutsideRef = useRef(false);
 
   const FV_MIN_SCALE = 1;
   const FV_MAX_SCALE = 5;
 
-  function openThing(thing: CuteThing, event: React.MouseEvent<HTMLButtonElement>) {
-    triggerRef.current = event.currentTarget;
-    setSelected(thing);
-    setActivePhoto(0);
-    setFullView(false);
-    resetFullViewZoom();
-  }
-
-  function goToPhoto(index: number) {
-    if (!selected) return;
-    const total = selected.images.length;
-    setActivePhoto(((index % total) + total) % total);
-    resetFullViewZoom();
-  }
-
-  function resetFullViewZoom() {
+  function resetZoom() {
     setFvScale(1);
     setFvPos({ x: 0, y: 0 });
   }
@@ -246,7 +232,7 @@ export function Gallery() {
   // Re-registered whenever fvScale/fvPos change so handleWheel's closure never goes stale.
   useEffect(() => {
     const node = fvContainerRef.current;
-    if (!fullView || !node) return;
+    if (!node) return;
 
     function handleWheel(event: WheelEvent) {
       event.preventDefault();
@@ -263,7 +249,7 @@ export function Gallery() {
     node.addEventListener('wheel', handleWheel, { passive: false });
     return () => node.removeEventListener('wheel', handleWheel);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fullView, fvScale, fvPos]);
+  }, [fvScale, fvPos]);
 
   function handleFvPointerDown(event: React.PointerEvent<HTMLDivElement>) {
     fvPanRef.current = { pointerId: event.pointerId, startX: event.clientX, startY: event.clientY, originX: fvPos.x, originY: fvPos.y, moved: false };
@@ -289,18 +275,78 @@ export function Gallery() {
     if (!pan || pan.pointerId !== event.pointerId) return;
     if (!pan.moved) {
       // a real click/tap, no drag: zoom in toward it, or back out if already zoomed
-      if (fvScale > FV_MIN_SCALE) resetFullViewZoom();
+      if (fvScale > FV_MIN_SCALE) resetZoom();
       else zoomAtPoint(event.clientX, event.clientY, 1.5);
     }
     fvPanRef.current = null;
     setFvDragging(false);
   }
 
+  return (
+    <>
+      <Button
+        type='button'
+        variant='ghost'
+        size='icon-lg'
+        onClick={onRequestClose}
+        aria-label='Close full view'
+        className='absolute right-3 top-3 z-20 rounded-full bg-background/10 text-background hover:bg-background/20 dark:text-foreground dark:hover:bg-background/20'
+      >
+        <XIcon aria-hidden='true' />
+      </Button>
+
+      <div
+        ref={fvContainerRef}
+        className={cn(
+          'relative h-full w-full touch-pinch-zoom overflow-hidden select-none',
+          fvScale > FV_MIN_SCALE ? 'cursor-grab active:cursor-grabbing' : 'cursor-zoom-in',
+        )}
+        onPointerDown={handleFvPointerDown}
+        onPointerMove={handleFvPointerMove}
+        onPointerUp={handleFvPointerUp}
+        onPointerCancel={handleFvPointerUp}
+      >
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          sizes='100vw'
+          priority
+          draggable={false}
+          className={cn('object-contain', fvDragging ? '' : 'transition-transform duration-200 ease-out')}
+          style={{ transform: `translate(${fvPos.x}px, ${fvPos.y}px) scale(${fvScale})`, transformOrigin: '0 0' }}
+        />
+      </div>
+    </>
+  );
+}
+
+export function Gallery() {
+  const [selected, setSelected] = useState<CuteThing | null>(null);
+  const [activePhoto, setActivePhoto] = useState(0);
+  const [fullView, setFullView] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
+  const draggingRef = useRef(false);
+  const fullViewRef = useRef<HTMLDivElement | null>(null);
+
+  function openThing(thing: CuteThing, event: React.MouseEvent<HTMLButtonElement>) {
+    triggerRef.current = event.currentTarget;
+    setSelected(thing);
+    setActivePhoto(0);
+    setFullView(false);
+  }
+
+  function goToPhoto(index: number) {
+    if (!selected) return;
+    const total = selected.images.length;
+    setActivePhoto(((index % total) + total) % total);
+  }
+
   useEffect(() => {
     if (!selected) return;
 
     function handleKeyDown(event: KeyboardEvent) {
-      if (fullView) return; // Escape here is handled by Dialog.Content's onEscapeKeyDown
+      if (fullView) return; // Escape here is handled by the Dialog's onOpenChange below
       if (event.key === 'ArrowRight') goToPhoto(activePhoto + 1);
       else if (event.key === 'ArrowLeft') goToPhoto(activePhoto - 1);
     }
@@ -314,264 +360,256 @@ export function Gallery() {
     <section id='gallery' aria-labelledby='gallery-heading' className='space-y-4 scroll-mt-6'>
       <SectionTitle id='gallery-heading'>photo gallery</SectionTitle>
 
-      <Dialog.Root
+      <Dialog
         open={selected !== null}
-        onOpenChange={(open) => {
-          if (!open) setSelected(null);
+        // 'trap-focus' keeps keyboard focus trapped (still correct a11y) but skips modal
+        // scroll-locking, which otherwise has to inspect every wheel/touchmove event on the page
+        // (including our own zoom/pan gestures below) to decide whether to block it - a real,
+        // well-known source of jank for exactly those gesture types. The overlay already covers
+        // the full viewport, so there's no visible difference from losing the scroll lock.
+        modal='trap-focus'
+        onOpenChange={(open, eventDetails) => {
+          if (open) return;
+          // The full-view zoom overlay below lives in its own portal, outside the dialog's own
+          // popup, so a press anywhere inside it (including its own close button) looks like an
+          // "outside" press to the dialog. Base UI funnels every dismissal reason through this
+          // one callback (unlike Radix's separate outside/escape/focus callbacks), so both cases
+          // below are handled right here instead of needing a second suppression flag.
+          if (eventDetails.reason === 'outside-press' && fullViewRef.current?.contains(eventDetails.event.target as Node)) {
+            eventDetails.cancel();
+            return;
+          }
+          if (eventDetails.reason === 'escape-key' && fullView) {
+            eventDetails.cancel();
+            setFullView(false);
+            return;
+          }
+          setSelected(null);
         }}
       >
         <div className='grid grid-cols-1 gap-4 xxs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4'>
           {things.map((thing, index) => (
-            <Dialog.Trigger key={thing.name} asChild>
-              <button
-                type='button'
-                onClick={(event) => openThing(thing, event)}
-                className={cn(
-                  'group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card text-left shadow-sm transition-transform duration-200 hover:-translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
-                  index === 0 && 'lg:col-span-2',
-                )}
-              >
-                <div className={cn('relative w-full overflow-hidden bg-background', index === 0 ? 'aspect-square lg:aspect-2/1' : 'aspect-square')}>
-                  <Image
-                    src={thing.images[0]}
-                    alt={thing.name}
-                    fill
-                    sizes={
-                      index === 0
-                        ? '(max-width: 480px) 92vw, (max-width: 640px) 46vw, (max-width: 1024px) 30vw, (max-width: 1280px) 46vw, 620px'
-                        : '(max-width: 480px) 92vw, (max-width: 640px) 46vw, (max-width: 1024px) 30vw, (max-width: 1280px) 23vw, 300px'
-                    }
-                    priority={index < 3}
-                    className='object-cover transition-transform duration-300 group-hover:scale-105'
-                  />
-                  {thing.images.length > 1 && (
-                    <span className='absolute bottom-2 right-2 rounded-full bg-background/80 px-2 py-0.5 text-[0.7rem] font-medium text-foreground backdrop-blur'>
-                      {thing.images.length} photos
-                    </span>
+            <DialogTrigger
+              key={thing.name}
+              render={
+                <button
+                  type='button'
+                  onClick={(event) => openThing(thing, event)}
+                  className={cn(
+                    'group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card text-left shadow-sm transition-transform duration-200 hover:-translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+                    index === 0 && 'lg:col-span-2',
                   )}
-                </div>
-                <div className='p-6'>
-                  <h3 className='font-display text-sm font-semibold text-foreground'>{thing.name}</h3>
-                  <p className='mt-0.5 text-xs leading-relaxed text-muted-foreground'>{thing.short}</p>
-                </div>
-              </button>
-            </Dialog.Trigger>
+                />
+              }
+            >
+              <div className={cn('relative w-full overflow-hidden bg-background', index === 0 ? 'aspect-square lg:aspect-2/1' : 'aspect-square')}>
+                <Image
+                  src={thing.images[0]}
+                  alt={thing.name}
+                  fill
+                  sizes={
+                    index === 0
+                      ? '(max-width: 480px) 92vw, (max-width: 640px) 46vw, (max-width: 1024px) 30vw, (max-width: 1280px) 46vw, 620px'
+                      : '(max-width: 480px) 92vw, (max-width: 640px) 46vw, (max-width: 1024px) 30vw, (max-width: 1280px) 23vw, 300px'
+                  }
+                  priority={index < 3}
+                  className='object-cover transition-transform duration-300 group-hover:scale-105'
+                />
+                {thing.images.length > 1 && (
+                  <Badge className='absolute bottom-2 right-2 h-auto rounded-full bg-background/80 px-2 py-0.5 text-[0.7rem] font-medium text-foreground backdrop-blur'>
+                    {thing.images.length} photos
+                  </Badge>
+                )}
+              </div>
+              <div className='p-6'>
+                <h3 className='font-display text-sm font-semibold text-foreground'>{thing.name}</h3>
+                <p className='mt-0.5 text-xs leading-relaxed text-muted-foreground'>{thing.short}</p>
+              </div>
+            </DialogTrigger>
           ))}
         </div>
 
-        <Dialog.Portal>
-          <Dialog.Overlay className='fixed inset-0 z-50 bg-foreground/40 backdrop-blur-sm data-[state=closed]:animate-out data-[state=open]:animate-in data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 dark:bg-background/40' />
-          <Dialog.Content
-            onCloseAutoFocus={(event) => {
-              event.preventDefault();
-              triggerRef.current?.focus({ preventScroll: true });
-            }}
-            onInteractOutside={(event) => {
-              // Closing full view (e.g. its own close button) unmounts fullViewRef's node and can
-              // shift focus, which triggers Radix's *separate* focus-outside detection a moment
-              // later - by then fullViewRef.current is already null, so that check alone can't
-              // catch it. suppressNextOutsideRef covers that one follow-up interaction.
-              if (suppressNextOutsideRef.current) {
-                suppressNextOutsideRef.current = false;
-                event.preventDefault();
-                return;
-              }
-              if (fullViewRef.current?.contains(event.target as Node)) {
-                event.preventDefault();
-              }
-            }}
-            onEscapeKeyDown={(event) => {
-              if (fullView) {
-                event.preventDefault();
-                setFullView(false);
-                resetFullViewZoom();
-              }
-            }}
-            className='fixed left-1/2 top-1/2 z-50 flex max-h-[98vh] w-[calc(100%-1rem)] max-w-3xl -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-[2rem] border border-border bg-card shadow-2xl focus:outline-none'
-          >
-            {selected && (
-              <div className='flex min-h-0 flex-col overflow-y-auto'>
-                {/* Main Image Viewport with responsive aspect ratio */}
-                <div className='relative aspect-square sm:aspect-4/3 w-full shrink-0 overflow-hidden bg-secondary'>
+        <DialogContent
+          showCloseButton={false}
+          finalFocus={() => {
+            triggerRef.current?.focus({ preventScroll: true });
+            return false;
+          }}
+          className='fixed left-1/2 top-1/2 z-50 flex max-h-[98vh] w-[calc(100%-1rem)] max-w-3xl sm:max-w-3xl -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-[2rem] border border-border bg-card p-0 shadow-2xl focus:outline-none'
+        >
+          {selected && (
+            <div className='flex min-h-0 flex-col overflow-y-auto'>
+              {/* Main Image Viewport with responsive aspect ratio */}
+              <div className='relative aspect-square sm:aspect-4/3 w-full shrink-0 overflow-hidden bg-secondary'>
+                <Image
+                  key={`bg-${activePhoto}`}
+                  src={selected.images[activePhoto]}
+                  alt=''
+                  role='none'
+                  fill
+                  sizes='(min-width: 768px) 768px, 100vw'
+                  className='scale-105 select-none object-cover opacity-40 blur-md dark:opacity-20'
+                  quality={10}
+                />
+
+                <motion.div
+                  key={`main-${activePhoto}`}
+                  className='absolute inset-0 z-10 cursor-zoom-in touch-pan-y'
+                  drag='x'
+                  dragConstraints={{ left: 0, right: 0 }}
+                  dragElastic={0.7}
+                  dragMomentum={false}
+                  onDragStart={() => {
+                    draggingRef.current = true;
+                  }}
+                  onDragEnd={(_, info) => {
+                    if (info.offset.x < -60 || info.velocity.x < -500) goToPhoto(activePhoto + 1);
+                    else if (info.offset.x > 60 || info.velocity.x > 500) goToPhoto(activePhoto - 1);
+                    requestAnimationFrame(() => {
+                      draggingRef.current = false;
+                    });
+                  }}
+                  onClick={() => {
+                    if (draggingRef.current) return;
+                    setFullView(true);
+                  }}
+                >
                   <Image
-                    key={`bg-${activePhoto}`}
                     src={selected.images[activePhoto]}
-                    alt=''
-                    role='none'
+                    alt={`${selected.name} photo ${activePhoto + 1}`}
                     fill
                     sizes='(min-width: 768px) 768px, 100vw'
-                    quality={20}
-                    className='scale-105 select-none object-cover opacity-40 blur-md dark:opacity-20'
+                    priority
+                    draggable={false}
+                    className='object-contain'
                   />
+                </motion.div>
 
-                  <motion.div
-                    key={`main-${activePhoto}`}
-                    className='absolute inset-0 z-10 cursor-zoom-in touch-pan-y'
-                    drag='x'
-                    dragConstraints={{ left: 0, right: 0 }}
-                    dragElastic={0.7}
-                    dragMomentum={false}
-                    onDragStart={() => {
-                      draggingRef.current = true;
-                    }}
-                    onDragEnd={(_, info) => {
-                      if (info.offset.x < -60 || info.velocity.x < -500) goToPhoto(activePhoto + 1);
-                      else if (info.offset.x > 60 || info.velocity.x > 500) goToPhoto(activePhoto - 1);
-                      requestAnimationFrame(() => {
-                        draggingRef.current = false;
-                      });
-                    }}
-                    onClick={() => {
-                      if (draggingRef.current) return;
-                      resetFullViewZoom();
-                      setFullView(true);
-                    }}
-                  >
-                    <Image
-                      src={selected.images[activePhoto]}
-                      alt={`${selected.name} photo ${activePhoto + 1}`}
-                      fill
-                      sizes='(min-width: 768px) 768px, 100vw'
-                      priority
-                      draggable={false}
-                      className='object-contain'
-                    />
-                  </motion.div>
-
-                  {selected.images.length > 1 && (
-                    <>
-                      <button
-                        type='button'
-                        onClick={() => goToPhoto(activePhoto - 1)}
-                        aria-label='Previous photo'
-                        className='absolute left-2 top-1/2 z-20 flex size-8 -translate-y-1/2 items-center justify-center rounded-full bg-background/80 text-foreground backdrop-blur transition-colors hover:bg-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:size-9'
-                      >
-                        <ChevronLeftIcon className='size-4' aria-hidden='true' />
-                      </button>
-                      <button
-                        type='button'
-                        onClick={() => goToPhoto(activePhoto + 1)}
-                        aria-label='Next photo'
-                        className='absolute right-2 top-1/2 z-20 flex size-8 -translate-y-1/2 items-center justify-center rounded-full bg-background/80 text-foreground backdrop-blur transition-colors hover:bg-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:size-9'
-                      >
-                        <ChevronRightIcon className='size-4' aria-hidden='true' />
-                      </button>
-                    </>
-                  )}
-
-                  <button
-                    type='button'
-                    onClick={() => {
-                      resetFullViewZoom();
-                      setFullView(true);
-                    }}
-                    aria-label='View full size'
-                    className='absolute bottom-3 left-3 z-20 flex size-8 items-center justify-center rounded-full bg-background/80 text-foreground backdrop-blur transition-colors hover:bg-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:size-9'
-                  >
-                    <Maximize2Icon className='size-4' aria-hidden='true' />
-                  </button>
-
-                  <Dialog.Close className='fixed right-3 top-3 z-30 flex size-8 items-center justify-center rounded-full bg-background/80 text-foreground backdrop-blur transition-colors hover:bg-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring'>
-                    <XIcon className='size-4' aria-hidden='true' />
-                    <span className='sr-only'>Close</span>
-                  </Dialog.Close>
-                </div>
-
-                {/* Rigid Single-row Horizontal Scrolling Thumbnails */}
                 {selected.images.length > 1 && (
-                  <div className='flex gap-2 px-4 pt-4 flex-wrap pb-2'>
-                    {selected.images.map((image, index) => (
-                      <button
-                        key={`${selected.name}-thumb-${index}`}
-                        type='button'
-                        onClick={() => goToPhoto(index)}
-                        aria-label={`View ${selected.name} photo ${index + 1}`}
-                        aria-current={index === activePhoto}
-                        className={`relative size-12 shrink-0 snap-start overflow-hidden rounded-xl border-2 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:size-14 ${
-                          index === activePhoto ? 'scale-105 border-primary opacity-100' : 'border-transparent opacity-60 hover:opacity-100'
-                        }`}
-                      >
-                        <Image src={image} alt='' fill sizes='56px' className='object-cover' />
-                      </button>
-                    ))}
-                  </div>
+                  <>
+                    <Button
+                      type='button'
+                      variant='ghost'
+                      size='icon'
+                      onClick={() => goToPhoto(activePhoto - 1)}
+                      aria-label='Previous photo'
+                      // Button's own active state fights any translate-based vertical centering
+                      // (both live on the single native `translate` property in Tailwind v4, and
+                      // trying to out-order/out-specificity its built-in press effect proved
+                      // unreliable). Centering via inset+margin instead of translate sidesteps the
+                      // conflict entirely - there's no transform left for the press effect to clobber.
+                      // ghost's own dark:hover:bg-muted/50 is more specific than a bare hover:bg-*
+                      // override, so dark mode needs its own matching dark:hover: class too.
+                      className='absolute inset-y-0 left-2 z-20 my-auto rounded-full bg-background/80 text-foreground backdrop-blur hover:bg-background dark:hover:bg-background sm:size-9'
+                    >
+                      <ChevronLeftIcon aria-hidden='true' />
+                    </Button>
+                    <Button
+                      type='button'
+                      variant='ghost'
+                      size='icon'
+                      onClick={() => goToPhoto(activePhoto + 1)}
+                      aria-label='Next photo'
+                      className='absolute inset-y-0 right-2 z-20 my-auto rounded-full bg-background/80 text-foreground backdrop-blur hover:bg-background dark:hover:bg-background sm:size-9'
+                    >
+                      <ChevronRightIcon aria-hidden='true' />
+                    </Button>
+                  </>
                 )}
 
-                {/* Description Block */}
-                <div className='max-w-xl p-6 pt-2'>
-                  <Dialog.Title className='flex items-center gap-2 font-display text-xl font-bold text-primary'>
-                    <HeartIcon className='size-5 shrink-0' aria-hidden='true' />
-                    {selected.name}
-                  </Dialog.Title>
-                  <Dialog.Description className='mt-2 text-pretty leading-relaxed text-muted-foreground whitespace-pre-line'>
-                    {selected.description}
-                  </Dialog.Description>
+                <Button
+                  type='button'
+                  variant='ghost'
+                  size='icon'
+                  onClick={() => setFullView(true)}
+                  aria-label='View full size'
+                  className='absolute bottom-3 left-3 z-20 rounded-full bg-background/80 text-foreground backdrop-blur hover:bg-background dark:hover:bg-background sm:size-9'
+                >
+                  <Maximize2Icon aria-hidden='true' />
+                </Button>
 
-                  <dl className='mt-4 space-y-2'>
-                    {selected.details.map((detail) => (
-                      <div key={detail.label} className='flex items-center justify-between rounded-2xl bg-secondary/60 px-4 py-2 text-sm'>
-                        <dt className='font-medium text-muted-foreground'>{detail.label}</dt>
-                        <dd className='font-semibold text-foreground'>{detail.value}</dd>
+                <DialogClose
+                  render={
+                    <Button
+                      type='button'
+                      variant='ghost'
+                      size='icon'
+                      aria-label='Close'
+                      className='fixed right-3 top-3 z-30 rounded-full bg-background/80 text-foreground backdrop-blur hover:bg-background dark:hover:bg-background'
+                    />
+                  }
+                >
+                  <XIcon aria-hidden='true' />
+                </DialogClose>
+              </div>
+
+              {/* Rigid Single-row Horizontal Scrolling Thumbnails */}
+              {selected.images.length > 1 && (
+                <div className='flex gap-2 px-4 pt-4 flex-wrap pb-2'>
+                  {selected.images.map((image, index) => (
+                    <button
+                      key={`${selected.name}-thumb-${index}`}
+                      type='button'
+                      onClick={() => goToPhoto(index)}
+                      aria-label={`View ${selected.name} photo ${index + 1}`}
+                      aria-current={index === activePhoto}
+                      className={cn(
+                        'relative size-12 shrink-0 snap-start overflow-hidden rounded-xl border-2 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:size-14',
+                        index === activePhoto ? 'scale-105 border-primary opacity-100' : 'border-transparent opacity-60 hover:opacity-100',
+                      )}
+                    >
+                      <Image src={image} alt='' fill sizes='56px' className='object-cover' />
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {/* Description Block */}
+              <div className='max-w-xl p-6 pt-2'>
+                <DialogTitle className='flex items-center gap-2 font-display text-xl font-bold text-primary'>
+                  <HeartIcon className='size-5 shrink-0' aria-hidden='true' />
+                  {selected.name}
+                </DialogTitle>
+                <DialogDescription className='mt-2 text-pretty leading-relaxed text-muted-foreground whitespace-pre-line'>
+                  {selected.description}
+                </DialogDescription>
+
+                <dl className='mt-4 space-y-2'>
+                  {selected.details.map((detail) => (
+                    <div key={detail.label} className='flex items-center justify-between rounded-2xl bg-secondary/60 px-4 py-2 text-sm'>
+                      <dt className='font-medium text-muted-foreground'>{detail.label}</dt>
+                      <dd className='font-semibold text-foreground'>{detail.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+
+                {selected.specs && selected.specs.length > 0 && (
+                  <dl className='mt-4 grid grid-cols-2 gap-2.5 sm:grid-cols-3'>
+                    {selected.specs.map((spec) => (
+                      <div key={spec.label} className='rounded-2xl bg-secondary/60 p-4'>
+                        <dt className='text-[0.7rem] font-medium uppercase tracking-wide text-muted-foreground'>{spec.label}</dt>
+                        <dd className='mt-1 text-sm font-semibold leading-snug text-foreground'>{spec.value}</dd>
                       </div>
                     ))}
                   </dl>
-
-                  {selected.specs && selected.specs.length > 0 && (
-                    <dl className='mt-4 grid grid-cols-2 gap-2.5 sm:grid-cols-3'>
-                      {selected.specs.map((spec) => (
-                        <div key={spec.label} className='rounded-2xl bg-secondary/60 p-4'>
-                          <dt className='text-[0.7rem] font-medium uppercase tracking-wide text-muted-foreground'>{spec.label}</dt>
-                          <dd className='mt-1 text-sm font-semibold leading-snug text-foreground'>{spec.value}</dd>
-                        </div>
-                      ))}
-                    </dl>
-                  )}
-                </div>
-              </div>
-            )}
-          </Dialog.Content>
-
-          {selected && fullView && (
-            <div ref={fullViewRef} className='pointer-events-auto fixed inset-0 z-60 bg-foreground/95 dark:bg-background/95'>
-              <button
-                type='button'
-                onClick={() => {
-                  suppressNextOutsideRef.current = true;
-                  setFullView(false);
-                  resetFullViewZoom();
-                }}
-                aria-label='Close full view'
-                className='absolute right-3 top-3 z-20 flex size-9 items-center justify-center rounded-full bg-background/10 text-background transition-colors hover:bg-background/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring dark:text-foreground'
-              >
-                <XIcon className='size-4' aria-hidden='true' />
-              </button>
-
-              <div
-                ref={fvContainerRef}
-                className={cn(
-                  'relative h-full w-full touch-pinch-zoom overflow-hidden select-none',
-                  fvScale > FV_MIN_SCALE ? 'cursor-grab active:cursor-grabbing' : 'cursor-zoom-in',
                 )}
-                onPointerDown={handleFvPointerDown}
-                onPointerMove={handleFvPointerMove}
-                onPointerUp={handleFvPointerUp}
-                onPointerCancel={handleFvPointerUp}
-              >
-                <Image
-                  src={selected.images[activePhoto]}
-                  alt={`${selected.name} photo ${activePhoto + 1}, full size`}
-                  fill
-                  sizes='100vw'
-                  priority
-                  draggable={false}
-                  className={cn('object-contain', fvDragging ? '' : 'transition-transform duration-200 ease-out')}
-                  style={{ transform: `translate(${fvPos.x}px, ${fvPos.y}px) scale(${fvScale})`, transformOrigin: '0 0' }}
-                />
               </div>
             </div>
           )}
-        </Dialog.Portal>
-      </Dialog.Root>
+        </DialogContent>
+
+        {selected && fullView && (
+          <DialogPortal>
+            <div ref={fullViewRef} className='pointer-events-auto fixed inset-0 z-60 bg-foreground/95 dark:bg-background/95'>
+              <FullViewImage
+                src={selected.images[activePhoto]}
+                alt={`${selected.name} photo ${activePhoto + 1}, full size`}
+                onRequestClose={() => setFullView(false)}
+              />
+            </div>
+          </DialogPortal>
+        )}
+      </Dialog>
     </section>
   );
 }

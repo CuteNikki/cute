@@ -15,6 +15,8 @@ import {
   SwordsIcon,
 } from 'lucide-react';
 
+import { Badge } from '@/components/ui/badge';
+import { Card } from '@/components/ui/card';
 import { SectionTitle } from '@/components/section-title';
 
 const interestsList = [
@@ -48,46 +50,50 @@ export function AboutSection() {
         {/* Left column container */}
         <div className='flex flex-col gap-4 sm:col-span-4'>
           {/* Main bio card - flex-1 allows it to grow and fill remaining height */}
-          <div className='flex flex-1 flex-col justify-center rounded-3xl border border-border bg-card p-6 shadow-sm'>
+          <Card className='flex-1 justify-center gap-4 text-base rounded-3xl border border-border bg-card p-6 shadow-sm'>
             <p className='leading-relaxed text-balance text-foreground'>
               {
                 "hewwo! am nikki sophie – a pastel loving, cat obsessed little bean who spends way too much time surrounded by plushies. i believe the internet is nicer when everyone's kind, so this is my soft space to share the things i love."
               }
             </p>
-            <p className='mt-4 leading-relaxed text-balance text-muted-foreground'>
+            <p className='leading-relaxed text-balance text-muted-foreground'>
               {
                 "when i'm not online you'll find me doodling, programming, listening to music, rewatching comfort movies/shows, or reorganising my plushies for the hundredth time. thank you very much for stopping by! ✿"
               }
             </p>
-            <p className='mt-4 leading-relaxed text-pretty text-foreground'>{'i love my partner christian more than anything 💖'}</p>
-          </div>
+            <p className='leading-relaxed text-pretty text-foreground'>{'i love my partner christian more than anything 💖'}</p>
+          </Card>
 
           {/* Movies & Shows card */}
-          <div className='rounded-3xl border border-border bg-secondary/60 p-6 shadow-sm'>
+          <Card className='gap-0 rounded-3xl border border-border bg-secondary/60 p-6 shadow-sm'>
             <h3 className='font-display text-lg font-semibold text-accent-foreground'>favourite movies & shows ♡</h3>
             <ul className='mt-3 flex flex-wrap gap-2'>
               {favouriteMedia.map(({ label, icon: Icon }) => (
-                <li key={label} className='flex items-center gap-2 rounded-full bg-card px-3 py-2 text-sm font-medium text-foreground'>
-                  <Icon className='size-4 shrink-0 text-primary' aria-hidden='true' />
-                  <span>{label}</span>
+                <li key={label}>
+                  <Badge variant='secondary' className='h-auto gap-2 rounded-full bg-card px-3 py-2 text-sm font-medium text-foreground'>
+                    <Icon className='size-4 shrink-0 text-primary' aria-hidden='true' />
+                    <span>{label}</span>
+                  </Badge>
                 </li>
               ))}
             </ul>
-          </div>
+          </Card>
         </div>
 
         {/* Right column - Things I love */}
-        <div className='rounded-3xl border border-border bg-secondary/60 p-6 shadow-sm sm:col-span-2'>
+        <Card className='gap-0 rounded-3xl border border-border bg-secondary/60 p-6 shadow-sm sm:col-span-2'>
           <h3 className='font-display text-lg font-semibold text-accent-foreground'>things i love ♡</h3>
           <ul className='mt-3 flex flex-wrap sm:grid sm:grid-cols-1 gap-2'>
             {interestsList.map(({ icon: Icon, label }) => (
-              <li key={label} className='flex items-center gap-2 rounded-full bg-card px-3 py-2 text-sm font-medium text-foreground'>
-                <Icon className='size-4 shrink-0 text-primary' aria-hidden='true' />
-                <span>{label}</span>
+              <li key={label}>
+                <Badge variant='secondary' className='h-auto gap-2 rounded-full bg-card px-3 py-2 text-sm font-medium text-foreground'>
+                  <Icon className='size-4 shrink-0 text-primary' aria-hidden='true' />
+                  <span>{label}</span>
+                </Badge>
               </li>
             ))}
           </ul>
-        </div>
+        </Card>
       </div>
     </section>
   );

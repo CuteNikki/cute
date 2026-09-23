@@ -7,6 +7,9 @@ import { Gamepad2Icon, MoonIcon, SparklesIcon } from 'lucide-react';
 
 import { LanyardActivity, useLanyard } from '@/context/lanyard';
 
+import { Card } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
+import { Skeleton } from '@/components/ui/skeleton';
 import { SectionTitle } from '@/components/section-title';
 
 const ACTIVITY_TYPE_LABELS: Record<number, string> = {
@@ -96,7 +99,7 @@ export function StatusSection() {
           </div>
 
           {/* Status List Skeleton */}
-          <div className='rounded-3xl border border-border bg-secondary/60 p-6 shadow-sm flex flex-col justify-between min-h-48 min-w-0 w-full overflow-hidden'>
+          <Card className='gap-0 rounded-3xl border border-border bg-secondary/60 p-6 shadow-sm flex flex-col justify-between min-h-48 min-w-0 w-full overflow-hidden'>
             <div className='min-w-0 w-full'>
               <p className='text-xs font-bold uppercase tracking-wider text-muted-foreground'>Current status</p>
               <ul className='mt-3 space-y-2.5 min-w-0 w-full'>
@@ -104,7 +107,7 @@ export function StatusSection() {
                 <StatusRowSkeleton />
               </ul>
             </div>
-          </div>
+          </Card>
         </div>
       ) : (
         <div className='grid gap-4 sm:grid-cols-2 min-w-0 w-full overflow-hidden'>
@@ -112,7 +115,7 @@ export function StatusSection() {
             {realActivities.length > 0 ? (
               realActivities.map((activity) => <ActivityCard key={activity.id} activity={activity} />)
             ) : (
-              <div className='rounded-3xl border border-border bg-card p-6 shadow-sm min-w-0 w-full overflow-hidden'>
+              <Card className='gap-0 rounded-3xl border border-border bg-card p-6 shadow-sm min-w-0 w-full overflow-hidden'>
                 <p className='text-xs font-bold uppercase tracking-wider text-muted-foreground'>Current Mood</p>
                 <div className='mt-3 flex items-center gap-4'>
                   <div className='flex size-20 shrink-0 items-center justify-center rounded-lg bg-secondary text-accent-foreground'>
@@ -123,11 +126,11 @@ export function StatusSection() {
                     <p className='text-sm text-muted-foreground truncate'>taking a small break</p>
                   </div>
                 </div>
-              </div>
+              </Card>
             )}
           </div>
 
-          <div className='rounded-3xl border border-border bg-secondary/60 p-6 shadow-sm flex flex-col justify-between h-fit min-w-0 w-full overflow-hidden'>
+          <Card className='gap-0 rounded-3xl border border-border bg-secondary/60 p-6 shadow-sm flex flex-col justify-between h-fit min-w-0 w-full overflow-hidden'>
             <div className='min-w-0 w-full'>
               <p className='text-xs font-bold uppercase tracking-wider text-muted-foreground'>Current status</p>
               <ul className='mt-3 space-y-2.5 min-w-0 w-full'>
@@ -141,7 +144,7 @@ export function StatusSection() {
                 )}
               </ul>
             </div>
-          </div>
+          </Card>
         </div>
       )}
     </section>
@@ -171,7 +174,7 @@ function ActivityCard({ activity }: { activity: LanyardActivity }) {
   const hasProgressBar = total !== null;
 
   return (
-    <div className='w-full min-w-0 rounded-3xl border border-border bg-card p-6 shadow-sm overflow-hidden flex flex-col'>
+    <Card className='gap-0 w-full min-w-0 rounded-3xl border border-border bg-card p-6 shadow-sm overflow-hidden flex flex-col'>
       <div className='flex flex-row items-baseline gap-2 min-w-0 max-w-full mb-3 overflow-hidden'>
         <p className='text-xs font-bold uppercase tracking-wider text-muted-foreground leading-none shrink-0'>
           {ACTIVITY_TYPE_LABELS[activity.type] || 'Active App'}
@@ -207,12 +210,7 @@ function ActivityCard({ activity }: { activity: LanyardActivity }) {
           <div className='mt-2 min-w-0 w-full' aria-live='off'>
             {hasProgressBar ? (
               <div className='space-y-1 min-w-0 w-full'>
-                <div className='relative h-1 w-full rounded-full bg-accent/60 overflow-hidden'>
-                  <div
-                    className='absolute top-0 left-0 h-full rounded-full bg-primary transition-all duration-1000 ease-linear'
-                    style={{ width: `${percent}%` }}
-                  />
-                </div>
+                <Progress value={percent} trackClassName='h-1' />
                 <div className='flex justify-between font-mono text-[10px] font-semibold text-muted-foreground min-w-0 w-full'>
                   <span className='shrink-0'>{format(current)}</span>
                   <span className='shrink-0'>{format(total)}</span>
@@ -224,40 +222,38 @@ function ActivityCard({ activity }: { activity: LanyardActivity }) {
           </div>
         </div>
       </div>
-    </div>
+    </Card>
   );
 }
 
 function ActivityCardSkeleton() {
   return (
-    <div className='w-full min-w-0 rounded-3xl border border-border bg-card p-6 shadow-sm overflow-hidden flex flex-col animate-pulse'>
+    <Card className='gap-0 w-full min-w-0 rounded-3xl border border-border bg-card p-6 shadow-sm overflow-hidden flex flex-col'>
       <div className='flex flex-row items-baseline gap-2 min-w-0 max-w-full mb-3 overflow-hidden'>
-        <div className='h-3 w-16 rounded bg-muted shrink-0' />
-        <div className='h-4 w-32 rounded bg-muted min-w-0 flex-1' />
+        <Skeleton className='h-3 w-16 shrink-0' />
+        <Skeleton className='h-4 w-32 min-w-0 flex-1' />
       </div>
       <div className='flex items-center gap-4 min-w-0 w-full max-w-full'>
-        <div className='relative size-20 shrink-0'>
-          <div className='relative flex size-full items-center justify-center rounded-lg bg-muted text-muted-foreground overflow-hidden' />
-        </div>
+        <Skeleton className='relative size-20 shrink-0 rounded-lg' />
         <div className='min-w-0 flex-1 w-full flex flex-col overflow-hidden'>
           <div className='min-w-0 w-full max-w-full overflow-hidden space-y-2'>
-            <div className='h-3.5 w-3/4 rounded bg-muted block max-w-full' />
-            <div className='h-3.5 w-1/2 rounded bg-muted block max-w-full' />
+            <Skeleton className='h-3.5 w-3/4 max-w-full' />
+            <Skeleton className='h-3.5 w-1/2 max-w-full' />
           </div>
           <div className='mt-3 min-w-0 w-full'>
-            <div className='h-3.5 w-1/4 rounded bg-muted' />
+            <Skeleton className='h-3.5 w-1/4' />
           </div>
         </div>
       </div>
-    </div>
+    </Card>
   );
 }
 
 function StatusRowSkeleton() {
   return (
-    <li className='flex items-center gap-3 rounded-2xl bg-card/50 px-3 py-2.5 animate-pulse'>
-      <span className='flex size-8 shrink-0 items-center justify-center rounded-full bg-muted' />
-      <div className='h-3.5 w-2/3 rounded bg-muted' />
+    <li className='flex items-center gap-3 rounded-2xl bg-card/50 px-3 py-2.5'>
+      <Skeleton className='flex size-8 shrink-0 rounded-full' />
+      <Skeleton className='h-3.5 w-2/3' />
     </li>
   );
 }
