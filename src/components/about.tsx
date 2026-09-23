@@ -50,7 +50,7 @@ export function AboutSection() {
         {/* Left column container */}
         <div className='flex flex-col gap-4 sm:col-span-4'>
           {/* Main bio card - flex-1 allows it to grow and fill remaining height */}
-          <Card className='flex-1 justify-center gap-4 text-base rounded-3xl border border-border bg-card p-6 shadow-sm'>
+          <Card className='flex-1 justify-center gap-4 text-base'>
             <p className='leading-relaxed text-balance text-foreground'>
               {
                 "hewwo! am nikki sophie – a pastel loving, cat obsessed little bean who spends way too much time surrounded by plushies. i believe the internet is nicer when everyone's kind, so this is my soft space to share the things i love."
@@ -65,12 +65,12 @@ export function AboutSection() {
           </Card>
 
           {/* Movies & Shows card */}
-          <Card className='gap-0 rounded-3xl border border-border bg-secondary/60 p-6 shadow-sm'>
+          <Card variant='soft' className='gap-0'>
             <h3 className='font-display text-lg font-semibold text-accent-foreground'>favourite movies & shows ♡</h3>
             <ul className='mt-3 flex flex-wrap gap-2'>
               {favouriteMedia.map(({ label, icon: Icon }) => (
                 <li key={label}>
-                  <Badge variant='secondary' className='h-auto gap-2 rounded-full bg-card px-3 py-2 text-sm font-medium text-foreground'>
+                  <Badge variant='pill'>
                     <Icon className='size-4 shrink-0 text-primary' aria-hidden='true' />
                     <span>{label}</span>
                   </Badge>
@@ -81,12 +81,12 @@ export function AboutSection() {
         </div>
 
         {/* Right column - Things I love */}
-        <Card className='gap-0 rounded-3xl border border-border bg-secondary/60 p-6 shadow-sm sm:col-span-2'>
+        <Card variant='soft' className='gap-0 sm:col-span-2'>
           <h3 className='font-display text-lg font-semibold text-accent-foreground'>things i love ♡</h3>
           <ul className='mt-3 flex flex-wrap sm:grid sm:grid-cols-1 gap-2'>
             {interestsList.map(({ icon: Icon, label }) => (
               <li key={label}>
-                <Badge variant='secondary' className='h-auto gap-2 rounded-full bg-card px-3 py-2 text-sm font-medium text-foreground'>
+                <Badge variant='pill'>
                   <Icon className='size-4 shrink-0 text-primary' aria-hidden='true' />
                   <span>{label}</span>
                 </Badge>

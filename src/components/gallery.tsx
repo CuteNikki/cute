@@ -396,7 +396,7 @@ export function Gallery() {
                   type='button'
                   onClick={(event) => openThing(thing, event)}
                   className={cn(
-                    'group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card text-left shadow-sm transition-transform duration-200 hover:-translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+                    'group relative flex flex-col overflow-hidden rounded-3xl border border-border bg-card text-left shadow-sm transition-transform duration-200 hover:-translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
                     index === 0 && 'lg:col-span-2',
                   )}
                 />
@@ -416,7 +416,7 @@ export function Gallery() {
                   className='object-cover transition-transform duration-300 group-hover:scale-105'
                 />
                 {thing.images.length > 1 && (
-                  <Badge className='absolute bottom-2 right-2 h-auto rounded-full bg-background/80 px-2 py-0.5 text-[0.7rem] font-medium text-foreground backdrop-blur'>
+                  <Badge className='absolute bottom-2 right-2 h-auto rounded-full bg-background/80 px-2 py-0.5 text-xs font-medium text-foreground backdrop-blur'>
                     {thing.images.length} photos
                   </Badge>
                 )}
@@ -435,7 +435,7 @@ export function Gallery() {
             triggerRef.current?.focus({ preventScroll: true });
             return false;
           }}
-          className='fixed left-1/2 top-1/2 z-50 flex max-h-[98vh] w-[calc(100%-1rem)] max-w-3xl sm:max-w-3xl -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-[2rem] border border-border bg-card p-0 shadow-2xl focus:outline-none'
+          className='fixed left-1/2 top-1/2 z-50 flex max-h-[98vh] w-[calc(100%-1rem)] max-w-3xl sm:max-w-3xl -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-3xl border border-border bg-card p-0 shadow-2xl focus:outline-none'
         >
           {selected && (
             <div className='flex min-h-0 flex-col overflow-y-auto'>
@@ -487,30 +487,28 @@ export function Gallery() {
 
                 {selected.images.length > 1 && (
                   <>
+                    {/* Button's own active state fights any translate-based vertical centering
+                        (both live on the single native `translate` property in Tailwind v4, and
+                        trying to out-order/out-specificity its built-in press effect proved
+                        unreliable). Centering via inset+margin instead of translate sidesteps the
+                        conflict entirely - there's no transform left for the press effect to clobber. */}
                     <Button
                       type='button'
-                      variant='ghost'
+                      variant='frosted'
                       size='icon'
                       onClick={() => goToPhoto(activePhoto - 1)}
                       aria-label='Previous photo'
-                      // Button's own active state fights any translate-based vertical centering
-                      // (both live on the single native `translate` property in Tailwind v4, and
-                      // trying to out-order/out-specificity its built-in press effect proved
-                      // unreliable). Centering via inset+margin instead of translate sidesteps the
-                      // conflict entirely - there's no transform left for the press effect to clobber.
-                      // ghost's own dark:hover:bg-muted/50 is more specific than a bare hover:bg-*
-                      // override, so dark mode needs its own matching dark:hover: class too.
-                      className='absolute inset-y-0 left-2 z-20 my-auto rounded-full bg-background/80 text-foreground backdrop-blur hover:bg-background dark:hover:bg-background sm:size-9'
+                      className='absolute inset-y-0 left-2 z-20 my-auto sm:size-9'
                     >
                       <ChevronLeftIcon aria-hidden='true' />
                     </Button>
                     <Button
                       type='button'
-                      variant='ghost'
+                      variant='frosted'
                       size='icon'
                       onClick={() => goToPhoto(activePhoto + 1)}
                       aria-label='Next photo'
-                      className='absolute inset-y-0 right-2 z-20 my-auto rounded-full bg-background/80 text-foreground backdrop-blur hover:bg-background dark:hover:bg-background sm:size-9'
+                      className='absolute inset-y-0 right-2 z-20 my-auto sm:size-9'
                     >
                       <ChevronRightIcon aria-hidden='true' />
                     </Button>
@@ -519,25 +517,17 @@ export function Gallery() {
 
                 <Button
                   type='button'
-                  variant='ghost'
+                  variant='frosted'
                   size='icon'
                   onClick={() => setFullView(true)}
                   aria-label='View full size'
-                  className='absolute bottom-3 left-3 z-20 rounded-full bg-background/80 text-foreground backdrop-blur hover:bg-background dark:hover:bg-background sm:size-9'
+                  className='absolute bottom-3 left-3 z-20 sm:size-9'
                 >
                   <Maximize2Icon aria-hidden='true' />
                 </Button>
 
                 <DialogClose
-                  render={
-                    <Button
-                      type='button'
-                      variant='ghost'
-                      size='icon'
-                      aria-label='Close'
-                      className='fixed right-3 top-3 z-30 rounded-full bg-background/80 text-foreground backdrop-blur hover:bg-background dark:hover:bg-background'
-                    />
-                  }
+                  render={<Button type='button' variant='frosted' size='icon' aria-label='Close' className='fixed right-3 top-3 z-30' />}
                 >
                   <XIcon aria-hidden='true' />
                 </DialogClose>
@@ -587,7 +577,7 @@ export function Gallery() {
                   <dl className='mt-4 grid grid-cols-2 gap-2.5 sm:grid-cols-3'>
                     {selected.specs.map((spec) => (
                       <div key={spec.label} className='rounded-2xl bg-secondary/60 p-4'>
-                        <dt className='text-[0.7rem] font-medium uppercase tracking-wide text-muted-foreground'>{spec.label}</dt>
+                        <dt className='text-xs font-bold uppercase tracking-wider text-muted-foreground'>{spec.label}</dt>
                         <dd className='mt-1 text-sm font-semibold leading-snug text-foreground'>{spec.value}</dd>
                       </div>
                     ))}

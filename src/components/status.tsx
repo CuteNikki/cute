@@ -99,7 +99,7 @@ export function StatusSection() {
           </div>
 
           {/* Status List Skeleton */}
-          <Card className='gap-0 rounded-3xl border border-border bg-secondary/60 p-6 shadow-sm flex flex-col justify-between min-h-48 min-w-0 w-full overflow-hidden'>
+          <Card variant='soft' className='gap-0 flex flex-col justify-between min-h-48 min-w-0 w-full overflow-hidden'>
             <div className='min-w-0 w-full'>
               <p className='text-xs font-bold uppercase tracking-wider text-muted-foreground'>Current status</p>
               <ul className='mt-3 space-y-2.5 min-w-0 w-full'>
@@ -115,7 +115,7 @@ export function StatusSection() {
             {realActivities.length > 0 ? (
               realActivities.map((activity) => <ActivityCard key={activity.id} activity={activity} />)
             ) : (
-              <Card className='gap-0 rounded-3xl border border-border bg-card p-6 shadow-sm min-w-0 w-full overflow-hidden'>
+              <Card className='gap-0 min-w-0 w-full overflow-hidden'>
                 <p className='text-xs font-bold uppercase tracking-wider text-muted-foreground'>Current Mood</p>
                 <div className='mt-3 flex items-center gap-4'>
                   <div className='flex size-20 shrink-0 items-center justify-center rounded-lg bg-secondary text-accent-foreground'>
@@ -130,7 +130,7 @@ export function StatusSection() {
             )}
           </div>
 
-          <Card className='gap-0 rounded-3xl border border-border bg-secondary/60 p-6 shadow-sm flex flex-col justify-between h-fit min-w-0 w-full overflow-hidden'>
+          <Card variant='soft' className='gap-0 flex flex-col justify-between h-fit min-w-0 w-full overflow-hidden'>
             <div className='min-w-0 w-full'>
               <p className='text-xs font-bold uppercase tracking-wider text-muted-foreground'>Current status</p>
               <ul className='mt-3 space-y-2.5 min-w-0 w-full'>
@@ -174,7 +174,7 @@ function ActivityCard({ activity }: { activity: LanyardActivity }) {
   const hasProgressBar = total !== null;
 
   return (
-    <Card className='gap-0 w-full min-w-0 rounded-3xl border border-border bg-card p-6 shadow-sm overflow-hidden flex flex-col'>
+    <Card className='gap-0 w-full min-w-0 overflow-hidden flex flex-col'>
       <div className='flex flex-row items-baseline gap-2 min-w-0 max-w-full mb-3 overflow-hidden'>
         <p className='text-xs font-bold uppercase tracking-wider text-muted-foreground leading-none shrink-0'>
           {ACTIVITY_TYPE_LABELS[activity.type] || 'Active App'}
@@ -228,7 +228,7 @@ function ActivityCard({ activity }: { activity: LanyardActivity }) {
 
 function ActivityCardSkeleton() {
   return (
-    <Card className='gap-0 w-full min-w-0 rounded-3xl border border-border bg-card p-6 shadow-sm overflow-hidden flex flex-col'>
+    <Card className='gap-0 w-full min-w-0 overflow-hidden flex flex-col'>
       <div className='flex flex-row items-baseline gap-2 min-w-0 max-w-full mb-3 overflow-hidden'>
         <Skeleton className='h-3 w-16 shrink-0' />
         <Skeleton className='h-4 w-32 min-w-0 flex-1' />

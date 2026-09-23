@@ -13,6 +13,10 @@ const buttonVariants = cva(
         secondary:
           'bg-secondary text-secondary-foreground hover:bg-[color-mix(in_oklch,var(--secondary),var(--foreground)_5%)] aria-expanded:bg-secondary aria-expanded:text-secondary-foreground',
         ghost: 'hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:hover:bg-muted/50',
+        // The gallery's floating nav/close buttons over photos all used this same translucent
+        // backdrop-blurred look. dark:hover: needs its own class since ghost's built-in
+        // dark:hover:bg-muted/50 is a more specific selector than a bare hover:bg-* override.
+        frosted: 'rounded-full bg-background/80 text-foreground backdrop-blur hover:bg-background dark:hover:bg-background',
         destructive:
           'bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40',
         link: 'text-primary underline-offset-4 hover:underline',

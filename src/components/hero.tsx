@@ -1,15 +1,16 @@
 'use client';
 
 import Image from 'next/image';
+import { useState } from 'react';
 
 import { BabyIcon, HeartIcon, InfoIcon, Sparkles as SparklesIcon, TransgenderIcon, type LucideIcon } from 'lucide-react';
 
 import { useLanyard } from '@/context/lanyard';
 
+import { Sparkles } from '@/components/sparkles';
 import { Avatar } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Popover, PopoverArrow, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Sparkles } from '@/components/sparkles';
 
 interface ProfileBadge {
   icon: LucideIcon;
@@ -67,21 +68,42 @@ function formatMilestoneDate(dateString: string) {
 }
 
 function BadgeTooltip(badge: ProfileBadge) {
+  const [open, setOpen] = useState(false);
+
+  function handlePointerEnter(event: React.PointerEvent) {
+    if (event.pointerType === 'mouse') setOpen(true);
+  }
+  function handlePointerLeave(event: React.PointerEvent) {
+    if (event.pointerType === 'mouse') setOpen(false);
+  }
+
   return (
-    <Popover>
-      {/* Base UI's own `openOnHover` handles the mouse-vs-touch distinction internally (and
-          correctly skips its focus-management on hover-opens), so unlike the old hand-rolled
-          Radix version this needs no manual pointer/focus tracking at all. */}
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger
-        openOnHover
-        delay={0}
-        className='group flex cursor-pointer items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-sm font-semibold text-foreground shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2'
+        nativeButton={false}
+        onPointerEnter={handlePointerEnter}
+        onPointerLeave={handlePointerLeave}
+        render={
+          <Badge
+            variant='pill'
+            className='group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2'
+          />
+        }
       >
-        <badge.icon className='size-4 text-primary' aria-hidden='true' />
+        <badge.icon className='size-4 shrink-0 text-primary' aria-hidden='true' />
         {badge.label}
         <InfoIcon className='size-4 text-muted-foreground transition-colors group-hover:text-primary' aria-hidden='true' />
       </PopoverTrigger>
-      <PopoverContent side='top' align='center' sideOffset={6} className='w-80 max-w-[calc(100vw-2rem)] gap-3 rounded-lg p-4 leading-relaxed'>
+      <PopoverContent
+        side='top'
+        align='center'
+        sideOffset={6}
+        initialFocus={false}
+        finalFocus={false}
+        onPointerEnter={handlePointerEnter}
+        onPointerLeave={handlePointerLeave}
+        className='w-80 max-w-[calc(100vw-2rem)] gap-3 rounded-lg p-4 leading-relaxed'
+      >
         <span className='text-muted-foreground'>{badge.explanation}</span>
 
         {badge.milestones && badge.milestones.length > 0 && (
@@ -159,7 +181,7 @@ export function Hero() {
         </h1>
 
         <p className='font-display text-base text-accent-foreground text-balance sm:text-lg'>{`☆ ${age} years old · german · she/her ♡`}</p>
-        <p className='mt-2 max-w-md leading-relaxed text-muted-foreground whitespace-pre-line text-balance'>
+        <p className='mt-2 max-w-md text-base leading-relaxed text-muted-foreground whitespace-pre-line text-balance'>
           {
             '♡ an angel who loves plushies, pastel colors & cats ★彡\nwelcome to my soft little corner of the internet where i get to be small & silly, built on respect & kindness.'
           }
@@ -170,11 +192,8 @@ export function Hero() {
             if (!badge.explanation) {
               return (
                 <li key={badge.label}>
-                  <Badge
-                    variant='secondary'
-                    className='h-auto gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-sm font-semibold text-foreground shadow-sm'
-                  >
-                    <badge.icon className='size-4 text-primary' aria-hidden='true' />
+                  <Badge variant='pill'>
+                    <badge.icon className='size-4 shrink-0 text-primary' aria-hidden='true' />
                     {badge.label}
                   </Badge>
                 </li>

@@ -4,7 +4,7 @@ import { HeartIcon, SparklesIcon } from 'lucide-react';
 
 export function Footer() {
   return (
-    <footer className='mt-4 rounded-3xl border border-border bg-card p-4 text-center shadow-sm flex flex-col items-center justify-center gap-2 overflow-hidden'>
+    <footer className='mt-4 rounded-3xl border border-border bg-card p-6 text-center shadow-sm flex flex-col items-center justify-center gap-2 overflow-hidden'>
       <p className='flex flex-wrap items-center justify-center gap-1 font-display text-sm font-semibold text-primary leading-tight max-w-full px-2'>
         <span>made with love</span>
         <HeartIcon className='size-4 fill-primary text-primary shrink-0' aria-hidden='true' />

@@ -4,7 +4,11 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from 'cn';
 
 const badgeVariants = cva(
-  'group/badge inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-2xl border border-transparent px-2 py-0.5 text-xs font-medium whitespace-nowrap transition-all focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&>svg]:pointer-events-none [&>svg]:size-3!',
+  // Every Badge usage in this project wants the larger icon (matching the non-Badge popover
+  // trigger badges next to them), so the default is size-4, not shadcn's stock size-3 - fighting
+  // this per-instance with a bigger icon class wouldn't have worked anyway, since it's forced
+  // with !important and beats a plain per-icon size class on specificity even without it.
+  'group/badge inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-2xl border border-transparent px-2 py-0.5 text-xs font-medium whitespace-nowrap transition-all focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&>svg]:pointer-events-none [&>svg]:size-4!',
   {
     variants: {
       variant: {
@@ -15,6 +19,10 @@ const badgeVariants = cva(
         outline: 'border-border text-foreground [a]:hover:bg-muted [a]:hover:text-muted-foreground',
         ghost: 'hover:bg-muted hover:text-muted-foreground dark:hover:bg-muted/50',
         link: 'text-primary underline-offset-4 hover:underline',
+        // The site's one recurring "info chip" look (profile badges, interest/media tags, the
+        // gallery info trigger) - was being retyped at every call site with small drifts between
+        // them (About's was missing the border/shadow the others had). One definition now.
+        pill: 'h-auto gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-sm font-semibold text-foreground shadow-sm',
       },
     },
     defaultVariants: {
