@@ -16,6 +16,7 @@ interface ProfileBadge {
   icon: LucideIcon;
   label: string;
   explanation?: string;
+  // `date` is YYYY-MM-DD, or YYYY-MM when the exact day doesn't matter.
   milestones?: { label: string; date: string }[];
 }
 
@@ -26,7 +27,7 @@ const badges: ProfileBadge[] = [
     explanation:
       'transgender is a term used to describe someone whose gender identity differs from the sex they were assigned at birth. i was born male but identify as female.',
     milestones: [
-      { label: 'realization', date: 'around 2015' },
+      { label: 'realization', date: '2015-01' },
       { label: 'document change', date: '2025-02-02' },
       { label: 'hormone therapy', date: '2026-03-17' },
     ],
@@ -40,18 +41,33 @@ const badges: ProfileBadge[] = [
   { icon: HeartIcon, label: 'kindness first' },
   { icon: SparklesIcon, label: 'plushie collector' },
 ];
-const dateOfBirth = new Date('2004-09-26');
-const age = Math.floor((Date.now() - dateOfBirth.getTime()) / (1000 * 60 * 60 * 24 * 365.25));
+const dateOfBirth = '2004-09-26';
+
+// Parses YYYY-MM or YYYY-MM-DD as a local calendar date. `new Date(string)` parses these as UTC
+// midnight and is lenient in some engines (Chrome accepts 'around 2015', Safari doesn't), so
+// browsers could disagree on the result.
+function parseDate(dateString: string) {
+  const [year, month = 1, day = 1] = dateString.split('-').map(Number);
+  return new Date(year, month - 1, day);
+}
+
+// Whole calendar years elapsed, so birthdays/anniversaries tick over on the actual day
+// (dividing by 365.25 days is off by one on the day itself).
+function yearsSince(date: Date, now = new Date()) {
+  const years = now.getFullYear() - date.getFullYear();
+  const beforeAnniversary = now.getMonth() < date.getMonth() || (now.getMonth() === date.getMonth() && now.getDate() < date.getDate());
+  return beforeAnniversary ? years - 1 : years;
+}
+
+const age = yearsSince(parseDate(dateOfBirth));
 
 function formatMilestoneDate(dateString: string) {
-  const date = new Date(dateString);
-  if (isNaN(date.getTime())) return dateString;
+  const date = parseDate(dateString);
 
   const now = new Date();
-  const diffTime = now.getTime() - date.getTime();
-  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  const diffDays = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24));
   const diffMonths = Math.floor(diffDays / 30);
-  const diffYears = Math.floor(diffDays / 365);
+  const diffYears = yearsSince(date, now);
 
   const absolute = new Intl.DateTimeFormat('en-GB', {
     month: 'short',

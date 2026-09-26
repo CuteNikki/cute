@@ -11,6 +11,10 @@ import { Socials } from '@/components/socials';
 import { StatusSection } from '@/components/status';
 import { ThemeToggle } from '@/components/theme-toggle';
 
+// The page is statically prerendered, so anything date-derived (age, "Xy ago") is frozen at
+// build time. Regenerate hourly so it doesn't go stale between deploys.
+export const revalidate = 3600;
+
 export default function Home() {
   return (
     <main className='relative flex min-h-screen justify-center bg-background px-4 py-10 sm:px-6 sm:py-10'>
