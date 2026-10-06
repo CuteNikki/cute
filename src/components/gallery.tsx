@@ -35,6 +35,7 @@ const things: CuteThing[] = [
       '/items/pusheen-together-2.jpg',
       '/items/plushies-5.jpg',
       '/items/plushies-6.jpg',
+      '/items/plushies-9.jpg',
       '/items/nebula-snuggles-stack.png',
       '/items/pusheen-together.png',
       '/items/shark-stack.png',
@@ -94,17 +95,27 @@ const things: CuteThing[] = [
     ],
   },
   {
-    images: ['/items/onesie.jpg', '/items/onesie-goma.jpg', '/items/kaomoji-tee.jpg', '/items/kaomoji-tee-2.jpg', '/items/selfie-6.jpg', '/items/selfie-5.jpg'],
+    images: [
+      '/items/onesie.jpg',
+      '/items/onesie-goma.jpg',
+      '/items/kaomoji-tee.jpg',
+      '/items/kaomoji-tee-2.jpg',
+      '/items/california-tee.jpg',
+      '/items/pink-hoodie.jpg',
+      '/items/selfie-6.jpg',
+      '/items/selfie-5.jpg',
+    ],
     name: 'comfy outfits',
     short: 'my cozy at home fits',
-    description: 'a peek at my comfiest loungewear - a cozy shark onesie, my favourite kaomoji tee, and the pajama sets i basically live in on lazy days.',
+    description:
+      'a peek at my comfiest loungewear - a cozy shark onesie, my favourite kaomoji tee, a soft pink hoodie, and the pajama sets i basically live in on lazy days.',
     details: [
       { label: 'style', value: 'cozy & comfy' },
       { label: 'approved by', value: 'goma (gray cat)' },
     ],
   },
   {
-    images: ['/items/dress.jpg', '/items/selfie-7.jpg', '/items/selfie-8.jpg', '/items/selfie-2.jpg', '/items/selfie-10.jpg'],
+    images: ['/items/dress.jpg', '/items/selfie-11.jpg', '/items/selfie-12.jpg', '/items/selfie-10.jpg'],
     name: 'selfie collection',
     short: 'a better look at me',
     description:
@@ -154,6 +165,18 @@ const things: CuteThing[] = [
       { label: 'worn with', value: 'christian ♡' },
       { label: 'material', value: 'stainless steel' },
       { label: 'design', value: 'peach & goma' },
+    ],
+  },
+  {
+    images: ['/items/blocks.jpg', '/items/blocks-2.jpg', '/items/blocks-3.jpg', '/items/blocks-4.jpg'],
+    name: 'building blocks',
+    short: 'little playtime builds',
+    description:
+      'a big box of chunky building blocks and a little town play mat. i spend cozy evenings on the floor building trees, cars and towers - and goma always gets a crown.',
+    details: [
+      { label: 'builds', value: 'trees, cars & towers' },
+      { label: 'playground', value: 'town play mat' },
+      { label: 'royalty', value: 'goma (gray cat) 👑' },
     ],
   },
   {
@@ -526,9 +549,7 @@ export function Gallery() {
                   <Maximize2Icon aria-hidden='true' />
                 </Button>
 
-                <DialogClose
-                  render={<Button type='button' variant='frosted' size='icon' aria-label='Close' className='fixed right-3 top-3 z-30' />}
-                >
+                <DialogClose render={<Button type='button' variant='frosted' size='icon' aria-label='Close' className='fixed right-3 top-3 z-30' />}>
                   <XIcon aria-hidden='true' />
                 </DialogClose>
               </div>
