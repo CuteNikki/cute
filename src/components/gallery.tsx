@@ -67,7 +67,7 @@ const things: CuteThing[] = [
     name: 'selfies & fits',
     short: 'a better look at me',
     description:
-      'selfies and photos of me in my comfiest loungewear - a cozy shark onesie, my favourite kaomoji tee, a soft pink hoodie, and the pajama sets i basically live in on lazy days. i take them when i feel cozy and happy, and they remind me of those moments when i look back at them.',
+      'selfies and photos of me in my comfiest loungewear. a cozy shark onesie, my favourite kaomoji tee, a soft pink hoodie, and the pajama i live in on lazy days.',
     details: [
       { label: 'comfort fit', value: 'shark onesie' },
       { label: 'wardrobe', value: 'tees, hoodies & pjs' },
@@ -91,7 +91,7 @@ const things: CuteThing[] = [
     name: 'agere collection',
     short: 'my little space',
     description:
-      'the things that help me feel safe and small.\nmy pastel pink pacifier with stars, clouds and cuddling kittens - yes, i actually use it regularly. my pastel baby bottles covered in unicorns and rainbows for bedtime. and a big box of chunky building blocks with a little town play mat, where i build trees, cars and towers on cozy evenings - and goma always gets a crown.',
+      'the things that help me feel safe and small.\nmy pastel pink pacifier with stars, clouds and cuddling kittens. my baby bottle with warm milk for bedtime. and yes, i actually use them regularly.\nrecently picked up a big box of duplo building blocks with a little town play mat, where i build things on cozy evenings.',
     details: [
       { label: 'comfort', value: 'pacifier & bottle' },
       { label: 'playtime', value: 'blocks & play mat' },
@@ -102,8 +102,7 @@ const things: CuteThing[] = [
     images: ['/items/onesie-goma.jpg', '/items/onesie.jpg', '/items/selfie-1.jpg', '/items/blocks-2.jpg', '/items/pacifier-1.png', '/items/necklace-1.jpg'],
     name: 'peach & goma',
     short: 'my favourite cat duo',
-    description:
-      'peach (the white kitty) and goma (the gray one) are everywhere in my life - on my pacifier, on our matching necklaces, and of course as my biggest, squishiest plushie. goma even fits in my shark hood.',
+    description: 'peach and goma are everywhere in my life - on my pacifier, on my necklaces, and of course as my biggest, squishiest plushie.',
     details: [
       { label: 'spotted on', value: 'pacifier, necklaces & plushies' },
       { label: 'favourite hobby', value: 'cuddling each other' },
@@ -125,7 +124,7 @@ const things: CuteThing[] = [
     name: 'partner & me',
     short: 'gifts between us',
     description:
-      'a beautiful bouquet my partner surprised me with, plus the sweetest little card to go with it.\nand our matching pair of cat pendant necklaces - one for me and one for them. they catch such different colours depending on the light.',
+      'a beautiful bouquet my partner surprised me with, plus the sweetest little card to go with it.\nand our matching pair of cat pendant necklaces - one for me and one for them.',
     details: [
       { label: 'makes me feel', value: 'loved & giggly' },
       { label: 'birthday surprise', value: 'a bouquet & card' },
@@ -148,7 +147,7 @@ const things: CuteThing[] = [
     name: 'my desk setup',
     short: 'where the magic happens',
     description:
-      'my cozy little battlestation - soft pastel lighting, a glowing pc build, and way too many plushies crowding the desk. full specs below, for the curious ✨',
+      'my cozy little battlestation - soft pastel lighting, a glowing pc build, and way too many plushies crowding the desk. full specs below, for the curious.',
     details: [
       { label: 'vibe', value: 'cozy & glowy' },
       { label: 'plushies on desk', value: 'too many to count' },
