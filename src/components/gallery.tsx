@@ -321,7 +321,7 @@ function FullViewImage({ src, alt, onRequestClose }: { src: string; alt: string;
           alt={alt}
           fill
           sizes='100vw'
-          priority
+          loading='eager'
           draggable={false}
           className={cn('object-contain', fvDragging ? '' : 'transition-transform duration-200 ease-out')}
           style={{ transform: `translate(${fvPos.x}px, ${fvPos.y}px) scale(${fvScale})`, transformOrigin: '0 0' }}
@@ -422,7 +422,7 @@ export function Gallery() {
                       ? '(max-width: 480px) 92vw, (max-width: 640px) 46vw, (max-width: 1024px) 30vw, (max-width: 1280px) 46vw, 620px'
                       : '(max-width: 480px) 92vw, (max-width: 640px) 46vw, (max-width: 1024px) 30vw, (max-width: 1280px) 23vw, 300px'
                   }
-                  priority={index < 3}
+                  loading={index < 3 ? 'eager' : 'lazy'}
                   className='object-cover transition-transform duration-300 group-hover:scale-105'
                 />
                 {thing.images.length > 1 && (
@@ -489,7 +489,7 @@ export function Gallery() {
                     alt={`${selected.name} photo ${activePhoto + 1}`}
                     fill
                     sizes='(min-width: 768px) 768px, 100vw'
-                    priority
+                    loading='eager'
                     draggable={false}
                     className='object-contain'
                   />

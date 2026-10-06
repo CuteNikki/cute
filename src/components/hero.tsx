@@ -163,7 +163,7 @@ export function Hero() {
           alt='Cute pastel banner'
           fill
           sizes='(min-width: 1024px) 400px, 100vw'
-          priority
+          loading='eager'
           unoptimized
           fetchPriority='high'
           className='object-cover'
@@ -174,7 +174,7 @@ export function Hero() {
       <div className='relative sm:-mt-10 -mt-8 flex flex-col items-center text-center'>
         <div className='animate-float-soft rounded-full border-4 border-transparent bg-card'>
           {/* Uses next/image directly (not the generated AvatarImage) so the LCP-critical
-              avatar keeps Next's optimization, priority hint and unoptimized-when-animated
+              avatar keeps Next's optimization, eager/high-priority loading and unoptimized-when-animated
               handling - AvatarImage is a plain <img> gated behind its own load-state, which
               would both drop those and add a load flicker. Avatar here is just the sizing/
               clipping/ring container. */}
@@ -184,7 +184,8 @@ export function Hero() {
               alt='dynamic avatar'
               width={128}
               height={128}
-              priority
+              loading='eager'
+              fetchPriority='high'
               unoptimized={isAnimated || avatarUrl.includes('.gif') || avatarUrl.startsWith('/api')}
               className='size-full object-cover'
             />
