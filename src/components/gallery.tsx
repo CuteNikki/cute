@@ -27,20 +27,19 @@ type CuteThing = {
 const things: CuteThing[] = [
   {
     images: [
-      '/items/plushies-3.jpg',
-      '/items/plushies-8.jpg',
+      '/items/plushies-1.jpg',
       '/items/plushies-2.jpg',
+      '/items/plushies-3.jpg',
       '/items/plushies-4.jpg',
       '/items/pusheen.jpg',
-      '/items/pusheen-together-2.jpg',
+      '/items/pusheen-together-1.jpg',
       '/items/plushies-5.jpg',
       '/items/plushies-6.jpg',
-      '/items/plushies-9.jpg',
       '/items/nebula-snuggles-stack.png',
-      '/items/pusheen-together.png',
+      '/items/pusheen-together-2.png',
       '/items/shark-stack.png',
       '/items/mayo-tuna.png',
-      '/items/plushies.png',
+      '/items/plushies-7.png',
     ],
     name: 'plush family',
     short: 'my cuddle buddies',
@@ -52,7 +51,89 @@ const things: CuteThing[] = [
     ],
   },
   {
-    images: ['/items/backpack-7.jpg', '/items/backpack-6.jpg', '/items/backpack-4.jpg', '/items/backpack-5.jpg'],
+    images: [
+      '/items/dress.jpg',
+      '/items/selfie-1.jpg',
+      '/items/selfie-2.jpg',
+      '/items/selfie-3.jpg',
+      '/items/onesie.jpg',
+      '/items/kaomoji-tee-1.jpg',
+      '/items/kaomoji-tee-2.jpg',
+      '/items/california-tee.jpg',
+      '/items/pink-hoodie.jpg',
+      '/items/selfie-4.jpg',
+      '/items/selfie-5.jpg',
+    ],
+    name: 'selfies & fits',
+    short: 'a better look at me',
+    description:
+      'selfies and photos of me in my comfiest loungewear - a cozy shark onesie, my favourite kaomoji tee, a soft pink hoodie, and the pajama sets i basically live in on lazy days. i take them when i feel cozy and happy, and they remind me of those moments when i look back at them.',
+    details: [
+      { label: 'comfort fit', value: 'shark onesie' },
+      { label: 'wardrobe', value: 'tees, hoodies & pjs' },
+      { label: 'photo buddy', value: 'usually a plushie' },
+    ],
+  },
+  {
+    images: [
+      '/items/pacifier-1.png',
+      '/items/pacifier-2.png',
+      '/items/bottle-1.jpg',
+      '/items/bottle-2.jpg',
+      '/items/bottle-3.jpg',
+      '/items/bottle-4.jpg',
+      '/items/blocks-1.jpg',
+      '/items/blocks-2.jpg',
+      '/items/blocks-3.jpg',
+      '/items/blocks-4.jpg',
+      '/items/plushies-8.jpg',
+    ],
+    name: 'agere collection',
+    short: 'my little space',
+    description:
+      'the things that help me feel safe and small.\nmy pastel pink pacifier with stars, clouds and cuddling kittens - yes, i actually use it regularly. my pastel baby bottles covered in unicorns and rainbows for bedtime. and a big box of chunky building blocks with a little town play mat, where i build trees, cars and towers on cozy evenings - and goma always gets a crown.',
+    details: [
+      { label: 'comfort', value: 'pacifier & bottle' },
+      { label: 'playtime', value: 'blocks & play mat' },
+      { label: 'royalty', value: 'goma' },
+    ],
+  },
+  {
+    images: ['/items/onesie-goma.jpg', '/items/onesie.jpg', '/items/selfie-1.jpg', '/items/blocks-2.jpg', '/items/pacifier-1.png', '/items/necklace-1.jpg'],
+    name: 'peach & goma',
+    short: 'my favourite cat duo',
+    description:
+      'peach (the white kitty) and goma (the gray one) are everywhere in my life - on my pacifier, on our matching necklaces, and of course as my biggest, squishiest plushie. goma even fits in my shark hood.',
+    details: [
+      { label: 'spotted on', value: 'pacifier, necklaces & plushies' },
+      { label: 'favourite hobby', value: 'cuddling each other' },
+      { label: 'always found', value: 'side by side' },
+    ],
+  },
+  {
+    images: [
+      '/items/flowers-1.jpg',
+      '/items/flowers-2.jpg',
+      '/items/flowers-3.jpg',
+      '/items/necklace-1.jpg',
+      '/items/necklace-2.jpg',
+      '/items/necklace-3.jpg',
+      '/items/necklace-4.jpg',
+      '/items/necklace-5.jpg',
+      '/items/necklace-6.jpg',
+    ],
+    name: 'partner & me',
+    short: 'gifts between us',
+    description:
+      'a beautiful bouquet my partner surprised me with, plus the sweetest little card to go with it.\nand our matching pair of cat pendant necklaces - one for me and one for them. they catch such different colours depending on the light.',
+    details: [
+      { label: 'makes me feel', value: 'loved & giggly' },
+      { label: 'birthday surprise', value: 'a bouquet & card' },
+      { label: 'our pendants', value: 'one peach, one goma' },
+    ],
+  },
+  {
+    images: ['/items/backpack-1.jpg', '/items/backpack-2.jpg', '/items/backpack-3.jpg', '/items/backpack-4.jpg'],
     name: 'display backpack',
     short: 'my soft carryall',
     description: "a pastel pink backpack with a bunch of different metal pins. it's perfect for carrying my essentials on cozy adventures.",
@@ -63,7 +144,7 @@ const things: CuteThing[] = [
     ],
   },
   {
-    images: ['/items/desk-setup.jpg', '/items/desk-setup-2.jpg'],
+    images: ['/items/desk-setup-1.jpg', '/items/desk-setup-2.jpg'],
     name: 'my desk setup',
     short: 'where the magic happens',
     description:
@@ -92,102 +173,6 @@ const things: CuteThing[] = [
       { label: 'webcam', value: 'OBSBOT Meet 2' },
       { label: 'desk', value: 'Flexispot E7 Pro' },
       { label: 'chair', value: 'SIHOO Doro C300' },
-    ],
-  },
-  {
-    images: [
-      '/items/onesie.jpg',
-      '/items/onesie-goma.jpg',
-      '/items/kaomoji-tee.jpg',
-      '/items/kaomoji-tee-2.jpg',
-      '/items/california-tee.jpg',
-      '/items/pink-hoodie.jpg',
-      '/items/selfie-6.jpg',
-      '/items/selfie-5.jpg',
-    ],
-    name: 'comfy outfits',
-    short: 'my cozy at home fits',
-    description:
-      'a peek at my comfiest loungewear - a cozy shark onesie, my favourite kaomoji tee, a soft pink hoodie, and the pajama sets i basically live in on lazy days.',
-    details: [
-      { label: 'style', value: 'cozy & comfy' },
-      { label: 'approved by', value: 'goma (gray cat)' },
-    ],
-  },
-  {
-    images: ['/items/dress.jpg', '/items/selfie-11.jpg', '/items/selfie-12.jpg', '/items/selfie-10.jpg'],
-    name: 'selfie collection',
-    short: 'a better look at me',
-    description:
-      'a collection of selfies and photos of me. i like to take photos of myself when i feel cozy and happy, and they remind me of those moments when i look back at them.',
-    details: [
-      { label: 'type', value: 'selfies & photos' },
-      { label: 'mood', value: 'cozy & happy' },
-      { label: 'frequency', value: 'whenever i feel like it' },
-    ],
-  },
-  {
-    images: ['/items/bottle.jpg', '/items/bottle-2.jpg', '/items/bottle-3.jpg', '/items/bottle-4.jpg'],
-    name: 'pastel bottle',
-    short: 'my little sippy',
-    description: 'my pastel baby bottles, covered in unicorns and rainbows. they make bedtime feel extra soft and safe.',
-    details: [
-      { label: 'colour', value: 'pastel pink' },
-      { label: 'material', value: 'silicone teat' },
-      { label: 'use', value: 'bedtime comfort' },
-    ],
-  },
-  {
-    images: ['/items/pacifier.png', '/items/pacifier-2.png'],
-    name: 'pastel pacifier',
-    short: 'my comfort chew',
-    description:
-      'a pastel pink adult pacifier decorated with tiny yellow stars, fluffy little clouds and a sweet centre graphic of cuddling kittens.\nit is the perfect cozy companion for winding down, relaxing and feeling safe and small.\nyes, i actually use it regularly.',
-    details: [
-      { label: 'colour', value: 'pastel pink' },
-      { label: 'material', value: 'silicone' },
-      { label: 'design', value: 'peach & goma' },
-    ],
-  },
-  {
-    images: [
-      '/items/necklace.jpg',
-      '/items/necklace-2.jpg',
-      '/items/necklace-3.jpg',
-      '/items/necklace-4.jpg',
-      '/items/necklace-5.jpg',
-      '/items/necklace-6.jpg',
-    ],
-    name: 'necklaces',
-    short: 'matching with my love',
-    description: 'a matching pair of cat pendant necklaces - one for me and one for christian.\nthey catch such different colours depending on the light.',
-    details: [
-      { label: 'worn with', value: 'christian ♡' },
-      { label: 'material', value: 'stainless steel' },
-      { label: 'design', value: 'peach & goma' },
-    ],
-  },
-  {
-    images: ['/items/blocks.jpg', '/items/blocks-2.jpg', '/items/blocks-3.jpg', '/items/blocks-4.jpg'],
-    name: 'building blocks',
-    short: 'little playtime builds',
-    description:
-      'a big box of chunky building blocks and a little town play mat. i spend cozy evenings on the floor building trees, cars and towers - and goma always gets a crown.',
-    details: [
-      { label: 'builds', value: 'trees, cars & towers' },
-      { label: 'playground', value: 'town play mat' },
-      { label: 'royalty', value: 'goma (gray cat) 👑' },
-    ],
-  },
-  {
-    images: ['/items/flowers.jpg', '/items/flowers-3.jpg'],
-    name: 'flower bouquet',
-    short: 'a gift from christian',
-    description: 'a beautiful bouquet christian surprised me with, plus the sweetest little card to go with it.',
-    details: [
-      { label: 'from', value: 'christian 💖' },
-      { label: 'flowers', value: "roses & baby's breath" },
-      { label: 'mood', value: 'butterflies' },
     ],
   },
 ];
