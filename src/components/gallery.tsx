@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { motion } from 'motion/react';
 
-import { ChevronLeftIcon, ChevronRightIcon, HeartIcon, Maximize2Icon, XIcon } from 'lucide-react';
+import { ChevronLeftIcon, ChevronRightIcon, ExternalLinkIcon, HeartIcon, Maximize2Icon, XIcon } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 
@@ -22,6 +22,8 @@ type CuteThing = {
   details: { label: string; value: string }[];
   /** Optional larger grid of stats, for things with more going on than `details` comfortably fits (e.g. pc specs). */
   specs?: { label: string; value: string }[];
+  /** Optional external link shown at the bottom of the dialog (e.g. a dedicated site for the thing). */
+  link?: { label: string; href: string };
 };
 
 const things: CuteThing[] = [
@@ -45,10 +47,11 @@ const things: CuteThing[] = [
     short: 'my cuddle buddies',
     description: 'a super squishy plushie family that lives on my bed. they come everywhere with me on cozy nights.',
     details: [
-      { label: 'softness', value: '10/10 squish' },
-      { label: 'cuddly', value: 'always' },
       { label: 'favourite', value: 'goma (gray cat)' },
+      { label: 'biggest crew', value: 'pusheen' },
+      { label: 'also featuring', value: 'sanrio friends & sharks' },
     ],
+    link: { label: 'meet the whole family', href: 'https://plushies.niso.moe' },
   },
   {
     images: [
@@ -587,6 +590,23 @@ export function Gallery() {
                       </div>
                     ))}
                   </dl>
+                )}
+
+                {selected.link && (
+                  // Styled as one more details row (not a solid button) so it sits quietly with the
+                  // rows above it instead of shouting over them.
+                  <a
+                    href={selected.link.href}
+                    target='_blank'
+                    rel='noreferrer'
+                    className='group mt-2 flex items-center justify-between gap-4 rounded-2xl bg-secondary/60 px-4 py-2 text-sm transition-colors hover:bg-secondary focus:outline-none focus-visible:ring-2 focus-visible:ring-ring'
+                  >
+                    <span className='font-medium text-muted-foreground'>{selected.link.label}</span>
+                    <span className='flex min-w-0 items-center gap-1.5 font-semibold text-primary'>
+                      <span className='truncate group-hover:underline underline-offset-4'>{new URL(selected.link.href).host}</span>
+                      <ExternalLinkIcon className='size-3.5 shrink-0' aria-hidden='true' />
+                    </span>
+                  </a>
                 )}
               </div>
             </div>
