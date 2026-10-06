@@ -261,7 +261,10 @@ function FullViewImage({ src, alt, onRequestClose }: { src: string; alt: string;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fvScale, fvPos]);
 
+  // Touch skips all of this: phones already have native pinch-zoom and pan, and our tap-to-zoom
+  // and drag-to-pan fight with it (a pinch's two fingers each look like a tap or drag to us).
   function handleFvPointerDown(event: React.PointerEvent<HTMLDivElement>) {
+    if (event.pointerType === 'touch') return;
     fvPanRef.current = { pointerId: event.pointerId, startX: event.clientX, startY: event.clientY, originX: fvPos.x, originY: fvPos.y, moved: false };
     event.currentTarget.setPointerCapture(event.pointerId);
   }
@@ -308,7 +311,8 @@ function FullViewImage({ src, alt, onRequestClose }: { src: string; alt: string;
       <div
         ref={fvContainerRef}
         className={cn(
-          'relative h-full w-full touch-pinch-zoom overflow-hidden select-none',
+          // manipulation (not pinch-zoom) so one finger can still pan around the natively zoomed page
+          'relative h-full w-full touch-manipulation overflow-hidden select-none',
           fvScale > FV_MIN_SCALE ? 'cursor-grab active:cursor-grabbing' : 'cursor-zoom-in',
         )}
         onPointerDown={handleFvPointerDown}
@@ -365,6 +369,19 @@ export function Gallery() {
     return () => window.removeEventListener('keydown', handleKeyDown);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected, activePhoto, fullView]);
+
+  // The dialog skips Base UI's scroll lock (see modal='trap-focus' below), so full view locks it
+  // itself: otherwise a one-finger drag on the overlay invisibly scrolls the page behind it.
+  // Native pinch-zoom panning moves the visual viewport, not the document, so it still works.
+  useEffect(() => {
+    if (!fullView) return;
+    const root = document.documentElement;
+    const previous = root.style.overflow;
+    root.style.overflow = 'hidden';
+    return () => {
+      root.style.overflow = previous;
+    };
+  }, [fullView]);
 
   return (
     <section id='gallery' aria-labelledby='gallery-heading' className='space-y-4 scroll-mt-6'>
