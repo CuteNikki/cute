@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { InfoIcon } from 'lucide-react';
 
 import { useLanyard } from '@/context/lanyard';
+import { formatMilestoneDate, parseDate, yearsSince } from '@/lib/dates';
 import { badges, profile, type ProfileBadge } from '@/site.config';
 
 import { Sparkles } from '@/components/sparkles';
@@ -13,45 +14,7 @@ import { Avatar } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Popover, PopoverArrow, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
-// Parses YYYY-MM or YYYY-MM-DD as a local calendar date. `new Date(string)` parses these as UTC
-// midnight and is lenient in some engines (Chrome accepts 'around 2015', Safari doesn't), so
-// browsers could disagree on the result.
-function parseDate(dateString: string) {
-  const [year, month = 1, day = 1] = dateString.split('-').map(Number);
-  return new Date(year, month - 1, day);
-}
-
-// Whole calendar years elapsed, so birthdays/anniversaries tick over on the actual day
-// (dividing by 365.25 days is off by one on the day itself).
-function yearsSince(date: Date, now = new Date()) {
-  const years = now.getFullYear() - date.getFullYear();
-  const beforeAnniversary = now.getMonth() < date.getMonth() || (now.getMonth() === date.getMonth() && now.getDate() < date.getDate());
-  return beforeAnniversary ? years - 1 : years;
-}
-
 const age = yearsSince(parseDate(profile.dateOfBirth));
-
-function formatMilestoneDate(dateString: string) {
-  const date = parseDate(dateString);
-
-  const now = new Date();
-  const diffDays = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24));
-  const diffMonths = Math.floor(diffDays / 30);
-  const diffYears = yearsSince(date, now);
-
-  const absolute = new Intl.DateTimeFormat('en-GB', {
-    month: 'short',
-    year: 'numeric',
-  }).format(date);
-
-  let relative = '';
-  if (diffYears > 0) relative = `${diffYears}y ago`;
-  else if (diffMonths > 0) relative = `${diffMonths}mo ago`;
-  else if (diffDays > 0) relative = `${diffDays}d ago`;
-  else relative = 'recently';
-
-  return `${absolute} (${relative})`;
-}
 
 function BadgeTooltip(badge: ProfileBadge) {
   const [open, setOpen] = useState(false);

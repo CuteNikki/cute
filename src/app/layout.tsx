@@ -22,27 +22,29 @@ const nunito = Nunito({
   variable: '--font-nunito',
 });
 
+// The preview image itself comes from opengraph-image.tsx next to this file - Next.js wires it up
+// automatically, so it's deliberately not listed under `images` here.
 export const metadata: Metadata = {
+  metadataBase: new URL(site.url),
   title: site.title,
   description: site.description,
+  alternates: { canonical: '/' },
   openGraph: {
     title: site.title,
     description: site.description,
-    url: site.url,
+    url: '/',
     siteName: site.title,
-    images: [site.previewImage],
+    locale: 'en_US',
     type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: site.title,
+    description: site.description,
   },
   icons: {
     icon: '/favicon.ico',
   },
-};
-
-export const viewport: Viewport = {
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#f9c9dd' },
-    { media: '(prefers-color-scheme: dark)', color: '#2a1f2e' },
-  ],
 };
 
 export default function RootLayout({

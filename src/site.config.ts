@@ -39,8 +39,12 @@ import {
 export const site = {
   title: 'niso ⋅ pastel corner ♡',
   description: 'A soft, pastel-pink corner of the internet — plushies, cats & kindness.',
-  url: 'https://niso.vercel.app',
-  previewImage: { url: 'https://cute.niso.moe/avatar.gif', width: 430, height: 430 },
+  url: 'https://cute.niso.moe',
+  /**
+   * The link preview image is drawn automatically from your profile below (avatar, name, age,
+   * facts and the badges marked `showOnPreview`) - see src/app/opengraph-image.tsx. This is its description for screen readers.
+   */
+  previewAlt: "Nikki Sophie's profile card - avatar, name and badges on a pastel pink background",
 };
 
 // ─── discord ─────────────────────────────────────────────────────────────────
@@ -70,6 +74,8 @@ export type ProfileBadge = {
   explanation?: string;
   /** Optional timeline shown in the popover. `date` is YYYY-MM-DD, or YYYY-MM when the exact day doesn't matter. */
   milestones?: { label: string; date: string }[];
+  /** Also show this badge on the link preview card (what people see when the site is shared). */
+  showOnPreview?: boolean;
 };
 
 export const badges: ProfileBadge[] = [
@@ -90,8 +96,8 @@ export const badges: ProfileBadge[] = [
     explanation:
       'an age regressor is someone who mentally shifts to a younger mindset; often as a coping mechanism for stress, trauma or anxiety. it provides a safe, non-sexual space to relax, process emotions or experience a sense of comfort and care that may have been missing in the past.',
   },
-  { icon: HeartIcon, label: 'kindness first' },
-  { icon: SparklesIcon, label: 'plushie collector' },
+  { icon: HeartIcon, label: 'kindness first', showOnPreview: true },
+  { icon: SparklesIcon, label: 'plushie collector', showOnPreview: true },
 ];
 
 // ─── socials ─────────────────────────────────────────────────────────────────
