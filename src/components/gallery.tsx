@@ -8,176 +8,12 @@ import { motion } from 'motion/react';
 import { ChevronLeftIcon, ChevronRightIcon, ExternalLinkIcon, HeartIcon, Maximize2Icon, XIcon } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
+import { gallery, type GalleryItem } from '@/site.config';
 
 import { SectionTitle } from '@/components/section-title';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogPortal, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-
-type CuteThing = {
-  images: string[];
-  name: string;
-  short: string;
-  description: string;
-  details: { label: string; value: string }[];
-  /** Optional larger grid of stats, for things with more going on than `details` comfortably fits (e.g. pc specs). */
-  specs?: { label: string; value: string }[];
-  /** Optional external link shown at the bottom of the dialog (e.g. a dedicated site for the thing). */
-  link?: { label: string; href: string };
-};
-
-const things: CuteThing[] = [
-  {
-    images: [
-      '/items/plushies-1.jpg',
-      '/items/plushies-2.jpg',
-      '/items/plushies-3.jpg',
-      '/items/plushies-4.jpg',
-      '/items/pusheen.jpg',
-      '/items/pusheen-together-1.jpg',
-      '/items/plushies-5.jpg',
-      '/items/plushies-6.jpg',
-      '/items/nebula-snuggles-stack.png',
-      '/items/pusheen-together-2.png',
-      '/items/shark-stack.png',
-      '/items/mayo-tuna.png',
-      '/items/plushies-7.png',
-    ],
-    name: 'plush family',
-    short: 'my cuddle buddies',
-    description: 'a super squishy plushie family that lives on my bed. they come everywhere with me on cozy nights.',
-    details: [
-      { label: 'favourite', value: 'goma (gray cat)' },
-      { label: 'biggest crew', value: 'pusheen' },
-      { label: 'also featuring', value: 'sanrio friends & sharks' },
-    ],
-    link: { label: 'meet the whole family', href: 'https://plushies.niso.moe' },
-  },
-  {
-    images: [
-      '/items/dress.jpg',
-      '/items/selfie-1.jpg',
-      '/items/selfie-2.jpg',
-      '/items/selfie-3.jpg',
-      '/items/onesie.jpg',
-      '/items/kaomoji-tee-1.jpg',
-      '/items/kaomoji-tee-2.jpg',
-      '/items/california-tee.jpg',
-      '/items/pink-hoodie.jpg',
-      '/items/selfie-4.jpg',
-      '/items/selfie-5.jpg',
-    ],
-    name: 'selfies & fits',
-    short: 'a better look at me',
-    description:
-      'selfies and photos of me in my comfiest loungewear. a cozy shark onesie, my favourite kaomoji tee, a soft pink hoodie, and the pajama i live in on lazy days.',
-    details: [
-      { label: 'comfort fit', value: 'shark onesie' },
-      { label: 'wardrobe', value: 'tees, hoodies & pjs' },
-      { label: 'photo buddy', value: 'usually a plushie' },
-    ],
-  },
-  {
-    images: [
-      '/items/pacifier-1.png',
-      '/items/pacifier-2.png',
-      '/items/bottle-1.jpg',
-      '/items/bottle-2.jpg',
-      '/items/bottle-3.jpg',
-      '/items/bottle-4.jpg',
-      '/items/blocks-1.jpg',
-      '/items/blocks-2.jpg',
-      '/items/blocks-3.jpg',
-      '/items/blocks-4.jpg',
-      '/items/plushies-8.jpg',
-    ],
-    name: 'agere collection',
-    short: 'my little space',
-    description:
-      'the things that help me feel safe and small.\nmy pastel pink pacifier with stars, clouds and cuddling kittens. my baby bottle with warm milk for bedtime. and yes, i actually use them regularly.\nrecently picked up a big box of duplo building blocks with a little town play mat, where i build things on cozy evenings.',
-    details: [
-      { label: 'comfort', value: 'pacifier & bottle' },
-      { label: 'playtime', value: 'blocks & play mat' },
-      { label: 'royalty', value: 'goma' },
-    ],
-  },
-  {
-    images: ['/items/onesie-goma.jpg', '/items/onesie.jpg', '/items/selfie-1.jpg', '/items/blocks-2.jpg', '/items/pacifier-1.png', '/items/necklace-1.jpg'],
-    name: 'peach & goma',
-    short: 'my favourite cat duo',
-    description: 'peach and goma are everywhere in my life - on my pacifier, on my necklaces, and of course as my biggest, squishiest plushie.',
-    details: [
-      { label: 'spotted on', value: 'pacifier, necklaces & plushies' },
-      { label: 'favourite hobby', value: 'cuddling each other' },
-      { label: 'always found', value: 'side by side' },
-    ],
-  },
-  {
-    images: [
-      '/items/flowers-1.jpg',
-      '/items/flowers-2.jpg',
-      '/items/flowers-3.jpg',
-      '/items/necklace-1.jpg',
-      '/items/necklace-2.jpg',
-      '/items/necklace-3.jpg',
-      '/items/necklace-4.jpg',
-      '/items/necklace-5.jpg',
-      '/items/necklace-6.jpg',
-    ],
-    name: 'partner & me',
-    short: 'gifts between us',
-    description:
-      'a beautiful bouquet my partner surprised me with, plus the sweetest little card to go with it.\nand our matching pair of cat pendant necklaces - one for me and one for them.',
-    details: [
-      { label: 'makes me feel', value: 'loved & giggly' },
-      { label: 'birthday surprise', value: 'a bouquet & card' },
-      { label: 'our pendants', value: 'one peach, one goma' },
-    ],
-  },
-  {
-    images: ['/items/backpack-1.jpg', '/items/backpack-2.jpg', '/items/backpack-3.jpg', '/items/backpack-4.jpg'],
-    name: 'display backpack',
-    short: 'my soft carryall',
-    description: "a pastel pink backpack with a bunch of different metal pins. it's perfect for carrying my essentials on cozy adventures.",
-    details: [
-      { label: 'style', value: 'ita bag ♡' },
-      { label: 'features', value: 'metal pins, keychains' },
-      { label: 'use', value: 'cozy adventures' },
-    ],
-  },
-  {
-    images: ['/items/desk-setup-1.jpg', '/items/desk-setup-2.jpg'],
-    name: 'my desk setup',
-    short: 'where the magic happens',
-    description:
-      'my cozy little battlestation - soft pastel lighting, a glowing pc build, and way too many plushies crowding the desk. full specs below, for the curious.',
-    details: [
-      { label: 'vibe', value: 'cozy & glowy' },
-      { label: 'plushies on desk', value: 'too many to count' },
-      { label: 'main character', value: 'the ugly mouse' },
-    ],
-    specs: [
-      { label: 'cpu', value: 'AMD Ryzen 7 9800X3D' },
-      { label: 'motherboard', value: 'Gigabyte B850 AORUS ELITE WIFI7 ICE' },
-      { label: 'ram', value: 'T-Create Expert 32GB DDR5-6000 CL30' },
-      { label: 'gpu', value: 'Gigabyte AERO OC RTX 5070 Ti 16GB' },
-      { label: 'case', value: 'Lian Li O11 Vision' },
-      { label: 'case fans', value: 'Lian Li UNI FAN SL-INF' },
-      { label: 'psu', value: 'Corsair RM850x SHIFT 850W' },
-      { label: 'storage', value: 'Samsung 970 EVO Plus 1TB' },
-      { label: 'main monitor', value: 'XG27ACDNG · 1440p OLED 360Hz' },
-      { label: 'second monitor', value: 'G24F 2 · 1080p 180Hz' },
-      { label: 'keyboard', value: 'Wooting 80HE (White Zinc)' },
-      { label: 'mouse', value: 'Razer Viper V4 Pro / zeromouse blade' },
-      { label: 'mousepad', value: 'Wallhack SP-004 (glass)' },
-      { label: 'microphone', value: 'SteelSeries Alias Pro' },
-      { label: 'headphones', value: 'Sony WH-1000XM6' },
-      { label: 'webcam', value: 'OBSBOT Meet 2' },
-      { label: 'desk', value: 'Flexispot E7 Pro' },
-      { label: 'chair', value: 'SIHOO Doro C300' },
-    ],
-  },
-];
 
 // Pan/zoom state (fvScale, fvPos, etc.) used to live on Gallery itself, but that meant every
 // pointermove while dragging or wheel event while zooming re-rendered the *entire* gallery -
@@ -336,14 +172,14 @@ function FullViewImage({ src, alt, onRequestClose }: { src: string; alt: string;
 }
 
 export function Gallery() {
-  const [selected, setSelected] = useState<CuteThing | null>(null);
+  const [selected, setSelected] = useState<GalleryItem | null>(null);
   const [activePhoto, setActivePhoto] = useState(0);
   const [fullView, setFullView] = useState(false);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const draggingRef = useRef(false);
   const fullViewRef = useRef<HTMLDivElement | null>(null);
 
-  function openThing(thing: CuteThing, event: React.MouseEvent<HTMLButtonElement>) {
+  function openThing(thing: GalleryItem, event: React.MouseEvent<HTMLButtonElement>) {
     triggerRef.current = event.currentTarget;
     setSelected(thing);
     setActivePhoto(0);
@@ -385,7 +221,7 @@ export function Gallery() {
 
   return (
     <section id='gallery' aria-labelledby='gallery-heading' className='space-y-4 scroll-mt-6'>
-      <SectionTitle id='gallery-heading'>photo gallery</SectionTitle>
+      <SectionTitle id='gallery-heading'>{gallery.title}</SectionTitle>
 
       <Dialog
         open={selected !== null}
@@ -415,7 +251,7 @@ export function Gallery() {
         }}
       >
         <div className='grid grid-cols-1 gap-4 xxs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4'>
-          {things.map((thing, index) => (
+          {gallery.items.map((thing, index) => (
             <DialogTrigger
               key={thing.name}
               render={

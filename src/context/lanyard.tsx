@@ -2,6 +2,8 @@
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 
+import { discordUserId } from '@/site.config';
+
 export interface LanyardActivity {
   id: string;
   name: string;
@@ -49,10 +51,9 @@ export function LanyardProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const userId = '303142922780672013';
     const fetchStatus = async () => {
       try {
-        const res = await fetch(`https://api.lanyard.rest/v1/users/${userId}`);
+        const res = await fetch(`https://api.lanyard.rest/v1/users/${discordUserId}`);
         const json: LanyardResponse = await res.json();
         if (json.success) {
           setPresence(json.data);

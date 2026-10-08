@@ -4,6 +4,8 @@ import { Fredoka, Nunito } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
+import { site } from '@/site.config';
+
 import { ThemeProvider } from '@/components/theme-provider';
 
 import './globals.css';
@@ -21,20 +23,14 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
-  title: 'niso ⋅ pastel corner ♡',
-  description: 'A soft, pastel-pink corner of the internet — plushies, cats & kindness.',
+  title: site.title,
+  description: site.description,
   openGraph: {
-    title: 'niso ⋅ pastel corner ♡',
-    description: 'A soft, pastel-pink corner of the internet — plushies, cats & kindness.',
-    url: 'https://niso.vercel.app',
-    siteName: 'niso ⋅ pastel corner ♡',
-    images: [
-      {
-        url: 'https://cute.niso.moe/avatar.gif',
-        width: 430,
-        height: 430,
-      },
-    ],
+    title: site.title,
+    description: site.description,
+    url: site.url,
+    siteName: site.title,
+    images: [site.previewImage],
     type: 'website',
   },
   icons: {

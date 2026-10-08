@@ -1,25 +1,14 @@
-import { BirdIcon, CameraIcon, ClapperboardIcon, Code2Icon, Gamepad2Icon, GhostIcon, PlayIcon, Share2Icon } from 'lucide-react';
+import { socials } from '@/site.config';
 
 import { SectionTitle } from '@/components/section-title';
-
-const socials = [
-  { icon: Gamepad2Icon, label: 'Discord', handle: '@cutenikki', href: 'https://discord.com/users/303142922780672013' },
-  { icon: CameraIcon, label: 'Instagram', handle: '@BlushingNikki', href: 'https://instagram.com/blushingnikki' },
-  { icon: GhostIcon, label: 'Snapchat', handle: '@BlushingNikki', href: 'https://www.snapchat.com/add/blushingnikki' },
-  { icon: BirdIcon, label: 'Twitter', handle: '@BlushingNikki', href: 'https://twitter.com/blushingnikki' },
-  { icon: PlayIcon, label: 'YouTube', handle: '@BlushingNikki', href: 'https://www.youtube.com/@BlushingNikki' },
-  { icon: ClapperboardIcon, label: 'Twitch', handle: '/CuteNikki', href: 'https://www.twitch.tv/cutenikki' },
-  { icon: Code2Icon, label: 'GitHub', handle: '/CuteNikki', href: 'https://github.com/CuteNikki' },
-  { icon: Share2Icon, label: 'Steam', handle: '/BlushingNikki', href: 'https://steamcommunity.com/id/blushingnikki/' },
-];
 
 export function Socials() {
   return (
     <section aria-labelledby='socials-heading' className='space-y-4'>
-      <SectionTitle id='socials-heading'>let&apos;s be friends ♡</SectionTitle>
+      <SectionTitle id='socials-heading'>{socials.title}</SectionTitle>
 
       <div className='grid grid-cols-1 gap-2 xxs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-2'>
-        {socials.map(({ icon: Icon, label, handle, href }) => (
+        {socials.links.map(({ icon: Icon, label, handle, href }) => (
           <a
             key={label}
             href={href}

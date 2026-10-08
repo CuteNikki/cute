@@ -3,45 +3,15 @@
 import Image from 'next/image';
 import { useState } from 'react';
 
-import { BabyIcon, HeartIcon, InfoIcon, Sparkles as SparklesIcon, TransgenderIcon, type LucideIcon } from 'lucide-react';
+import { InfoIcon } from 'lucide-react';
 
 import { useLanyard } from '@/context/lanyard';
+import { badges, profile, type ProfileBadge } from '@/site.config';
 
 import { Sparkles } from '@/components/sparkles';
 import { Avatar } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Popover, PopoverArrow, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-
-interface ProfileBadge {
-  icon: LucideIcon;
-  label: string;
-  explanation?: string;
-  // `date` is YYYY-MM-DD, or YYYY-MM when the exact day doesn't matter.
-  milestones?: { label: string; date: string }[];
-}
-
-const badges: ProfileBadge[] = [
-  {
-    icon: TransgenderIcon,
-    label: 'transgender',
-    explanation:
-      'transgender is a term used to describe someone whose gender identity differs from the sex they were assigned at birth. i was born male but identify as female.',
-    milestones: [
-      { label: 'realization', date: '2015-01' },
-      { label: 'document change', date: '2025-02-02' },
-      { label: 'hormone therapy', date: '2026-03-17' },
-    ],
-  },
-  {
-    icon: BabyIcon,
-    label: 'age regressor',
-    explanation:
-      'an age regressor is someone who mentally shifts to a younger mindset; often as a coping mechanism for stress, trauma or anxiety. it provides a safe, non-sexual space to relax, process emotions or experience a sense of comfort and care that may have been missing in the past.',
-  },
-  { icon: HeartIcon, label: 'kindness first' },
-  { icon: SparklesIcon, label: 'plushie collector' },
-];
-const dateOfBirth = '2004-09-26';
 
 // Parses YYYY-MM or YYYY-MM-DD as a local calendar date. `new Date(string)` parses these as UTC
 // midnight and is lenient in some engines (Chrome accepts 'around 2015', Safari doesn't), so
@@ -59,7 +29,7 @@ function yearsSince(date: Date, now = new Date()) {
   return beforeAnniversary ? years - 1 : years;
 }
 
-const age = yearsSince(parseDate(dateOfBirth));
+const age = yearsSince(parseDate(profile.dateOfBirth));
 
 function formatMilestoneDate(dateString: string) {
   const date = parseDate(dateString);
@@ -160,7 +130,7 @@ export function Hero() {
       <div className='relative h-44 w-full overflow-hidden rounded-3xl border border-border bg-secondary sm:h-56'>
         <Image
           src={presence?.discord_user?.id ? bannerUrl : '/transparent.png'}
-          alt='Cute pastel banner'
+          alt={profile.bannerAlt}
           fill
           sizes='(min-width: 1024px) 400px, 100vw'
           loading='eager'
@@ -181,7 +151,7 @@ export function Hero() {
           <Avatar className='size-20 overflow-hidden sm:size-24'>
             <Image
               src={avatarUrl}
-              alt='dynamic avatar'
+              alt={profile.avatarAlt}
               width={128}
               height={128}
               loading='eager'
@@ -193,15 +163,13 @@ export function Hero() {
         </div>
 
         <h1 className='flex flex-wrap items-center justify-center gap-x-2 font-display text-3xl font-bold tracking-tight text-primary text-balance sm:text-4xl'>
-          <span>Nikki Sophie</span>
-          <span className='mt-2 inline-block animate-wiggle'>🌸</span>
+          <span>{profile.name}</span>
+          <span className='mt-2 inline-block animate-wiggle'>{profile.nameEmoji}</span>
         </h1>
 
-        <p className='font-display text-base text-accent-foreground text-balance sm:text-lg'>{`☆ ${age} years old · german · she/her ♡`}</p>
+        <p className='font-display text-base text-accent-foreground text-balance sm:text-lg'>{`☆ ${[`${age} years old`, ...profile.facts].join(' · ')} ♡`}</p>
         <p className='mt-2 max-w-md text-base leading-relaxed text-muted-foreground whitespace-pre-line text-balance'>
-          {
-            '♡ an angel who loves plushies, pastel colors & cats ★彡\nwelcome to my soft little corner of the internet where i get to be small & silly, built on respect & kindness.'
-          }
+          {profile.bio}
         </p>
 
         <ul className='mt-2 flex flex-wrap items-center justify-center gap-2'>

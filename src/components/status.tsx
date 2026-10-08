@@ -6,19 +6,12 @@ import { useEffect, useState } from 'react';
 import { Gamepad2Icon, MoonIcon, SparklesIcon } from 'lucide-react';
 
 import { LanyardActivity, useLanyard } from '@/context/lanyard';
+import { status } from '@/site.config';
 
 import { Card } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Skeleton } from '@/components/ui/skeleton';
 import { SectionTitle } from '@/components/section-title';
-
-const ACTIVITY_TYPE_LABELS: Record<number, string> = {
-  0: 'Playing',
-  1: 'Streaming',
-  2: 'Listening to',
-  3: 'Watching',
-  5: 'Competing in',
-};
 
 function format(seconds: number) {
   const h = Math.floor(seconds / 3600);
@@ -90,7 +83,7 @@ export function StatusSection() {
 
   return (
     <section aria-labelledby='now-heading' className='space-y-4'>
-      <SectionTitle id='now-heading'>what i&apos;m up to</SectionTitle>
+      <SectionTitle id='now-heading'>{status.title}</SectionTitle>
 
       {loading ? (
         <div className='grid gap-4 sm:grid-cols-2 min-w-0 w-full overflow-hidden'>
@@ -101,7 +94,7 @@ export function StatusSection() {
           {/* Status List Skeleton */}
           <Card variant='soft' className='gap-0 flex flex-col justify-between min-h-48 min-w-0 w-full overflow-hidden'>
             <div className='min-w-0 w-full'>
-              <p className='text-xs font-bold uppercase tracking-wider text-muted-foreground'>Current status</p>
+              <p className='text-xs font-bold uppercase tracking-wider text-muted-foreground'>{status.statusLabel}</p>
               <ul className='mt-3 space-y-2.5 min-w-0 w-full'>
                 <StatusRowSkeleton />
                 <StatusRowSkeleton />
@@ -116,14 +109,14 @@ export function StatusSection() {
               realActivities.map((activity) => <ActivityCard key={activity.id} activity={activity} />)
             ) : (
               <Card className='gap-0 min-w-0 w-full overflow-hidden'>
-                <p className='text-xs font-bold uppercase tracking-wider text-muted-foreground'>Current Mood</p>
+                <p className='text-xs font-bold uppercase tracking-wider text-muted-foreground'>{status.idle.label}</p>
                 <div className='mt-3 flex items-center gap-4'>
                   <div className='flex size-20 shrink-0 items-center justify-center rounded-lg bg-secondary text-accent-foreground'>
                     <SparklesIcon className='size-8 text-primary animate-pulse' aria-hidden='true' />
                   </div>
                   <div className='min-w-0 flex-1'>
-                    <p className='font-display text-base font-semibold text-foreground'>cozy & relaxing</p>
-                    <p className='text-sm text-muted-foreground truncate'>taking a small break</p>
+                    <p className='font-display text-base font-semibold text-foreground'>{status.idle.title}</p>
+                    <p className='text-sm text-muted-foreground truncate'>{status.idle.subtitle}</p>
                   </div>
                 </div>
               </Card>
@@ -132,15 +125,15 @@ export function StatusSection() {
 
           <Card variant='soft' className='gap-0 flex flex-col justify-between h-fit min-w-0 w-full overflow-hidden'>
             <div className='min-w-0 w-full'>
-              <p className='text-xs font-bold uppercase tracking-wider text-muted-foreground'>Current status</p>
+              <p className='text-xs font-bold uppercase tracking-wider text-muted-foreground'>{status.statusLabel}</p>
               <ul className='mt-3 space-y-2.5 min-w-0 w-full'>
                 {customStatusActivity?.state ? (
                   <>
                     <StatusRow icon={SparklesIcon} text={customStatusActivity.state} />
-                    <StatusRow icon={MoonIcon} text='feeling a little sleepy (yawn~)' />
+                    <StatusRow icon={MoonIcon} text={status.extraStatus} />
                   </>
                 ) : (
-                  <StatusRow icon={MoonIcon} text='feeling a little sleepy (yawn~)' />
+                  <StatusRow icon={MoonIcon} text={status.extraStatus} />
                 )}
               </ul>
             </div>
@@ -177,7 +170,7 @@ function ActivityCard({ activity }: { activity: LanyardActivity }) {
     <Card className='gap-0 w-full min-w-0 overflow-hidden flex flex-col'>
       <div className='flex flex-row items-baseline gap-2 min-w-0 max-w-full mb-3 overflow-hidden'>
         <p className='text-xs font-bold uppercase tracking-wider text-muted-foreground leading-none shrink-0'>
-          {ACTIVITY_TYPE_LABELS[activity.type] || 'Active App'}
+          {status.activityLabels[activity.type] || status.fallbackActivityLabel}
         </p>
         <p className='truncate font-display text-base font-semibold text-foreground leading-none min-w-0 flex-1'>{activity.name}</p>
       </div>
@@ -203,7 +196,7 @@ function ActivityCard({ activity }: { activity: LanyardActivity }) {
 
         <div className='min-w-0 flex-1 w-full flex flex-col overflow-hidden'>
           <div className='min-w-0 w-full max-w-full overflow-hidden'>
-            <p className='truncate text-sm text-muted-foreground w-full block max-w-full'>{activity.details ?? 'Active Session'}</p>
+            <p className='truncate text-sm text-muted-foreground w-full block max-w-full'>{activity.details ?? status.fallbackActivityDetails}</p>
             {activity.state && <p className='truncate text-sm text-muted-foreground w-full block max-w-full'>{activity.state}</p>}
           </div>
 
