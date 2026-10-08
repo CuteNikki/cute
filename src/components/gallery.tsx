@@ -423,34 +423,37 @@ export function Gallery() {
                   type='button'
                   onClick={(event) => openThing(thing, event)}
                   className={cn(
-                    'group relative flex flex-col overflow-hidden rounded-3xl border border-border bg-card text-left shadow-sm transition-transform duration-200 hover:-translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+                    'group flex flex-col rounded-3xl text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
                     index === 0 && 'lg:col-span-2',
                   )}
                 />
               }
             >
-              <div className={cn('relative w-full overflow-hidden bg-background', index === 0 ? 'aspect-square lg:aspect-2/1' : 'aspect-square')}>
-                <Image
-                  src={thing.images[0]}
-                  alt={thing.name}
-                  fill
-                  sizes={
-                    index === 0
-                      ? '(max-width: 480px) 92vw, (max-width: 640px) 46vw, (max-width: 1024px) 30vw, (max-width: 1280px) 46vw, 620px'
-                      : '(max-width: 480px) 92vw, (max-width: 640px) 46vw, (max-width: 1024px) 30vw, (max-width: 1280px) 23vw, 300px'
-                  }
-                  loading={index < 3 ? 'eager' : 'lazy'}
-                  className='object-cover transition-transform duration-300 group-hover:scale-105'
-                />
-                {thing.images.length > 1 && (
-                  <Badge className='absolute bottom-2 right-2 h-auto rounded-full bg-background/80 px-2 py-0.5 text-xs font-medium text-foreground backdrop-blur'>
-                    {thing.images.length} photos
-                  </Badge>
-                )}
-              </div>
-              <div className='p-6'>
-                <h3 className='font-display text-sm font-semibold text-foreground'>{thing.name}</h3>
-                <p className='mt-0.5 text-xs leading-relaxed text-muted-foreground'>{thing.short}</p>
+              {/* Lift the inner card, not the button, so the hover area stays put and can't flicker at the edges */}
+              <div className='relative flex flex-1 flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-sm transition-transform duration-200 group-hover:-translate-y-1'>
+                <div className={cn('relative w-full overflow-hidden bg-background', index === 0 ? 'aspect-square lg:aspect-2/1' : 'aspect-square')}>
+                  <Image
+                    src={thing.images[0]}
+                    alt={thing.name}
+                    fill
+                    sizes={
+                      index === 0
+                        ? '(max-width: 480px) 92vw, (max-width: 640px) 46vw, (max-width: 1024px) 30vw, (max-width: 1280px) 46vw, 620px'
+                        : '(max-width: 480px) 92vw, (max-width: 640px) 46vw, (max-width: 1024px) 30vw, (max-width: 1280px) 23vw, 300px'
+                    }
+                    loading={index < 3 ? 'eager' : 'lazy'}
+                    className='object-cover transition-transform duration-300 group-hover:scale-105'
+                  />
+                  {thing.images.length > 1 && (
+                    <Badge className='absolute bottom-2 right-2 h-auto rounded-full bg-background/80 px-2 py-0.5 text-xs font-medium text-foreground backdrop-blur'>
+                      {thing.images.length} photos
+                    </Badge>
+                  )}
+                </div>
+                <div className='p-6'>
+                  <h3 className='font-display text-sm font-semibold text-foreground'>{thing.name}</h3>
+                  <p className='mt-0.5 text-xs leading-relaxed text-muted-foreground'>{thing.short}</p>
+                </div>
               </div>
             </DialogTrigger>
           ))}
