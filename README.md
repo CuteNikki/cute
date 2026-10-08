@@ -48,7 +48,7 @@ tapping a card opens a photo viewer. you can swipe or use the arrow keys to flip
 
 ### let's be friends
 
-all the places you can find me - discord, instagram, twitter, youtube, twitch, github, steam and bluesky.
+all the places you can find me - discord, instagram, snapchat, twitter, youtube, twitch, github and steam.
 
 ## little details
 
