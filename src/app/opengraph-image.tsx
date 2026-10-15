@@ -103,7 +103,7 @@ export default async function Image() {
             }}
           >
             {avatarUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element -- Satori draws plain <img>, not next/image
+              // Satori draws plain <img>, not next/image
               <img src={avatarUrl} width={300} height={300} alt='' style={{ borderRadius: 9999 }} />
             ) : (
               <div style={{ display: 'flex', fontSize: 140 }}>{profile.nameEmoji}</div>

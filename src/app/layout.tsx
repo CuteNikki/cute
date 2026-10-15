@@ -1,4 +1,4 @@
-import type { Metadata, Viewport } from 'next';
+import type { Metadata } from 'next';
 import { Fredoka, Nunito } from 'next/font/google';
 
 import { Analytics } from '@vercel/analytics/next';
