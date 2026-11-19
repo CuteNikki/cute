@@ -121,7 +121,7 @@ export const socials = {
 export const about = {
   title: 'a little about me',
   intro:
-    "hewwo! am nikki sophie – a pastel loving, cat obsessed little bean who spends way too much time surrounded by plushies. i believe the internet is nicer when everyone's kind, so this is my soft space to share the things i love.",
+    "hewwo! am nikki sophie – a pastel loving, cat obsessed little princess who spends way too much time surrounded by plushies. i believe the internet is nicer when everyone's kind, so this is my soft space to share the things i love.",
   more: "when i'm not online you'll find me doodling, programming, listening to music, rewatching comfort movies/shows, or reorganising my plushies for the hundredth time. thank you very much for stopping by! ✿",
   closing: 'i love my partner christian more than anything 💖',
 
