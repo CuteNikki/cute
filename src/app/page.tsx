@@ -29,7 +29,7 @@ export default function Home() {
       <AnimationRoot>
         <div className='relative w-full max-w-xl sm:max-w-2xl md:max-w-3xl lg:max-w-7xl'>
           <LanyardProvider>
-            <div className='grid gap-10 sm:gap-12 lg:items-start lg:gap-10 lg:grid-cols-[minmax(0,25rem)_minmax(0,1fr)]'>
+            <div className='grid gap-10 sm:gap-12 lg:grid-cols-[minmax(0,25rem)_minmax(0,1fr)] lg:items-start lg:gap-10'>
               {/* Profile sidebar */}
               <div className='space-y-8 lg:sticky'>
                 <AnimateIn delay={0}>

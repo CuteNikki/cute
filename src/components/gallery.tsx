@@ -1,31 +1,60 @@
 'use client';
 
+import { gallery, type GalleryItem } from '@/site.config';
+import { motion } from 'motion/react';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 
-import { motion } from 'motion/react';
-
-import { ChevronLeftIcon, ChevronRightIcon, ExternalLinkIcon, HeartIcon, Maximize2Icon, XIcon } from 'lucide-react';
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ExternalLinkIcon,
+  HeartIcon,
+  Maximize2Icon,
+  XIcon,
+} from 'lucide-react';
 
 import { cn } from '@/lib/utils';
-import { gallery, type GalleryItem } from '@/site.config';
 
 import { SectionTitle } from '@/components/section-title';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogPortal, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogPortal,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 
 // Pan/zoom state (fvScale, fvPos, etc.) used to live on Gallery itself, but that meant every
 // pointermove while dragging or wheel event while zooming re-rendered the *entire* gallery -
 // the full grid of trigger buttons, thumbnails, and detail/spec lists - none of which visually
 // changes during a pan/zoom gesture. Isolating it here means only this small subtree re-renders
 // at drag/zoom frequency.
-function FullViewImage({ src, alt, onRequestClose }: { src: string; alt: string; onRequestClose: () => void }) {
+function FullViewImage({
+  src,
+  alt,
+  onRequestClose,
+}: {
+  src: string;
+  alt: string;
+  onRequestClose: () => void;
+}) {
   const [fvScale, setFvScale] = useState(1);
   const [fvPos, setFvPos] = useState({ x: 0, y: 0 });
   const [fvDragging, setFvDragging] = useState(false);
   const fvContainerRef = useRef<HTMLDivElement | null>(null);
-  const fvPanRef = useRef<{ pointerId: number; startX: number; startY: number; originX: number; originY: number; moved: boolean } | null>(null);
+  const fvPanRef = useRef<{
+    pointerId: number;
+    startX: number;
+    startY: number;
+    originX: number;
+    originY: number;
+    moved: boolean;
+  } | null>(null);
 
   const FV_MIN_SCALE = 1;
   const FV_MAX_SCALE = 5;
@@ -59,7 +88,10 @@ function FullViewImage({ src, alt, onRequestClose }: { src: string; alt: string;
     const cx = clientX - rect.left;
     const cy = clientY - rect.top;
 
-    const newScale = Math.min(FV_MAX_SCALE, Math.max(FV_MIN_SCALE, fvScale + deltaScale));
+    const newScale = Math.min(
+      FV_MAX_SCALE,
+      Math.max(FV_MIN_SCALE, fvScale + deltaScale)
+    );
     if (newScale === FV_MIN_SCALE) {
       setFvScale(newScale);
       setFvPos({ x: 0, y: 0 });
@@ -84,7 +116,10 @@ function FullViewImage({ src, alt, onRequestClose }: { src: string; alt: string;
       event.preventDefault();
       if (event.shiftKey) {
         if (fvScale <= FV_MIN_SCALE) return;
-        const amount = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
+        const amount =
+          Math.abs(event.deltaX) > Math.abs(event.deltaY)
+            ? event.deltaX
+            : event.deltaY;
         const rect = node!.getBoundingClientRect();
         setFvPos(clampPan(fvPos.x - amount, fvPos.y, fvScale, rect));
       } else {
@@ -101,7 +136,14 @@ function FullViewImage({ src, alt, onRequestClose }: { src: string; alt: string;
   // and drag-to-pan fight with it (a pinch's two fingers each look like a tap or drag to us).
   function handleFvPointerDown(event: React.PointerEvent<HTMLDivElement>) {
     if (event.pointerType === 'touch') return;
-    fvPanRef.current = { pointerId: event.pointerId, startX: event.clientX, startY: event.clientY, originX: fvPos.x, originY: fvPos.y, moved: false };
+    fvPanRef.current = {
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      originX: fvPos.x,
+      originY: fvPos.y,
+      moved: false,
+    };
     event.currentTarget.setPointerCapture(event.pointerId);
   }
 
@@ -139,7 +181,7 @@ function FullViewImage({ src, alt, onRequestClose }: { src: string; alt: string;
         size='icon-lg'
         onClick={onRequestClose}
         aria-label='Close full view'
-        className='absolute right-3 top-3 z-20 rounded-full bg-background/10 text-background hover:bg-background/20 dark:text-foreground dark:hover:bg-background/20'
+        className='absolute top-3 right-3 z-20 rounded-full bg-background/10 text-background hover:bg-background/20 dark:text-foreground dark:hover:bg-background/20'
       >
         <XIcon aria-hidden='true' />
       </Button>
@@ -149,7 +191,9 @@ function FullViewImage({ src, alt, onRequestClose }: { src: string; alt: string;
         className={cn(
           // manipulation (not pinch-zoom) so one finger can still pan around the natively zoomed page
           'relative h-full w-full touch-manipulation overflow-hidden select-none',
-          fvScale > FV_MIN_SCALE ? 'cursor-grab active:cursor-grabbing' : 'cursor-zoom-in',
+          fvScale > FV_MIN_SCALE
+            ? 'cursor-grab active:cursor-grabbing'
+            : 'cursor-zoom-in'
         )}
         onPointerDown={handleFvPointerDown}
         onPointerMove={handleFvPointerMove}
@@ -163,8 +207,14 @@ function FullViewImage({ src, alt, onRequestClose }: { src: string; alt: string;
           sizes='100vw'
           loading='eager'
           draggable={false}
-          className={cn('object-contain', fvDragging ? '' : 'transition-transform duration-200 ease-out')}
-          style={{ transform: `translate(${fvPos.x}px, ${fvPos.y}px) scale(${fvScale})`, transformOrigin: '0 0' }}
+          className={cn(
+            'object-contain',
+            fvDragging ? '' : 'transition-transform duration-200 ease-out'
+          )}
+          style={{
+            transform: `translate(${fvPos.x}px, ${fvPos.y}px) scale(${fvScale})`,
+            transformOrigin: '0 0',
+          }}
         />
       </div>
     </>
@@ -179,7 +229,10 @@ export function Gallery() {
   const draggingRef = useRef(false);
   const fullViewRef = useRef<HTMLDivElement | null>(null);
 
-  function openThing(thing: GalleryItem, event: React.MouseEvent<HTMLButtonElement>) {
+  function openThing(
+    thing: GalleryItem,
+    event: React.MouseEvent<HTMLButtonElement>
+  ) {
     triggerRef.current = event.currentTarget;
     setSelected(thing);
     setActivePhoto(0);
@@ -220,7 +273,11 @@ export function Gallery() {
   }, [fullView]);
 
   return (
-    <section id='gallery' aria-labelledby='gallery-heading' className='space-y-4 scroll-mt-6'>
+    <section
+      id='gallery'
+      aria-labelledby='gallery-heading'
+      className='scroll-mt-6 space-y-4'
+    >
       <SectionTitle id='gallery-heading'>{gallery.title}</SectionTitle>
 
       <Dialog
@@ -238,7 +295,10 @@ export function Gallery() {
           // "outside" press to the dialog. Base UI funnels every dismissal reason through this
           // one callback (unlike Radix's separate outside/escape/focus callbacks), so both cases
           // below are handled right here instead of needing a second suppression flag.
-          if (eventDetails.reason === 'outside-press' && fullViewRef.current?.contains(eventDetails.event.target as Node)) {
+          if (
+            eventDetails.reason === 'outside-press' &&
+            fullViewRef.current?.contains(eventDetails.event.target as Node)
+          ) {
             eventDetails.cancel();
             return;
           }
@@ -260,14 +320,21 @@ export function Gallery() {
                   onClick={(event) => openThing(thing, event)}
                   className={cn(
                     'group flex flex-col rounded-3xl text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
-                    index === 0 && 'lg:col-span-2',
+                    index === 0 && 'lg:col-span-2'
                   )}
                 />
               }
             >
               {/* Lift the inner card, not the button, so the hover area stays put and can't flicker at the edges */}
               <div className='relative flex flex-1 flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-sm transition-transform duration-200 group-hover:-translate-y-1'>
-                <div className={cn('relative w-full overflow-hidden bg-background', index === 0 ? 'aspect-square lg:aspect-2/1' : 'aspect-square')}>
+                <div
+                  className={cn(
+                    'relative w-full overflow-hidden bg-background',
+                    index === 0
+                      ? 'aspect-square lg:aspect-2/1'
+                      : 'aspect-square'
+                  )}
+                >
                   <Image
                     src={thing.images[0]}
                     alt={thing.name}
@@ -281,14 +348,18 @@ export function Gallery() {
                     className='object-cover transition-transform duration-300 group-hover:scale-105'
                   />
                   {thing.images.length > 1 && (
-                    <Badge className='absolute bottom-2 right-2 h-auto rounded-full bg-background/80 px-2 py-0.5 text-xs font-medium text-foreground backdrop-blur'>
+                    <Badge className='absolute right-2 bottom-2 h-auto rounded-full bg-background/80 px-2 py-0.5 text-xs font-medium text-foreground backdrop-blur'>
                       {thing.images.length} photos
                     </Badge>
                   )}
                 </div>
                 <div className='p-6'>
-                  <h3 className='font-display text-sm font-semibold text-foreground'>{thing.name}</h3>
-                  <p className='mt-0.5 text-xs leading-relaxed text-muted-foreground'>{thing.short}</p>
+                  <h3 className='font-display text-sm font-semibold text-foreground'>
+                    {thing.name}
+                  </h3>
+                  <p className='mt-0.5 text-xs leading-relaxed text-muted-foreground'>
+                    {thing.short}
+                  </p>
                 </div>
               </div>
             </DialogTrigger>
@@ -301,12 +372,12 @@ export function Gallery() {
             triggerRef.current?.focus({ preventScroll: true });
             return false;
           }}
-          className='fixed left-1/2 top-1/2 z-50 flex max-h-[98vh] w-[calc(100%-1rem)] max-w-3xl sm:max-w-3xl -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-3xl border border-border bg-card p-0 shadow-2xl focus:outline-none'
+          className='fixed top-1/2 left-1/2 z-50 flex max-h-[98vh] w-[calc(100%-1rem)] max-w-3xl -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-3xl border border-border bg-card p-0 shadow-2xl focus:outline-none sm:max-w-3xl'
         >
           {selected && (
             <div className='flex min-h-0 flex-col overflow-y-auto'>
               {/* Main Image Viewport with responsive aspect ratio */}
-              <div className='relative aspect-square sm:aspect-4/3 w-full shrink-0 overflow-hidden bg-secondary'>
+              <div className='relative aspect-square w-full shrink-0 overflow-hidden bg-secondary sm:aspect-4/3'>
                 <Image
                   key={`bg-${activePhoto}`}
                   src={selected.images[activePhoto]}
@@ -314,7 +385,7 @@ export function Gallery() {
                   role='none'
                   fill
                   sizes='(min-width: 768px) 768px, 100vw'
-                  className='scale-105 select-none object-cover opacity-40 blur-md dark:opacity-20'
+                  className='scale-105 object-cover opacity-40 blur-md select-none dark:opacity-20'
                   quality={10}
                 />
 
@@ -329,8 +400,10 @@ export function Gallery() {
                     draggingRef.current = true;
                   }}
                   onDragEnd={(_, info) => {
-                    if (info.offset.x < -60 || info.velocity.x < -500) goToPhoto(activePhoto + 1);
-                    else if (info.offset.x > 60 || info.velocity.x > 500) goToPhoto(activePhoto - 1);
+                    if (info.offset.x < -60 || info.velocity.x < -500)
+                      goToPhoto(activePhoto + 1);
+                    else if (info.offset.x > 60 || info.velocity.x > 500)
+                      goToPhoto(activePhoto - 1);
                     requestAnimationFrame(() => {
                       draggingRef.current = false;
                     });
@@ -392,14 +465,24 @@ export function Gallery() {
                   <Maximize2Icon aria-hidden='true' />
                 </Button>
 
-                <DialogClose render={<Button type='button' variant='frosted' size='icon' aria-label='Close' className='fixed right-3 top-3 z-30' />}>
+                <DialogClose
+                  render={
+                    <Button
+                      type='button'
+                      variant='frosted'
+                      size='icon'
+                      aria-label='Close'
+                      className='fixed top-3 right-3 z-30'
+                    />
+                  }
+                >
                   <XIcon aria-hidden='true' />
                 </DialogClose>
               </div>
 
               {/* Rigid Single-row Horizontal Scrolling Thumbnails */}
               {selected.images.length > 1 && (
-                <div className='flex gap-2 px-4 pt-4 flex-wrap pb-2'>
+                <div className='flex flex-wrap gap-2 px-4 pt-4 pb-2'>
                   {selected.images.map((image, index) => (
                     <button
                       key={`${selected.name}-thumb-${index}`}
@@ -409,10 +492,18 @@ export function Gallery() {
                       aria-current={index === activePhoto}
                       className={cn(
                         'relative size-12 shrink-0 snap-start overflow-hidden rounded-xl border-2 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:size-14',
-                        index === activePhoto ? 'scale-105 border-primary opacity-100' : 'border-transparent opacity-60 hover:opacity-100',
+                        index === activePhoto
+                          ? 'scale-105 border-primary opacity-100'
+                          : 'border-transparent opacity-60 hover:opacity-100'
                       )}
                     >
-                      <Image src={image} alt='' fill sizes='56px' className='object-cover' />
+                      <Image
+                        src={image}
+                        alt=''
+                        fill
+                        sizes='56px'
+                        className='object-cover'
+                      />
                     </button>
                   ))}
                 </div>
@@ -424,15 +515,22 @@ export function Gallery() {
                   <HeartIcon className='size-5 shrink-0' aria-hidden='true' />
                   {selected.name}
                 </DialogTitle>
-                <DialogDescription className='mt-2 text-pretty leading-relaxed text-muted-foreground whitespace-pre-line'>
+                <DialogDescription className='mt-2 leading-relaxed text-pretty whitespace-pre-line text-muted-foreground'>
                   {selected.description}
                 </DialogDescription>
 
                 <dl className='mt-4 space-y-2'>
                   {selected.details.map((detail) => (
-                    <div key={detail.label} className='flex items-center justify-between rounded-2xl bg-secondary/60 px-4 py-2 text-sm'>
-                      <dt className='font-medium text-muted-foreground'>{detail.label}</dt>
-                      <dd className='font-semibold text-foreground'>{detail.value}</dd>
+                    <div
+                      key={detail.label}
+                      className='flex items-center justify-between rounded-2xl bg-secondary/60 px-4 py-2 text-sm'
+                    >
+                      <dt className='font-medium text-muted-foreground'>
+                        {detail.label}
+                      </dt>
+                      <dd className='font-semibold text-foreground'>
+                        {detail.value}
+                      </dd>
                     </div>
                   ))}
                 </dl>
@@ -440,9 +538,16 @@ export function Gallery() {
                 {selected.specs && selected.specs.length > 0 && (
                   <dl className='mt-4 grid grid-cols-2 gap-2.5 sm:grid-cols-3'>
                     {selected.specs.map((spec) => (
-                      <div key={spec.label} className='rounded-2xl bg-secondary/60 p-4'>
-                        <dt className='text-xs font-bold uppercase tracking-wider text-muted-foreground'>{spec.label}</dt>
-                        <dd className='mt-1 text-sm font-semibold leading-snug text-foreground'>{spec.value}</dd>
+                      <div
+                        key={spec.label}
+                        className='rounded-2xl bg-secondary/60 p-4'
+                      >
+                        <dt className='text-xs font-bold tracking-wider text-muted-foreground uppercase'>
+                          {spec.label}
+                        </dt>
+                        <dd className='mt-1 text-sm leading-snug font-semibold text-foreground'>
+                          {spec.value}
+                        </dd>
                       </div>
                     ))}
                   </dl>
@@ -457,10 +562,17 @@ export function Gallery() {
                     rel='noreferrer'
                     className='group mt-2 flex items-center justify-between gap-4 rounded-2xl bg-secondary/60 px-4 py-2 text-sm transition-colors hover:bg-secondary focus:outline-none focus-visible:ring-2 focus-visible:ring-ring'
                   >
-                    <span className='font-medium text-muted-foreground'>{selected.link.label}</span>
+                    <span className='font-medium text-muted-foreground'>
+                      {selected.link.label}
+                    </span>
                     <span className='flex min-w-0 items-center gap-1.5 font-semibold text-primary'>
-                      <span className='truncate group-hover:underline underline-offset-4'>{new URL(selected.link.href).host}</span>
-                      <ExternalLinkIcon className='size-3.5 shrink-0' aria-hidden='true' />
+                      <span className='truncate underline-offset-4 group-hover:underline'>
+                        {new URL(selected.link.href).host}
+                      </span>
+                      <ExternalLinkIcon
+                        className='size-3.5 shrink-0'
+                        aria-hidden='true'
+                      />
                     </span>
                   </a>
                 )}
@@ -471,7 +583,10 @@ export function Gallery() {
 
         {selected && fullView && (
           <DialogPortal>
-            <div ref={fullViewRef} className='pointer-events-auto fixed inset-0 z-60 bg-foreground/95 dark:bg-background/95'>
+            <div
+              ref={fullViewRef}
+              className='pointer-events-auto fixed inset-0 z-60 bg-foreground/95 dark:bg-background/95'
+            >
               <FullViewImage
                 src={selected.images[activePhoto]}
                 alt={`${selected.name} photo ${activePhoto + 1}, full size`}

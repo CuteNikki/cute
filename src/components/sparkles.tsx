@@ -19,13 +19,28 @@ const DEFAULT_SPARKLES: SparkleSpec[] = [
   { top: '40%', left: '82%', size: 12, delay: '2.2s' },
 ];
 
-export function Sparkles({ sparkles = DEFAULT_SPARKLES, className }: { sparkles?: SparkleSpec[]; className?: string }) {
+export function Sparkles({
+  sparkles = DEFAULT_SPARKLES,
+  className,
+}: {
+  sparkles?: SparkleSpec[];
+  className?: string;
+}) {
   return (
-    <div aria-hidden='true' className={cn('pointer-events-none absolute inset-0 overflow-hidden', className)}>
+    <div
+      aria-hidden='true'
+      className={cn(
+        'pointer-events-none absolute inset-0 overflow-hidden',
+        className
+      )}
+    >
       {sparkles.map((s, i) => (
         <Sparkle
           key={i}
-          className={cn('absolute animate-twinkle fill-accent text-accent', s.className)}
+          className={cn(
+            'animate-twinkle absolute fill-accent text-accent',
+            s.className
+          )}
           style={{
             top: s.top,
             left: s.left,

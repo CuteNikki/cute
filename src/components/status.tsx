@@ -1,17 +1,16 @@
 'use client';
 
+import { LanyardActivity, useLanyard } from '@/context/lanyard';
+import { status } from '@/site.config';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 import { Gamepad2Icon, MoonIcon, SparklesIcon } from 'lucide-react';
 
-import { LanyardActivity, useLanyard } from '@/context/lanyard';
-import { status } from '@/site.config';
-
+import { SectionTitle } from '@/components/section-title';
 import { Card } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Skeleton } from '@/components/ui/skeleton';
-import { SectionTitle } from '@/components/section-title';
 
 function format(seconds: number) {
   const h = Math.floor(seconds / 3600);
@@ -51,7 +50,8 @@ function useActivityTimeline(timestamps?: { start?: number; end?: number }) {
       if (end) {
         const totalMs = end - start;
         const totalSec = Math.max(0, Math.floor(totalMs / 1000));
-        const progressPercent = totalSec > 0 ? (elapsedSec / totalSec) * 100 : 0;
+        const progressPercent =
+          totalSec > 0 ? (elapsedSec / totalSec) * 100 : 0;
 
         setTimeline({
           current: elapsedSec,
@@ -78,24 +78,32 @@ function useActivityTimeline(timestamps?: { start?: number; end?: number }) {
 export function StatusSection() {
   const { presence, loading } = useLanyard();
 
-  const realActivities = presence?.activities.filter((activity) => activity.type !== 4) || [];
-  const customStatusActivity = presence?.activities.find((activity) => activity.type === 4);
+  const realActivities =
+    presence?.activities.filter((activity) => activity.type !== 4) || [];
+  const customStatusActivity = presence?.activities.find(
+    (activity) => activity.type === 4
+  );
 
   return (
     <section aria-labelledby='now-heading' className='space-y-4'>
       <SectionTitle id='now-heading'>{status.title}</SectionTitle>
 
       {loading ? (
-        <div className='grid gap-4 sm:grid-cols-2 min-w-0 w-full overflow-hidden'>
-          <div className='space-y-4 min-w-0 w-full overflow-hidden'>
+        <div className='grid w-full min-w-0 gap-4 overflow-hidden sm:grid-cols-2'>
+          <div className='w-full min-w-0 space-y-4 overflow-hidden'>
             <ActivityCardSkeleton />
           </div>
 
           {/* Status List Skeleton */}
-          <Card variant='soft' className='gap-0 flex flex-col justify-between min-h-48 min-w-0 w-full overflow-hidden'>
-            <div className='min-w-0 w-full'>
-              <p className='text-xs font-bold uppercase tracking-wider text-muted-foreground'>{status.statusLabel}</p>
-              <ul className='mt-3 space-y-2.5 min-w-0 w-full'>
+          <Card
+            variant='soft'
+            className='flex min-h-48 w-full min-w-0 flex-col justify-between gap-0 overflow-hidden'
+          >
+            <div className='w-full min-w-0'>
+              <p className='text-xs font-bold tracking-wider text-muted-foreground uppercase'>
+                {status.statusLabel}
+              </p>
+              <ul className='mt-3 w-full min-w-0 space-y-2.5'>
                 <StatusRowSkeleton />
                 <StatusRowSkeleton />
               </ul>
@@ -103,33 +111,52 @@ export function StatusSection() {
           </Card>
         </div>
       ) : (
-        <div className='grid gap-4 sm:grid-cols-2 min-w-0 w-full overflow-hidden'>
-          <div className='space-y-4 min-w-0 w-full overflow-hidden'>
+        <div className='grid w-full min-w-0 gap-4 overflow-hidden sm:grid-cols-2'>
+          <div className='w-full min-w-0 space-y-4 overflow-hidden'>
             {realActivities.length > 0 ? (
-              realActivities.map((activity) => <ActivityCard key={activity.id} activity={activity} />)
+              realActivities.map((activity) => (
+                <ActivityCard key={activity.id} activity={activity} />
+              ))
             ) : (
-              <Card className='gap-0 min-w-0 w-full overflow-hidden'>
-                <p className='text-xs font-bold uppercase tracking-wider text-muted-foreground'>{status.idle.label}</p>
+              <Card className='w-full min-w-0 gap-0 overflow-hidden'>
+                <p className='text-xs font-bold tracking-wider text-muted-foreground uppercase'>
+                  {status.idle.label}
+                </p>
                 <div className='mt-3 flex items-center gap-4'>
                   <div className='flex size-20 shrink-0 items-center justify-center rounded-lg bg-secondary text-accent-foreground'>
-                    <SparklesIcon className='size-8 text-primary animate-pulse' aria-hidden='true' />
+                    <SparklesIcon
+                      className='size-8 animate-pulse text-primary'
+                      aria-hidden='true'
+                    />
                   </div>
                   <div className='min-w-0 flex-1'>
-                    <p className='font-display text-base font-semibold text-foreground'>{status.idle.title}</p>
-                    <p className='text-sm text-muted-foreground truncate'>{status.idle.subtitle}</p>
+                    <p className='font-display text-base font-semibold text-foreground'>
+                      {status.idle.title}
+                    </p>
+                    <p className='truncate text-sm text-muted-foreground'>
+                      {status.idle.subtitle}
+                    </p>
                   </div>
                 </div>
               </Card>
             )}
           </div>
 
-          <Card variant='soft' className='gap-0 flex flex-col justify-between h-fit min-w-0 w-full overflow-hidden'>
-            <div className='min-w-0 w-full'>
-              <p className='text-xs font-bold uppercase tracking-wider text-muted-foreground'>{status.statusLabel}</p>
-              <ul className='mt-3 space-y-2.5 min-w-0 w-full'>
+          <Card
+            variant='soft'
+            className='flex h-fit w-full min-w-0 flex-col justify-between gap-0 overflow-hidden'
+          >
+            <div className='w-full min-w-0'>
+              <p className='text-xs font-bold tracking-wider text-muted-foreground uppercase'>
+                {status.statusLabel}
+              </p>
+              <ul className='mt-3 w-full min-w-0 space-y-2.5'>
                 {customStatusActivity?.state ? (
                   <>
-                    <StatusRow icon={SparklesIcon} text={customStatusActivity.state} />
+                    <StatusRow
+                      icon={SparklesIcon}
+                      text={customStatusActivity.state}
+                    />
                     <StatusRow icon={MoonIcon} text={status.extraStatus} />
                   </>
                 ) : (
@@ -167,50 +194,77 @@ function ActivityCard({ activity }: { activity: LanyardActivity }) {
   const hasProgressBar = total !== null;
 
   return (
-    <Card className='gap-0 w-full min-w-0 overflow-hidden flex flex-col'>
-      <div className='flex flex-row items-baseline gap-2 min-w-0 max-w-full mb-3 overflow-hidden'>
-        <p className='text-xs font-bold uppercase tracking-wider text-muted-foreground leading-none shrink-0'>
+    <Card className='flex w-full min-w-0 flex-col gap-0 overflow-hidden'>
+      <div className='mb-3 flex max-w-full min-w-0 flex-row items-baseline gap-2 overflow-hidden'>
+        <p className='shrink-0 text-xs leading-none font-bold tracking-wider text-muted-foreground uppercase'>
           {status.activityLabels[activity.type] || status.fallbackActivityLabel}
         </p>
-        <p className='truncate font-display text-base font-semibold text-foreground leading-none min-w-0 flex-1'>{activity.name}</p>
+        <p className='min-w-0 flex-1 truncate font-display text-base leading-none font-semibold text-foreground'>
+          {activity.name}
+        </p>
       </div>
 
-      <div className='flex items-center gap-4 min-w-0 w-full max-w-full'>
+      <div className='flex w-full max-w-full min-w-0 items-center gap-4'>
         <div className='relative size-20 shrink-0'>
-          <div className='relative flex size-full items-center justify-center rounded-lg bg-secondary text-primary overflow-hidden'>
+          <div className='relative flex size-full items-center justify-center overflow-hidden rounded-lg bg-secondary text-primary'>
             {largeImageUrl ? (
-              <Image src={largeImageUrl} alt={activity.assets?.large_text || activity.name} width={80} height={80} className='object-cover' />
+              <Image
+                src={largeImageUrl}
+                alt={activity.assets?.large_text || activity.name}
+                width={80}
+                height={80}
+                className='object-cover'
+              />
             ) : (
               <Gamepad2Icon className='size-8' aria-hidden='true' />
             )}
           </div>
 
           {smallImageUrl && (
-            <div className='absolute -bottom-1 -right-1 size-7 rounded-full bg-card p-0.5 overflow-hidden' title={activity.assets?.small_text}>
+            <div
+              className='absolute -right-1 -bottom-1 size-7 overflow-hidden rounded-full bg-card p-0.5'
+              title={activity.assets?.small_text}
+            >
               <div className='relative size-full'>
-                <Image src={smallImageUrl} alt={activity.assets?.small_text || 'Status icon'} width={28} height={28} className='rounded-full object-cover' />
+                <Image
+                  src={smallImageUrl}
+                  alt={activity.assets?.small_text || 'Status icon'}
+                  width={28}
+                  height={28}
+                  className='rounded-full object-cover'
+                />
               </div>
             </div>
           )}
         </div>
 
-        <div className='min-w-0 flex-1 w-full flex flex-col overflow-hidden'>
-          <div className='min-w-0 w-full max-w-full overflow-hidden'>
-            <p className='truncate text-sm text-muted-foreground w-full block max-w-full'>{activity.details ?? status.fallbackActivityDetails}</p>
-            {activity.state && <p className='truncate text-sm text-muted-foreground w-full block max-w-full'>{activity.state}</p>}
+        <div className='flex w-full min-w-0 flex-1 flex-col overflow-hidden'>
+          <div className='w-full max-w-full min-w-0 overflow-hidden'>
+            <p className='block w-full max-w-full truncate text-sm text-muted-foreground'>
+              {activity.details ?? status.fallbackActivityDetails}
+            </p>
+            {activity.state && (
+              <p className='block w-full max-w-full truncate text-sm text-muted-foreground'>
+                {activity.state}
+              </p>
+            )}
           </div>
 
-          <div className='mt-2 min-w-0 w-full' aria-live='off'>
+          <div className='mt-2 w-full min-w-0' aria-live='off'>
             {hasProgressBar ? (
-              <div className='space-y-1 min-w-0 w-full'>
+              <div className='w-full min-w-0 space-y-1'>
                 <Progress value={percent} trackClassName='h-1' />
-                <div className='flex justify-between font-mono text-[10px] font-semibold text-muted-foreground min-w-0 w-full'>
+                <div className='flex w-full min-w-0 justify-between font-mono text-[10px] font-semibold text-muted-foreground'>
                   <span className='shrink-0'>{format(current)}</span>
                   <span className='shrink-0'>{format(total)}</span>
                 </div>
               </div>
             ) : (
-              current > 0 && <p className='font-mono text-xs font-semibold text-primary truncate'>{format(current)} elapsed</p>
+              current > 0 && (
+                <p className='truncate font-mono text-xs font-semibold text-primary'>
+                  {format(current)} elapsed
+                </p>
+              )
             )}
           </div>
         </div>
@@ -221,19 +275,19 @@ function ActivityCard({ activity }: { activity: LanyardActivity }) {
 
 function ActivityCardSkeleton() {
   return (
-    <Card className='gap-0 w-full min-w-0 overflow-hidden flex flex-col'>
-      <div className='flex flex-row items-baseline gap-2 min-w-0 max-w-full mb-3 overflow-hidden'>
+    <Card className='flex w-full min-w-0 flex-col gap-0 overflow-hidden'>
+      <div className='mb-3 flex max-w-full min-w-0 flex-row items-baseline gap-2 overflow-hidden'>
         <Skeleton className='h-3 w-16 shrink-0' />
         <Skeleton className='h-4 w-32 min-w-0 flex-1' />
       </div>
-      <div className='flex items-center gap-4 min-w-0 w-full max-w-full'>
+      <div className='flex w-full max-w-full min-w-0 items-center gap-4'>
         <Skeleton className='relative size-20 shrink-0 rounded-lg' />
-        <div className='min-w-0 flex-1 w-full flex flex-col overflow-hidden'>
-          <div className='min-w-0 w-full max-w-full overflow-hidden space-y-2'>
+        <div className='flex w-full min-w-0 flex-1 flex-col overflow-hidden'>
+          <div className='w-full max-w-full min-w-0 space-y-2 overflow-hidden'>
             <Skeleton className='h-3.5 w-3/4 max-w-full' />
             <Skeleton className='h-3.5 w-1/2 max-w-full' />
           </div>
-          <div className='mt-3 min-w-0 w-full'>
+          <div className='mt-3 w-full min-w-0'>
             <Skeleton className='h-3.5 w-1/4' />
           </div>
         </div>
@@ -251,7 +305,13 @@ function StatusRowSkeleton() {
   );
 }
 
-function StatusRow({ icon: Icon, text }: { icon: React.ComponentType<{ className?: string }>; text: string }) {
+function StatusRow({
+  icon: Icon,
+  text,
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  text: string;
+}) {
   return (
     <li className='flex items-center gap-3 rounded-2xl bg-card px-3 py-2.5'>
       <span className='flex size-8 shrink-0 items-center justify-center rounded-full bg-primary/15 text-primary'>

@@ -1,18 +1,23 @@
 'use client';
 
+import { useLanyard } from '@/context/lanyard';
+import { badges, profile, type ProfileBadge } from '@/site.config';
 import Image from 'next/image';
 import { useState } from 'react';
 
 import { InfoIcon } from 'lucide-react';
 
-import { useLanyard } from '@/context/lanyard';
 import { formatMilestoneDate, parseDate, yearsSince } from '@/lib/dates';
-import { badges, profile, type ProfileBadge } from '@/site.config';
 
 import { Sparkles } from '@/components/sparkles';
 import { Avatar } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { Popover, PopoverArrow, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import {
+  Popover,
+  PopoverArrow,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 
 const age = yearsSince(parseDate(profile.dateOfBirth));
 
@@ -35,13 +40,19 @@ function BadgeTooltip(badge: ProfileBadge) {
         render={
           <Badge
             variant='pill'
-            className='group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2'
+            className='group cursor-pointer focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none'
           />
         }
       >
-        <badge.icon className='size-4 shrink-0 text-primary' aria-hidden='true' />
+        <badge.icon
+          className='size-4 shrink-0 text-primary'
+          aria-hidden='true'
+        />
         {badge.label}
-        <InfoIcon className='size-4 text-muted-foreground transition-colors group-hover:text-primary' aria-hidden='true' />
+        <InfoIcon
+          className='size-4 text-muted-foreground transition-colors group-hover:text-primary'
+          aria-hidden='true'
+        />
       </PopoverTrigger>
       <PopoverContent
         side='top'
@@ -58,9 +69,16 @@ function BadgeTooltip(badge: ProfileBadge) {
         {badge.milestones && badge.milestones.length > 0 && (
           <div className='mt-1 flex flex-col gap-1.5 border-t border-border pt-3'>
             {badge.milestones.map((milestone) => (
-              <div key={milestone.label} className='flex items-center justify-between text-xs'>
-                <span className='font-medium text-foreground'>{milestone.label}</span>
-                <span className='text-muted-foreground'>{formatMilestoneDate(milestone.date)}</span>
+              <div
+                key={milestone.label}
+                className='flex items-center justify-between text-xs'
+              >
+                <span className='font-medium text-foreground'>
+                  {milestone.label}
+                </span>
+                <span className='text-muted-foreground'>
+                  {formatMilestoneDate(milestone.date)}
+                </span>
               </div>
             ))}
           </div>
@@ -104,7 +122,7 @@ export function Hero() {
       </div>
       <Sparkles />
 
-      <div className='relative sm:-mt-10 -mt-8 flex flex-col items-center text-center'>
+      <div className='relative -mt-8 flex flex-col items-center text-center sm:-mt-10'>
         <div className='animate-float-soft rounded-full border-4 border-transparent bg-card'>
           {/* Uses next/image directly (not the generated AvatarImage) so the LCP-critical
               avatar keeps Next's optimization, eager/high-priority loading and unoptimized-when-animated
@@ -119,19 +137,25 @@ export function Hero() {
               height={128}
               loading='eager'
               fetchPriority='high'
-              unoptimized={isAnimated || avatarUrl.includes('.gif') || avatarUrl.startsWith('/api')}
+              unoptimized={
+                isAnimated ||
+                avatarUrl.includes('.gif') ||
+                avatarUrl.startsWith('/api')
+              }
               className='size-full object-cover'
             />
           </Avatar>
         </div>
 
-        <h1 className='flex flex-wrap items-center justify-center gap-x-2 font-display text-3xl font-bold tracking-tight text-primary text-balance sm:text-4xl'>
+        <h1 className='flex flex-wrap items-center justify-center gap-x-2 font-display text-3xl font-bold tracking-tight text-balance text-primary sm:text-4xl'>
           <span>{profile.name}</span>
-          <span className='mt-2 inline-block animate-wiggle'>{profile.nameEmoji}</span>
+          <span className='animate-wiggle mt-2 inline-block'>
+            {profile.nameEmoji}
+          </span>
         </h1>
 
-        <p className='font-display text-base text-accent-foreground text-balance sm:text-lg'>{`☆ ${[`${age} years old`, ...profile.facts].join(' · ')} ♡`}</p>
-        <p className='mt-2 max-w-md text-base leading-relaxed text-muted-foreground whitespace-pre-line text-balance'>
+        <p className='font-display text-base text-balance text-accent-foreground sm:text-lg'>{`☆ ${[`${age} years old`, ...profile.facts].join(' · ')} ♡`}</p>
+        <p className='mt-2 max-w-md text-base leading-relaxed text-balance whitespace-pre-line text-muted-foreground'>
           {profile.bio}
         </p>
 
@@ -141,7 +165,10 @@ export function Hero() {
               return (
                 <li key={badge.label}>
                   <Badge variant='pill'>
-                    <badge.icon className='size-4 shrink-0 text-primary' aria-hidden='true' />
+                    <badge.icon
+                      className='size-4 shrink-0 text-primary'
+                      aria-hidden='true'
+                    />
                     {badge.label}
                   </Badge>
                 </li>

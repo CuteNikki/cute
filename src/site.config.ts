@@ -38,13 +38,15 @@ import {
 
 export const site = {
   title: 'niso ⋅ pastel corner ♡',
-  description: 'A soft, pastel-pink corner of the internet — plushies, cats & kindness.',
+  description:
+    'A soft, pastel-pink corner of the internet — plushies, cats & kindness.',
   url: 'https://cute.niso.moe',
   /**
    * The link preview image is drawn automatically from your profile below (avatar, name, age,
    * facts and the badges marked `showOnPreview`) - see src/app/opengraph-image.tsx. This is its description for screen readers.
    */
-  previewAlt: "Nikki Sophie's profile card - avatar, name and badges on a pastel pink background",
+  previewAlt:
+    "Nikki Sophie's profile card - avatar, name and badges on a pastel pink background",
 };
 
 // ─── discord ─────────────────────────────────────────────────────────────────
@@ -105,14 +107,54 @@ export const badges: ProfileBadge[] = [
 export const socials = {
   title: "let's be friends ♡",
   links: [
-    { icon: Gamepad2Icon, label: 'Discord', handle: '@cutenikki', href: `https://discord.com/users/${discordUserId}` },
-    { icon: CameraIcon, label: 'Instagram', handle: '@BlushingNikki', href: 'https://instagram.com/blushingnikki' },
-    { icon: GhostIcon, label: 'Snapchat', handle: '@BlushingNikki', href: 'https://www.snapchat.com/add/blushingnikki' },
-    { icon: BirdIcon, label: 'Twitter', handle: '@BlushingNikki', href: 'https://twitter.com/blushingnikki' },
-    { icon: PlayIcon, label: 'YouTube', handle: '@BlushingNikki', href: 'https://www.youtube.com/@BlushingNikki' },
-    { icon: ClapperboardIcon, label: 'Twitch', handle: '/CuteNikki', href: 'https://www.twitch.tv/cutenikki' },
-    { icon: Share2Icon, label: 'Steam', handle: '/BlushingNikki', href: 'https://steamcommunity.com/id/blushingnikki/' },
-    { icon: Code2Icon, label: 'GitHub', handle: '/CuteNikki', href: 'https://github.com/CuteNikki' },
+    {
+      icon: Gamepad2Icon,
+      label: 'Discord',
+      handle: '@cutenikki',
+      href: `https://discord.com/users/${discordUserId}`,
+    },
+    {
+      icon: CameraIcon,
+      label: 'Instagram',
+      handle: '@BlushingNikki',
+      href: 'https://instagram.com/blushingnikki',
+    },
+    {
+      icon: GhostIcon,
+      label: 'Snapchat',
+      handle: '@BlushingNikki',
+      href: 'https://www.snapchat.com/add/blushingnikki',
+    },
+    {
+      icon: BirdIcon,
+      label: 'Twitter',
+      handle: '@BlushingNikki',
+      href: 'https://twitter.com/blushingnikki',
+    },
+    {
+      icon: PlayIcon,
+      label: 'YouTube',
+      handle: '@BlushingNikki',
+      href: 'https://www.youtube.com/@BlushingNikki',
+    },
+    {
+      icon: ClapperboardIcon,
+      label: 'Twitch',
+      handle: '/CuteNikki',
+      href: 'https://www.twitch.tv/cutenikki',
+    },
+    {
+      icon: Share2Icon,
+      label: 'Steam',
+      handle: '/BlushingNikki',
+      href: 'https://steamcommunity.com/id/blushingnikki/',
+    },
+    {
+      icon: Code2Icon,
+      label: 'GitHub',
+      handle: '/CuteNikki',
+      href: 'https://github.com/CuteNikki',
+    },
   ],
 };
 
@@ -194,7 +236,11 @@ export type GalleryItem = {
   link?: { label: string; href: string };
 };
 
-export const gallery: { title: string; scrollHint: string; items: GalleryItem[] } = {
+export const gallery: {
+  title: string;
+  scrollHint: string;
+  items: GalleryItem[];
+} = {
   title: 'photo gallery',
   /** The "keep scrolling" button that shows on phones. */
   scrollHint: 'take a look at the gallery',
@@ -217,13 +263,17 @@ export const gallery: { title: string; scrollHint: string; items: GalleryItem[] 
       ],
       name: 'plush family',
       short: 'my cuddle buddies',
-      description: 'a super squishy plushie family that lives on my bed. they come everywhere with me on cozy nights.',
+      description:
+        'a super squishy plushie family that lives on my bed. they come everywhere with me on cozy nights.',
       details: [
         { label: 'favourite', value: 'goma (gray cat)' },
         { label: 'biggest crew', value: 'pusheen' },
         { label: 'also featuring', value: 'sanrio friends & sharks' },
       ],
-      link: { label: 'meet the whole family', href: 'https://plushies.niso.moe' },
+      link: {
+        label: 'meet the whole family',
+        href: 'https://plushies.niso.moe',
+      },
     },
     {
       images: [
@@ -274,10 +324,18 @@ export const gallery: { title: string; scrollHint: string; items: GalleryItem[] 
       ],
     },
     {
-      images: ['/items/onesie-goma.jpg', '/items/onesie.jpg', '/items/selfie-1.jpg', '/items/blocks-2.jpg', '/items/pacifier-1.png', '/items/necklace-1.jpg'],
+      images: [
+        '/items/onesie-goma.jpg',
+        '/items/onesie.jpg',
+        '/items/selfie-1.jpg',
+        '/items/blocks-2.jpg',
+        '/items/pacifier-1.png',
+        '/items/necklace-1.jpg',
+      ],
       name: 'peach & goma',
       short: 'my favourite cat duo',
-      description: 'peach and goma are everywhere in my life - on my pacifier, on my necklaces, and of course as my biggest, squishiest plushie.',
+      description:
+        'peach and goma are everywhere in my life - on my pacifier, on my necklaces, and of course as my biggest, squishiest plushie.',
       details: [
         { label: 'spotted on', value: 'pacifier, necklaces & plushies' },
         { label: 'favourite hobby', value: 'cuddling each other' },
@@ -307,10 +365,16 @@ export const gallery: { title: string; scrollHint: string; items: GalleryItem[] 
       ],
     },
     {
-      images: ['/items/backpack-1.jpg', '/items/backpack-2.jpg', '/items/backpack-3.jpg', '/items/backpack-4.jpg'],
+      images: [
+        '/items/backpack-1.jpg',
+        '/items/backpack-2.jpg',
+        '/items/backpack-3.jpg',
+        '/items/backpack-4.jpg',
+      ],
       name: 'display backpack',
       short: 'my soft carryall',
-      description: "a pastel pink backpack with a bunch of different metal pins. it's perfect for carrying my essentials on cozy adventures.",
+      description:
+        "a pastel pink backpack with a bunch of different metal pins. it's perfect for carrying my essentials on cozy adventures.",
       details: [
         { label: 'style', value: 'ita bag ♡' },
         { label: 'features', value: 'metal pins, keychains' },

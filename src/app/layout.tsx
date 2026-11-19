@@ -1,7 +1,6 @@
+import { site } from '@/site.config';
 import type { Metadata } from 'next';
 import { Fredoka, Nunito } from 'next/font/google';
-
-import { site } from '@/site.config';
 
 import { ThemeProvider } from '@/components/theme-provider';
 
@@ -50,9 +49,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en' className={`${fredoka.variable} ${nunito.variable}`} suppressHydrationWarning>
+    <html
+      lang='en'
+      className={`${fredoka.variable} ${nunito.variable}`}
+      suppressHydrationWarning
+    >
       <body className='bg-background font-sans antialiased'>
-        <ThemeProvider attribute='class' defaultTheme='light' enableSystem disableTransitionOnChange>
+        <ThemeProvider
+          attribute='class'
+          defaultTheme='light'
+          enableSystem
+          disableTransitionOnChange
+        >
           {children}
         </ThemeProvider>
       </body>

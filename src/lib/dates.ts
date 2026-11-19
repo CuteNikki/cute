@@ -10,7 +10,9 @@ export function parseDate(dateString: string) {
 // (dividing by 365.25 days is off by one on the day itself).
 export function yearsSince(date: Date, now = new Date()) {
   const years = now.getFullYear() - date.getFullYear();
-  const beforeAnniversary = now.getMonth() < date.getMonth() || (now.getMonth() === date.getMonth() && now.getDate() < date.getDate());
+  const beforeAnniversary =
+    now.getMonth() < date.getMonth() ||
+    (now.getMonth() === date.getMonth() && now.getDate() < date.getDate());
   return beforeAnniversary ? years - 1 : years;
 }
 
@@ -19,7 +21,9 @@ export function formatMilestoneDate(dateString: string) {
   const date = parseDate(dateString);
 
   const now = new Date();
-  const diffDays = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24));
+  const diffDays = Math.floor(
+    (now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24)
+  );
   const diffMonths = Math.floor(diffDays / 30);
   const diffYears = yearsSince(date, now);
 

@@ -1,8 +1,13 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-
 import { discordUserId } from '@/site.config';
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 
 export interface LanyardActivity {
   id: string;
@@ -44,16 +49,22 @@ interface LanyardContextProps {
   loading: boolean;
 }
 
-const LanyardContext = createContext<LanyardContextProps | undefined>(undefined);
+const LanyardContext = createContext<LanyardContextProps | undefined>(
+  undefined
+);
 
 export function LanyardProvider({ children }: { children: ReactNode }) {
-  const [presence, setPresence] = useState<LanyardResponse['data'] | null>(null);
+  const [presence, setPresence] = useState<LanyardResponse['data'] | null>(
+    null
+  );
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchStatus = async () => {
       try {
-        const res = await fetch(`https://api.lanyard.rest/v1/users/${discordUserId}`);
+        const res = await fetch(
+          `https://api.lanyard.rest/v1/users/${discordUserId}`
+        );
         const json: LanyardResponse = await res.json();
         if (json.success) {
           setPresence(json.data);
@@ -81,7 +92,11 @@ export function LanyardProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  return <LanyardContext.Provider value={{ presence, loading }}>{children}</LanyardContext.Provider>;
+  return (
+    <LanyardContext.Provider value={{ presence, loading }}>
+      {children}
+    </LanyardContext.Provider>
+  );
 }
 
 export function useLanyard() {

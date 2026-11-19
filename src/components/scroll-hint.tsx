@@ -1,12 +1,10 @@
 'use client';
 
+import { gallery } from '@/site.config';
+import { AnimatePresence, motion } from 'motion/react';
 import { useEffect, useState } from 'react';
 
-import { AnimatePresence, motion } from 'motion/react';
-
 import { ChevronDownIcon } from 'lucide-react';
-
-import { gallery } from '@/site.config';
 
 /**
  * A mobile-only nudge that appears above the fold to encourage visitors to
@@ -32,13 +30,15 @@ export function ScrollHint() {
 
   function scrollToGallery() {
     setDismissed(true);
-    document.getElementById('gallery')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document
+      .getElementById('gallery')
+      ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   return (
     <AnimatePresence>
       {!dismissed && (
-        <div className='pointer-events-none fixed inset-x-0 bottom-0 z-40 flex justify-center bg-linear-to-t from-background via-background/85 to-transparent pb-5 pt-10 lg:hidden'>
+        <div className='pointer-events-none fixed inset-x-0 bottom-0 z-40 flex justify-center bg-linear-to-t from-background via-background/85 to-transparent pt-10 pb-5 lg:hidden'>
           <motion.button
             type='button'
             onClick={scrollToGallery}

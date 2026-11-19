@@ -18,8 +18,12 @@ export function Socials() {
               <Icon className='size-5' aria-hidden='true' />
             </span>
             <span className='min-w-0'>
-              <span className='block truncate font-display text-sm font-semibold text-foreground'>{label}</span>
-              <span className='block truncate text-xs text-muted-foreground'>{handle}</span>
+              <span className='block truncate font-display text-sm font-semibold text-foreground'>
+                {label}
+              </span>
+              <span className='block truncate text-xs text-muted-foreground'>
+                {handle}
+              </span>
             </span>
           </a>
         ))}
