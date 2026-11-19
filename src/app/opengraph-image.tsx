@@ -1,5 +1,6 @@
-import { badges, discordUserId, profile, site } from '@/site.config';
 import { ImageResponse } from 'next/og';
+
+import { badges, discordUserId, profile, site } from '@/site.config';
 
 import { parseDate, yearsSince } from '@/lib/dates';
 

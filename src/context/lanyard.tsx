@@ -1,6 +1,5 @@
 'use client';
 
-import { discordUserId } from '@/site.config';
 import {
   createContext,
   ReactNode,
@@ -8,6 +7,8 @@ import {
   useEffect,
   useState,
 } from 'react';
+
+import { discordUserId } from '@/site.config';
 
 export interface LanyardActivity {
   id: string;

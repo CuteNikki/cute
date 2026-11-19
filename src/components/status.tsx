@@ -1,11 +1,12 @@
 'use client';
 
-import { LanyardActivity, useLanyard } from '@/context/lanyard';
-import { status } from '@/site.config';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 import { Gamepad2Icon, MoonIcon, SparklesIcon } from 'lucide-react';
+
+import { LanyardActivity, useLanyard } from '@/context/lanyard';
+import { status } from '@/site.config';
 
 import { SectionTitle } from '@/components/section-title';
 import { Card } from '@/components/ui/card';

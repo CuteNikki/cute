@@ -1,7 +1,8 @@
-import { footer } from '@/site.config';
 import Link from 'next/link';
 
 import { HeartIcon, SparklesIcon } from 'lucide-react';
+
+import { footer } from '@/site.config';
 
 export function Footer() {
   return (

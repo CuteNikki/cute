@@ -1,10 +1,11 @@
 'use client';
 
-import { gallery } from '@/site.config';
 import { AnimatePresence, motion } from 'motion/react';
 import { useEffect, useState } from 'react';
 
 import { ChevronDownIcon } from 'lucide-react';
+
+import { gallery } from '@/site.config';
 
 /**
  * A mobile-only nudge that appears above the fold to encourage visitors to

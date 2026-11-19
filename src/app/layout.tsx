@@ -1,6 +1,7 @@
-import { site } from '@/site.config';
 import type { Metadata } from 'next';
 import { Fredoka, Nunito } from 'next/font/google';
+
+import { site } from '@/site.config';
 
 import { ThemeProvider } from '@/components/theme-provider';
 

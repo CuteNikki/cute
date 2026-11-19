@@ -1,11 +1,12 @@
 'use client';
 
-import { useLanyard } from '@/context/lanyard';
-import { badges, profile, type ProfileBadge } from '@/site.config';
 import Image from 'next/image';
 import { useState } from 'react';
 
 import { InfoIcon } from 'lucide-react';
+
+import { useLanyard } from '@/context/lanyard';
+import { badges, profile, type ProfileBadge } from '@/site.config';
 
 import { formatMilestoneDate, parseDate, yearsSince } from '@/lib/dates';
 

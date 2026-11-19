@@ -1,6 +1,5 @@
 'use client';
 
-import { gallery, type GalleryItem } from '@/site.config';
 import { motion } from 'motion/react';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
@@ -13,6 +12,8 @@ import {
   Maximize2Icon,
   XIcon,
 } from 'lucide-react';
+
+import { gallery, type GalleryItem } from '@/site.config';
 
 import { cn } from '@/lib/utils';
 
