@@ -1,9 +1,6 @@
 import type { Metadata } from 'next';
 import { Fredoka, Nunito } from 'next/font/google';
 
-import { Analytics } from '@vercel/analytics/next';
-import { SpeedInsights } from '@vercel/speed-insights/next';
-
 import { site } from '@/site.config';
 
 import { ThemeProvider } from '@/components/theme-provider';
@@ -57,8 +54,6 @@ export default function RootLayout({
       <body className='bg-background font-sans antialiased'>
         <ThemeProvider attribute='class' defaultTheme='light' enableSystem disableTransitionOnChange>
           {children}
-          <Analytics />
-          <SpeedInsights />
         </ThemeProvider>
       </body>
     </html>
