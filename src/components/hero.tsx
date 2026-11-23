@@ -1,14 +1,13 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 
 import { InfoIcon } from 'lucide-react';
 
 import { useLanyard } from '@/context/lanyard';
-import { badges, profile, type ProfileBadge } from '@/site.config';
 
-import { formatMilestoneDate, parseDate, yearsSince } from '@/lib/dates';
+import type { Badge as BadgeContent, SectionContent } from '@/lib/content';
 
 import { Sparkles } from '@/components/sparkles';
 import { Avatar } from '@/components/ui/avatar';
@@ -20,7 +19,11 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 
-const age = yearsSince(parseDate(profile.dateOfBirth));
+/**
+ * A badge with its icon drawn and its milestones' dates written out, on the
+ * server (see the page), so the page is prerendered with them.
+ */
+export type ProfileBadge = Omit<BadgeContent, 'icon'> & { icon: ReactNode };
 
 function BadgeTooltip(badge: ProfileBadge) {
   const [open, setOpen] = useState(false);
@@ -45,10 +48,7 @@ function BadgeTooltip(badge: ProfileBadge) {
           />
         }
       >
-        <badge.icon
-          className='size-4 shrink-0 text-primary'
-          aria-hidden='true'
-        />
+        {badge.icon}
         {badge.label}
         <InfoIcon
           className='size-4 text-muted-foreground transition-colors group-hover:text-primary'
@@ -77,9 +77,7 @@ function BadgeTooltip(badge: ProfileBadge) {
                 <span className='font-medium text-foreground'>
                   {milestone.label}
                 </span>
-                <span className='text-muted-foreground'>
-                  {formatMilestoneDate(milestone.date)}
-                </span>
+                <span className='text-muted-foreground'>{milestone.date}</span>
               </div>
             ))}
           </div>
@@ -91,15 +89,26 @@ function BadgeTooltip(badge: ProfileBadge) {
   );
 }
 
-export function Hero() {
+export function Hero({
+  profile,
+  badges,
+  age,
+  bannerVersion,
+}: {
+  profile: Omit<SectionContent<'profile'>, 'badges'>;
+  badges: ProfileBadge[];
+  /** Worked out on the server, which makes the page again hourly. */
+  age: number;
+  /** Changes daily, see bannerUrl. */
+  bannerVersion: string;
+}) {
   const { presence } = useLanyard();
 
   // dstn.to's banner URL has no hash/version in it (unlike the avatar URL below), so
   // browsers happily cache it indefinitely and never notice when the banner changes.
   // Busting the query string once a day forces a fresh fetch without relying on
   // visitors manually clearing site data.
-  const cacheBust = new Date().toISOString().slice(0, 10);
-  const bannerUrl = `https://dcdn.dstn.to/banners/${presence?.discord_user?.id}?size=1024&cb=${cacheBust}`;
+  const bannerUrl = `https://dcdn.dstn.to/banners/${presence?.discord_user?.id}?size=1024&cb=${bannerVersion}`;
 
   const isAnimated = presence?.discord_user?.avatar?.startsWith('a_') || false;
   const extension = isAnimated ? 'gif' : 'webp';
@@ -166,10 +175,7 @@ export function Hero() {
               return (
                 <li key={badge.label}>
                   <Badge variant='pill'>
-                    <badge.icon
-                      className='size-4 shrink-0 text-primary'
-                      aria-hidden='true'
-                    />
+                    {badge.icon}
                     {badge.label}
                   </Badge>
                 </li>

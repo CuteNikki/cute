@@ -6,7 +6,8 @@ import { useEffect, useState } from 'react';
 import { Gamepad2Icon, MoonIcon, SparklesIcon } from 'lucide-react';
 
 import { LanyardActivity, useLanyard } from '@/context/lanyard';
-import { status } from '@/site.config';
+
+import { ACTIVITY_TYPES, type SectionContent } from '@/lib/content';
 
 import { SectionTitle } from '@/components/section-title';
 import { Card } from '@/components/ui/card';
@@ -76,7 +77,17 @@ function useActivityTimeline(timestamps?: { start?: number; end?: number }) {
   return timeline;
 }
 
-export function StatusSection() {
+type Status = SectionContent<'status'>;
+
+/** The label each kind of Discord activity is introduced with. */
+function activityLabel(status: Status, type: number) {
+  const kind = (
+    Object.keys(ACTIVITY_TYPES) as (keyof typeof ACTIVITY_TYPES)[]
+  ).find((key) => ACTIVITY_TYPES[key] === type);
+  return kind ? status.activityLabels[kind] : status.fallbackActivityLabel;
+}
+
+export function StatusSection({ status }: { status: Status }) {
   const { presence, loading } = useLanyard();
 
   const realActivities =
@@ -116,7 +127,11 @@ export function StatusSection() {
           <div className='w-full min-w-0 space-y-4 overflow-hidden'>
             {realActivities.length > 0 ? (
               realActivities.map((activity) => (
-                <ActivityCard key={activity.id} activity={activity} />
+                <ActivityCard
+                  status={status}
+                  key={activity.id}
+                  activity={activity}
+                />
               ))
             ) : (
               <Card className='w-full min-w-0 gap-0 overflow-hidden'>
@@ -188,7 +203,13 @@ export function getActivityImages(activity: LanyardActivity) {
   return { largeImageUrl, smallImageUrl };
 }
 
-function ActivityCard({ activity }: { activity: LanyardActivity }) {
+function ActivityCard({
+  activity,
+  status,
+}: {
+  activity: LanyardActivity;
+  status: Status;
+}) {
   const { current, total, percent } = useActivityTimeline(activity.timestamps);
 
   const { largeImageUrl, smallImageUrl } = getActivityImages(activity);
@@ -198,7 +219,7 @@ function ActivityCard({ activity }: { activity: LanyardActivity }) {
     <Card className='flex w-full min-w-0 flex-col gap-0 overflow-hidden'>
       <div className='mb-3 flex max-w-full min-w-0 flex-row items-baseline gap-2 overflow-hidden'>
         <p className='shrink-0 text-xs leading-none font-bold tracking-wider text-muted-foreground uppercase'>
-          {status.activityLabels[activity.type] || status.fallbackActivityLabel}
+          {activityLabel(status, activity.type)}
         </p>
         <p className='min-w-0 flex-1 truncate font-display text-base leading-none font-semibold text-foreground'>
           {activity.name}

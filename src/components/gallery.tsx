@@ -13,8 +13,7 @@ import {
   XIcon,
 } from 'lucide-react';
 
-import { gallery, type GalleryItem } from '@/site.config';
-
+import type { GalleryItem } from '@/lib/content';
 import { cn } from '@/lib/utils';
 
 import { SectionTitle } from '@/components/section-title';
@@ -222,7 +221,13 @@ function FullViewImage({
   );
 }
 
-export function Gallery() {
+export function Gallery({
+  title,
+  items,
+}: {
+  title: string;
+  items: GalleryItem[];
+}) {
   const [selected, setSelected] = useState<GalleryItem | null>(null);
   const [activePhoto, setActivePhoto] = useState(0);
   const [fullView, setFullView] = useState(false);
@@ -279,7 +284,7 @@ export function Gallery() {
       aria-labelledby='gallery-heading'
       className='scroll-mt-6 space-y-4'
     >
-      <SectionTitle id='gallery-heading'>{gallery.title}</SectionTitle>
+      <SectionTitle id='gallery-heading'>{title}</SectionTitle>
 
       <Dialog
         open={selected !== null}
@@ -312,9 +317,9 @@ export function Gallery() {
         }}
       >
         <div className='grid grid-cols-1 gap-4 xxs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4'>
-          {gallery.items.map((thing, index) => (
+          {items.map((thing, index) => (
             <DialogTrigger
-              key={thing.name}
+              key={thing.id}
               render={
                 <button
                   type='button'

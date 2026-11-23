@@ -2,9 +2,9 @@ import Link from 'next/link';
 
 import { HeartIcon, SparklesIcon } from 'lucide-react';
 
-import { footer } from '@/site.config';
+import type { SectionContent } from '@/lib/content';
 
-export function Footer() {
+export function Footer({ footer }: { footer: SectionContent<'footer'> }) {
   return (
     <footer className='mt-4 flex flex-col items-center justify-center gap-2 overflow-hidden rounded-3xl border border-border bg-card p-6 text-center shadow-sm'>
       <p className='flex max-w-full flex-wrap items-center justify-center gap-1 px-2 font-display text-sm leading-tight font-semibold text-primary'>

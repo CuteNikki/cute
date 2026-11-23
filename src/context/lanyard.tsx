@@ -8,8 +8,6 @@ import {
   useState,
 } from 'react';
 
-import { discordUserId } from '@/site.config';
-
 export interface LanyardActivity {
   id: string;
   name: string;
@@ -54,7 +52,13 @@ const LanyardContext = createContext<LanyardContextProps | undefined>(
   undefined
 );
 
-export function LanyardProvider({ children }: { children: ReactNode }) {
+export function LanyardProvider({
+  discordUserId,
+  children,
+}: {
+  discordUserId: string;
+  children: ReactNode;
+}) {
   const [presence, setPresence] = useState<LanyardResponse['data'] | null>(
     null
   );
@@ -91,7 +95,7 @@ export function LanyardProvider({ children }: { children: ReactNode }) {
       clearInterval(interval);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, []);
+  }, [discordUserId]);
 
   return (
     <LanyardContext.Provider value={{ presence, loading }}>

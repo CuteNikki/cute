@@ -1,10 +1,11 @@
-import { about } from '@/site.config';
+import type { SectionContent } from '@/lib/content';
+import { Icon } from '@/lib/icons';
 
 import { SectionTitle } from '@/components/section-title';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 
-export function AboutSection() {
+export function AboutSection({ about }: { about: SectionContent<'about'> }) {
   return (
     <section aria-labelledby='about-heading' className='space-y-4'>
       <SectionTitle id='about-heading'>{about.title}</SectionTitle>
@@ -31,12 +32,12 @@ export function AboutSection() {
               {about.mediaTitle}
             </h3>
             <ul className='mt-3 flex flex-wrap gap-2'>
-              {about.media.map(({ label, icon: Icon }) => (
+              {about.media.map(({ label, icon }) => (
                 <li key={label}>
                   <Badge variant='pill'>
                     <Icon
+                      name={icon}
                       className='size-4 shrink-0 text-primary'
-                      aria-hidden='true'
                     />
                     <span>{label}</span>
                   </Badge>
@@ -52,13 +53,10 @@ export function AboutSection() {
             {about.interestsTitle}
           </h3>
           <ul className='mt-3 flex flex-wrap gap-2 sm:grid sm:grid-cols-1'>
-            {about.interests.map(({ icon: Icon, label }) => (
+            {about.interests.map(({ icon, label }) => (
               <li key={label}>
                 <Badge variant='pill'>
-                  <Icon
-                    className='size-4 shrink-0 text-primary'
-                    aria-hidden='true'
-                  />
+                  <Icon name={icon} className='size-4 shrink-0 text-primary' />
                   <span>{label}</span>
                 </Badge>
               </li>

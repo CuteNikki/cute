@@ -1,16 +1,21 @@
+import { cacheLife } from 'next/cache';
 import { ImageResponse } from 'next/og';
 
-import { badges, discordUserId, profile, site } from '@/site.config';
+import { getContent } from '@/data/content';
 
 import { parseDate, yearsSince } from '@/lib/dates';
 
 // The link preview card that shows up when the site is shared (discord, twitter, imessage...).
-// Everything on it comes from site.config.ts. Rebuilt hourly so the age and avatar stay current.
+// Everything on it comes from the site's content, edited in /admin. Its parts are cached for an
+// hour, so the age and avatar stay current.
 
-export const alt = site.previewAlt;
-export const size = { width: 1200, height: 630 };
-export const contentType = 'image/png';
-export const revalidate = 3600;
+const size = { width: 1200, height: 630 };
+
+// One image, described by the content's previewAlt.
+export async function generateImageMetadata() {
+  const { site } = await getContent();
+  return [{ id: 'card', alt: site.previewAlt, size, contentType: 'image/png' }];
+}
 
 // Satori (what draws this) can't read the oklch() theme tokens, so these are the hex equivalents
 // of the light theme in globals.css.
@@ -28,6 +33,8 @@ const colors = {
 // Google Fonts serves a .ttf when asked without a browser user agent, and `text=` trims it down to
 // just the glyphs we draw. Falls back to the built-in font if Google can't be reached at build time.
 async function loadGoogleFont(family: string, weight: number, text: string) {
+  'use cache';
+  cacheLife('hours');
   try {
     const css = await (
       await fetch(
@@ -51,7 +58,9 @@ async function loadGoogleFont(family: string, weight: number, text: string) {
 
 // Same source as the live avatar on the page. Discord's .png is used even for animated avatars,
 // since the preview is a still image anyway.
-async function getAvatarUrl() {
+async function getAvatarUrl(discordUserId: string) {
+  'use cache';
+  cacheLife('hours');
   try {
     const res = await fetch(
       `https://api.lanyard.rest/v1/users/${discordUserId}`
@@ -65,13 +74,14 @@ async function getAvatarUrl() {
 }
 
 export default async function Image() {
-  const previewBadges = badges.filter((badge) => badge.showOnPreview);
+  const { site, profile } = await getContent();
+  const previewBadges = profile.badges.filter((badge) => badge.showOnPreview);
   const age = yearsSince(parseDate(profile.dateOfBirth));
   const facts = [`${age} years old`, ...profile.facts].join(' · ');
   const domain = new URL(site.url).host;
 
   const [avatarUrl, fredoka, nunito] = await Promise.all([
-    getAvatarUrl(),
+    getAvatarUrl(site.discordUserId),
     loadGoogleFont('Fredoka', 700, profile.name),
     loadGoogleFont(
       'Nunito',

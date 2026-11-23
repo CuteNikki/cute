@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Fredoka, Nunito } from 'next/font/google';
 
-import { site } from '@/site.config';
+import { getContent } from '@/data/content';
 
 import { ThemeProvider } from '@/components/theme-provider';
 
@@ -21,28 +21,31 @@ const nunito = Nunito({
 
 // The preview image itself comes from opengraph-image.tsx next to this file - Next.js wires it up
 // automatically, so it's deliberately not listed under `images` here.
-export const metadata: Metadata = {
-  metadataBase: new URL(site.url),
-  title: site.title,
-  description: site.description,
-  alternates: { canonical: '/' },
-  openGraph: {
+export async function generateMetadata(): Promise<Metadata> {
+  const { site } = await getContent();
+  return {
+    metadataBase: new URL(site.url),
     title: site.title,
     description: site.description,
-    url: '/',
-    siteName: site.title,
-    locale: 'en_US',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: site.title,
-    description: site.description,
-  },
-  icons: {
-    icon: '/favicon.ico',
-  },
-};
+    alternates: { canonical: '/' },
+    openGraph: {
+      title: site.title,
+      description: site.description,
+      url: '/',
+      siteName: site.title,
+      locale: 'en_US',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: site.title,
+      description: site.description,
+    },
+    icons: {
+      icon: '/favicon.ico',
+    },
+  };
+}
 
 export default function RootLayout({
   children,
