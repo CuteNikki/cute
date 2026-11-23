@@ -68,7 +68,57 @@ some things you might not notice at first, but i love them:
 - [motion](https://motion.dev) for animations and swipe gestures
 - [lucide](https://lucide.dev) for icons
 - [lanyard](https://github.com/phineas/lanyard) for the live discord status, avatar and banner
-- [vercel](https://vercel.com) for hosting
+- [prisma](https://www.prisma.io) on postgres for everything the page shows
+- [better auth](https://www.better-auth.com) for signing in to the admin area
+- [garage](https://garagehq.deuxfleurs.fr), an s3-compatible store on my own server, for the photos
+- docker on my own server for hosting
+
+## the admin area
+
+everything on the page lives in a database, and i change it at `/admin` instead of in the code:
+
+- **profile, socials, about, status, footer, site** - a page each, with every text, list and icon of that part. lists can be dragged into a new order (or moved with the keyboard), and icons are picked by searching [lucide](https://lucide.dev/icons)
+- **gallery** - add, edit, reorder and delete the cards, each with its photos picked from the library
+- **photos** - the library. new photos are made smaller in the browser and uploaded straight to storage; one can be deleted once no card has it
+- **account** - passkeys, to sign in without discord
+
+saving shows the change on the site straight away. only one discord account can sign in: the one `ADMIN_DISCORD_ID` names. there's no sign-up and no password.
+
+## running it yourself
+
+you need [bun](https://bun.sh), node 22.12 or newer, and a postgres database.
+
+1. copy `.env.example` to `.env` and fill it in
+2. install, set up the database and start the site:
+
+```bash
+bun install          # also makes the prisma client
+bun db:migrate       # creates the tables
+bun db:seed          # fills an empty database with my content, to start from
+bun dev
+```
+
+3. sign in at `/sign-in` with the discord account `ADMIN_DISCORD_ID` names
+
+| setting | what it's for |
+| --- | --- |
+| `DATABASE_URL` | the postgres database |
+| `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL` | signing in: a random secret, and where the site runs (passkeys only work there) |
+| `DISCORD_CLIENT_ID`, `DISCORD_CLIENT_SECRET` | a discord application's oauth2 client, with `<site>/api/auth/callback/discord` as a redirect |
+| `ADMIN_DISCORD_ID` | the discord user id that can sign in |
+| `STORAGE_ACCESS_KEY_ID`, `STORAGE_SECRET_ACCESS_KEY` | the photo storage's key (see below). `STORAGE_REGION` is `garage` unless set |
+
+### photos
+
+photos are kept in a bucket of their own in an s3-compatible store (garage, here). its address is in `src/lib/photos.ts` (where they're shown from) and `src/lib/storage.ts` (where they're uploaded to). the bucket needs:
+
+- a key that can read and write it, and nothing else
+- website access, so photos can be shown from it
+- a cors rule allowing `PUT` with a `content-type` header from the site's address, since the browser uploads to it directly
+
+### docker
+
+`docker compose up -d --build` runs the database's migrations and then the site, on port 3000 (or `PORT`). the build reads `.env` as a build secret, because it prerenders the page from the database, so the database has to be reachable while building.
 
 ## license
 
