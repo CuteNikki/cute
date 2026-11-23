@@ -1,0 +1,149 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+/// Everything on the page except the gallery's cards, in one row (id 1).
+/// Each section is JSON in the shape its schema in src/lib/content.ts gives,
+/// and is saved as a whole from its page in /admin.
+model Settings {
+  id        Int      @id @default(1)
+  site      Json
+  profile   Json
+  socials   Json
+  about     Json
+  status    Json
+  gallery   Json
+  footer    Json
+  updatedAt DateTime @updatedAt
+}
+
+/// A photo in the cute bucket, shown at images.niso.moe/cute/<key>. One photo
+/// can be on several gallery cards.
+model Photo {
+  id        String             @id @default(cuid())
+  /// Where it is in the bucket: items/<name> for the photos from before the
+  /// admin area, photos/<id>.<extension> for uploads.
+  key       String             @unique
+  createdAt DateTime           @default(now())
+  items     GalleryItemPhoto[]
+}
+
+/// A card in the photo gallery. The first is shown extra wide on big screens.
+model GalleryItem {
+  id          String             @id @default(cuid())
+  position    Int
+  name        String
+  /// One-liner on the card itself.
+  short       String
+  /// Longer text in the popup, with a blank line between paragraphs.
+  description String
+  /// { label, value } pairs under the description.
+  details     Json               @default("[]")
+  /// A larger grid of { label, value } pairs, e.g. pc specs.
+  specs       Json               @default("[]")
+  /// An optional { label, href } link at the bottom of the popup.
+  link        Json?
+  photos      GalleryItemPhoto[]
+}
+
+/// A photo on a gallery card, in the card's order.
+model GalleryItemPhoto {
+  itemId   String
+  item     GalleryItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  photoId  String
+  /// A photo on a card can't be deleted until it's taken off every card.
+  photo    Photo       @relation(fields: [photoId], references: [id], onDelete: Restrict)
+  position Int
+
+  @@id([itemId, photoId])
+  @@index([photoId])
+}
+
+// Better Auth's tables. Only the owner can sign in: with Discord (only the
+// account ADMIN_DISCORD_ID names) or a passkey added afterwards.
+
+model User {
+  id            String    @id
+  name          String
+  email         String    @unique
+  emailVerified Boolean   @default(false)
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  sessions      Session[]
+  accounts      Account[]
+  passkeys      Passkey[]
+
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String   @unique
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
+}
+
+model Passkey {
+  id           String    @id
+  name         String?
+  publicKey    String
+  userId       String
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  credentialID String
+  counter      Int
+  deviceType   String
+  backedUp     Boolean
+  transports   String?
+  createdAt    DateTime?
+  aaguid       String?
+
+  @@index([userId])
+  @@index([credentialID])
+  @@map("passkey")
+}

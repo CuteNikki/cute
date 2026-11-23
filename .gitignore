@@ -42,3 +42,6 @@ next-env.d.ts
 
 # Settings for one server only (networks, names), kept on that server
 compose.override.yaml
+
+# Prisma's client, made by bun install (postinstall)
+/src/lib/generated/prisma
