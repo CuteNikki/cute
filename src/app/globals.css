@@ -157,6 +157,11 @@ body:has([data-admin]) {
      out. Chromium ignores the styles wherever scrollbar-width or
      scrollbar-color is set, so those are only for other browsers, like
      Firefox. */
+  /* The page's scrollbar keeps its room while a popup hides it (overflow
+     hidden on <html>), so nothing jumps sideways */
+  html {
+    scrollbar-gutter: stable;
+  }
   ::-webkit-scrollbar {
     width: 10px;
     height: 10px;

@@ -265,18 +265,21 @@ export function Gallery({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected, activePhoto, fullView]);
 
-  // The dialog skips Base UI's scroll lock (see modal='trap-focus' below), so full view locks it
-  // itself: otherwise a one-finger drag on the overlay invisibly scrolls the page behind it.
-  // Native pinch-zoom panning moves the visual viewport, not the document, so it still works.
+  // The dialog skips Base UI's scroll lock (see modal='trap-focus' below), so it locks the page
+  // itself while open, full view included: otherwise the wheel or a one-finger drag on the
+  // overlay scrolls the page behind it. Only overflow, which leaves every gesture alone; native
+  // pinch-zoom panning moves the visual viewport, not the document, so it still works. The
+  // page's scrollbar keeps its room (scrollbar-gutter in globals.css), so nothing shifts.
+  const open = selected !== null;
   useEffect(() => {
-    if (!fullView) return;
+    if (!open) return;
     const root = document.documentElement;
     const previous = root.style.overflow;
     root.style.overflow = 'hidden';
     return () => {
       root.style.overflow = previous;
     };
-  }, [fullView]);
+  }, [open]);
 
   return (
     <section
@@ -291,8 +294,8 @@ export function Gallery({
         // 'trap-focus' keeps keyboard focus trapped (still correct a11y) but skips modal
         // scroll-locking, which otherwise has to inspect every wheel/touchmove event on the page
         // (including our own zoom/pan gestures below) to decide whether to block it - a real,
-        // well-known source of jank for exactly those gesture types. The overlay already covers
-        // the full viewport, so there's no visible difference from losing the scroll lock.
+        // well-known source of jank for exactly those gesture types. The page is locked with
+        // overflow instead (see above).
         modal='trap-focus'
         onOpenChange={(open, eventDetails) => {
           if (open) return;
