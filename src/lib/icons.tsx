@@ -2,7 +2,8 @@ import 'server-only';
 
 import { createElement } from 'react';
 
-import { icons, SparklesIcon } from 'lucide-react';
+import * as lucide from 'lucide-react';
+import { SparklesIcon, type LucideIcon } from 'lucide-react';
 
 /**
  * Icons are kept by their lucide name (https://lucide.dev/icons), e.g.
@@ -14,7 +15,12 @@ function lucideIcon(name: string) {
     .split('-')
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
     .join('');
-  return Object.hasOwn(icons, key) ? icons[key as keyof typeof icons] : null;
+  // Every icon, old names included, is exported as <Name>Icon too, which
+  // nothing else lucide exports is called.
+  const exportName = `${key}Icon`;
+  return Object.hasOwn(lucide, exportName)
+    ? (lucide[exportName as keyof typeof lucide] as LucideIcon)
+    : null;
 }
 
 /** Whether lucide has an icon called `name`. */
