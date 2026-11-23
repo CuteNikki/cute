@@ -5,8 +5,8 @@ import { cacheLife, cacheTag } from 'next/cache';
 import {
   sectionSchemas,
   type Content,
+  type DetailGroup,
   type GalleryItem,
-  type LabelValue,
   type Section,
 } from '@/lib/content';
 import { db } from '@/lib/db';
@@ -58,8 +58,7 @@ export async function getGalleryItems(): Promise<GalleryItem[]> {
     name: item.name,
     short: item.short,
     description: item.description,
-    details: item.details as LabelValue[],
-    specs: item.specs as LabelValue[],
+    details: item.details as DetailGroup[],
     link: item.link as GalleryItem['link'],
     images: item.photos.map(({ photo }) => photoUrl(photo.key)),
   }));

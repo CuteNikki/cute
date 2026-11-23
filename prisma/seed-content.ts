@@ -239,19 +239,24 @@ export const items = [
       'a super squishy plushie family that lives on my bed. they come everywhere with me on cozy nights.',
     details: [
       {
-        label: 'favourite',
-        value: 'goma (gray cat)',
-      },
-      {
-        label: 'biggest crew',
-        value: 'pusheen',
-      },
-      {
-        label: 'also featuring',
-        value: 'sanrio friends & sharks',
+        name: '',
+        style: 'rows',
+        items: [
+          {
+            label: 'favourite',
+            value: 'goma (gray cat)',
+          },
+          {
+            label: 'biggest crew',
+            value: 'pusheen',
+          },
+          {
+            label: 'also featuring',
+            value: 'sanrio friends & sharks',
+          },
+        ],
       },
     ],
-    specs: [],
     link: {
       label: 'meet the whole family',
       href: 'https://plushies.niso.moe',
@@ -279,19 +284,24 @@ export const items = [
       'selfies and photos of me in my comfiest loungewear. a cozy shark onesie, my favourite kaomoji tee, a soft pink hoodie, and the pajama i live in on lazy days.',
     details: [
       {
-        label: 'comfort fit',
-        value: 'shark onesie',
-      },
-      {
-        label: 'wardrobe',
-        value: 'tees, hoodies & pjs',
-      },
-      {
-        label: 'photo buddy',
-        value: 'usually a plushie',
+        name: '',
+        style: 'rows',
+        items: [
+          {
+            label: 'comfort fit',
+            value: 'shark onesie',
+          },
+          {
+            label: 'wardrobe',
+            value: 'tees, hoodies & pjs',
+          },
+          {
+            label: 'photo buddy',
+            value: 'usually a plushie',
+          },
+        ],
       },
     ],
-    specs: [],
     link: null,
     photos: [
       'items/dress.jpg',
@@ -314,19 +324,24 @@ export const items = [
       'the things that help me feel safe and small.\nmy pastel pink pacifier with stars, clouds and cuddling kittens. my baby bottle with warm milk for bedtime. and yes, i actually use them regularly.\nrecently picked up a big box of duplo building blocks with a little town play mat, where i build things on cozy evenings.',
     details: [
       {
-        label: 'comfort',
-        value: 'pacifier & bottle',
-      },
-      {
-        label: 'playtime',
-        value: 'blocks & play mat',
-      },
-      {
-        label: 'royalty',
-        value: 'goma',
+        name: '',
+        style: 'rows',
+        items: [
+          {
+            label: 'comfort',
+            value: 'pacifier & bottle',
+          },
+          {
+            label: 'playtime',
+            value: 'blocks & play mat',
+          },
+          {
+            label: 'royalty',
+            value: 'goma',
+          },
+        ],
       },
     ],
-    specs: [],
     link: null,
     photos: [
       'items/pacifier-1.png',
@@ -349,19 +364,24 @@ export const items = [
       'peach and goma are everywhere in my life - on my pacifier, on my necklaces, and of course as my biggest, squishiest plushie.',
     details: [
       {
-        label: 'spotted on',
-        value: 'pacifier, necklaces & plushies',
-      },
-      {
-        label: 'favourite hobby',
-        value: 'cuddling each other',
-      },
-      {
-        label: 'always found',
-        value: 'side by side',
+        name: '',
+        style: 'rows',
+        items: [
+          {
+            label: 'spotted on',
+            value: 'pacifier, necklaces & plushies',
+          },
+          {
+            label: 'favourite hobby',
+            value: 'cuddling each other',
+          },
+          {
+            label: 'always found',
+            value: 'side by side',
+          },
+        ],
       },
     ],
-    specs: [],
     link: null,
     photos: [
       'items/onesie-goma.jpg',
@@ -379,19 +399,24 @@ export const items = [
       'a beautiful bouquet my partner surprised me with, plus the sweetest little card to go with it.\nand our matching pair of cat pendant necklaces - one for me and one for them.',
     details: [
       {
-        label: 'makes me feel',
-        value: 'loved & giggly',
-      },
-      {
-        label: 'birthday surprise',
-        value: 'a bouquet & card',
-      },
-      {
-        label: 'our pendants',
-        value: 'one peach, one goma',
+        name: '',
+        style: 'rows',
+        items: [
+          {
+            label: 'makes me feel',
+            value: 'loved & giggly',
+          },
+          {
+            label: 'birthday surprise',
+            value: 'a bouquet & card',
+          },
+          {
+            label: 'our pendants',
+            value: 'one peach, one goma',
+          },
+        ],
       },
     ],
-    specs: [],
     link: null,
     photos: [
       'items/flowers-1.jpg',
@@ -412,19 +437,24 @@ export const items = [
       "a pastel pink backpack with a bunch of different metal pins. it's perfect for carrying my essentials on cozy adventures.",
     details: [
       {
-        label: 'style',
-        value: 'ita bag ♡',
-      },
-      {
-        label: 'features',
-        value: 'metal pins, keychains',
-      },
-      {
-        label: 'use',
-        value: 'cozy adventures',
+        name: '',
+        style: 'rows',
+        items: [
+          {
+            label: 'style',
+            value: 'ita bag ♡',
+          },
+          {
+            label: 'features',
+            value: 'metal pins, keychains',
+          },
+          {
+            label: 'use',
+            value: 'cozy adventures',
+          },
+        ],
       },
     ],
-    specs: [],
     link: null,
     photos: [
       'items/backpack-1.jpg',
@@ -440,90 +470,100 @@ export const items = [
       'my cozy little battlestation - soft pastel lighting, a glowing pc build, and way too many plushies crowding the desk. full specs below, for the curious.',
     details: [
       {
-        label: 'vibe',
-        value: 'cozy & glowy',
+        name: '',
+        style: 'rows',
+        items: [
+          {
+            label: 'vibe',
+            value: 'cozy & glowy',
+          },
+          {
+            label: 'plushies on desk',
+            value: 'too many to count',
+          },
+          {
+            label: 'main character',
+            value: 'the ugly mouse',
+          },
+        ],
       },
       {
-        label: 'plushies on desk',
-        value: 'too many to count',
-      },
-      {
-        label: 'main character',
-        value: 'the ugly mouse',
-      },
-    ],
-    specs: [
-      {
-        label: 'cpu',
-        value: 'AMD Ryzen 7 9800X3D',
-      },
-      {
-        label: 'motherboard',
-        value: 'Gigabyte B850 AORUS ELITE WIFI7 ICE',
-      },
-      {
-        label: 'ram',
-        value: 'T-Create Expert 32GB DDR5-6000 CL30',
-      },
-      {
-        label: 'gpu',
-        value: 'Gigabyte AERO OC RTX 5070 Ti 16GB',
-      },
-      {
-        label: 'case',
-        value: 'Lian Li O11 Vision',
-      },
-      {
-        label: 'case fans',
-        value: 'Lian Li UNI FAN SL-INF',
-      },
-      {
-        label: 'psu',
-        value: 'Corsair RM850x SHIFT 850W',
-      },
-      {
-        label: 'storage',
-        value: 'Samsung 970 EVO Plus 1TB',
-      },
-      {
-        label: 'main monitor',
-        value: 'XG27ACDNG · 1440p OLED 360Hz',
-      },
-      {
-        label: 'second monitor',
-        value: 'G24F 2 · 1080p 180Hz',
-      },
-      {
-        label: 'keyboard',
-        value: 'Wooting 80HE (White Zinc)',
-      },
-      {
-        label: 'mouse',
-        value: 'Razer Viper V4 Pro / zeromouse blade',
-      },
-      {
-        label: 'mousepad',
-        value: 'Wallhack SP-004 (glass)',
-      },
-      {
-        label: 'microphone',
-        value: 'SteelSeries Alias Pro',
-      },
-      {
-        label: 'headphones',
-        value: 'Sony WH-1000XM6',
-      },
-      {
-        label: 'webcam',
-        value: 'OBSBOT Meet 2',
-      },
-      {
-        label: 'desk',
-        value: 'Flexispot E7 Pro',
-      },
-      {
-        label: 'chair',
-        value: 'SIHOO Doro C300',
+        name: 'my pc',
+        style: 'grid',
+        items: [
+          {
+            label: 'cpu',
+            value: 'AMD Ryzen 7 9800X3D',
+          },
+          {
+            label: 'motherboard',
+            value: 'Gigabyte B850 AORUS ELITE WIFI7 ICE',
+          },
+          {
+            label: 'ram',
+            value: 'T-Create Expert 32GB DDR5-6000 CL30',
+          },
+          {
+            label: 'gpu',
+            value: 'Gigabyte AERO OC RTX 5070 Ti 16GB',
+          },
+          {
+            label: 'case',
+            value: 'Lian Li O11 Vision',
+          },
+          {
+            label: 'case fans',
+            value: 'Lian Li UNI FAN SL-INF',
+          },
+          {
+            label: 'psu',
+            value: 'Corsair RM850x SHIFT 850W',
+          },
+          {
+            label: 'storage',
+            value: 'Samsung 970 EVO Plus 1TB',
+          },
+          {
+            label: 'main monitor',
+            value: 'XG27ACDNG · 1440p OLED 360Hz',
+          },
+          {
+            label: 'second monitor',
+            value: 'G24F 2 · 1080p 180Hz',
+          },
+          {
+            label: 'keyboard',
+            value: 'Wooting 80HE (White Zinc)',
+          },
+          {
+            label: 'mouse',
+            value: 'Razer Viper V4 Pro / zeromouse blade',
+          },
+          {
+            label: 'mousepad',
+            value: 'Wallhack SP-004 (glass)',
+          },
+          {
+            label: 'microphone',
+            value: 'SteelSeries Alias Pro',
+          },
+          {
+            label: 'headphones',
+            value: 'Sony WH-1000XM6',
+          },
+          {
+            label: 'webcam',
+            value: 'OBSBOT Meet 2',
+          },
+          {
+            label: 'desk',
+            value: 'Flexispot E7 Pro',
+          },
+          {
+            label: 'chair',
+            value: 'SIHOO Doro C300',
+          },
+        ],
       },
     ],
     link: null,

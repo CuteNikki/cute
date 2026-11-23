@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { saveGalleryItem } from '@/actions/gallery';
 import { getLibrary } from '@/data/photos';
 
-import type { LabelValue } from '@/lib/content';
+import type { DetailGroup } from '@/lib/content';
 import { db } from '@/lib/db';
 
 import { PageHeader } from '@/components/admin/page-header';
@@ -37,8 +37,7 @@ export default async function GalleryItemPage({
           name: item.name,
           short: item.short,
           description: item.description,
-          details: item.details as LabelValue[],
-          specs: item.specs as LabelValue[],
+          details: item.details as DetailGroup[],
           link: item.link as { label: string; href: string } | null,
           photoIds: item.photos.map((photo) => photo.photoId),
         }}

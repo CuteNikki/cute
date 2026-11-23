@@ -42,10 +42,10 @@ model GalleryItem {
   short       String
   /// Longer text in the popup, with a blank line between paragraphs.
   description String
-  /// { label, value } pairs under the description.
+  /// Groups of { label, value } items under the description, each
+  /// { name, style, items }: shown as rows, or as a grid of tiles (e.g. pc
+  /// specs). An empty name shows no heading.
   details     Json               @default("[]")
-  /// A larger grid of { label, value } pairs, e.g. pc specs.
-  specs       Json               @default("[]")
   /// An optional { label, href } link at the bottom of the popup.
   link        Json?
   photos      GalleryItemPhoto[]

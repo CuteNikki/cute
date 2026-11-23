@@ -7,7 +7,11 @@ import { Trash2Icon } from 'lucide-react';
 
 import { deleteGalleryItem } from '@/actions/gallery';
 
-import type { GalleryItemInput } from '@/lib/content';
+import {
+  DETAIL_STYLES,
+  type DetailGroup,
+  type GalleryItemInput,
+} from '@/lib/content';
 import type { SaveResult } from '@/lib/form';
 import type { LibraryPhoto } from '@/lib/photos';
 
@@ -35,22 +39,68 @@ import { Button } from '@/components/ui/button';
 import { Field, FieldLabel } from '@/components/ui/field';
 import { Switch } from '@/components/ui/switch';
 
-/** { label, value } pairs, like the details under a card's description. */
-function PairsField({
-  path,
-  label,
-  description,
-}: {
-  path: Path;
-  label: string;
-  description: string;
-}) {
+/** How a group of details is shown: rows or a grid, picked like tabs. */
+function StyleField({ path }: { path: Path }) {
+  const field = useField<DetailGroup['style']>(path);
+  return (
+    <div
+      className='flex flex-col gap-2'
+      role='radiogroup'
+      aria-label='Shown as'
+    >
+      <p className='text-sm font-medium text-foreground'>Shown as</p>
+      <div className='flex flex-wrap gap-1'>
+        {(
+          Object.entries(DETAIL_STYLES) as [DetailGroup['style'], string][]
+        ).map(([style, label]) => (
+          <Button
+            key={style}
+            type='button'
+            role='radio'
+            aria-checked={field.value === style}
+            variant={field.value === style ? 'secondary' : 'ghost'}
+            onClick={() => field.set(style)}
+          >
+            {label}
+          </Button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/** The groups of details under the description, each with its items. */
+function DetailGroupsField() {
+  return (
+    <ListField
+      path={['details']}
+      label='Details'
+      description='Groups of facts under the description: rows, or a grid of tiles for longer lists like PC specs. A group with a name gets it as a heading.'
+      addLabel='Add a group'
+      newItem={(): DetailGroup => ({ name: '', style: 'rows', items: [] })}
+    >
+      {(group) => (
+        <>
+          <TextField
+            path={[...group, 'name']}
+            label='Name'
+            description='Optional.'
+          />
+          <StyleField path={[...group, 'style']} />
+          <ItemsField path={[...group, 'items']} />
+        </>
+      )}
+    </ListField>
+  );
+}
+
+/** A group's { label, value } items. */
+function ItemsField({ path }: { path: Path }) {
   return (
     <ListField
       path={path}
-      label={label}
-      description={description}
-      addLabel='Add one'
+      label='Items'
+      addLabel='Add an item'
       newItem={() => ({ label: '', value: '' })}
       inline
     >
@@ -128,16 +178,7 @@ export function GalleryItemForm({
           description='A line break starts a new paragraph.'
           multiline
         />
-        <PairsField
-          path={['details']}
-          label='Details'
-          description='A few fun facts under the description.'
-        />
-        <PairsField
-          path={['specs']}
-          label='Specs'
-          description='Optional. A bigger grid, for things with more going on (like PC specs).'
-        />
+        <DetailGroupsField />
         <LinkField />
       </FormSection>
 

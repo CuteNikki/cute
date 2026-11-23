@@ -136,14 +136,30 @@ export type Content = { [S in Section]: SectionContent<S> };
 export type Badge = z.infer<typeof badgeSchema>;
 export type LabelValue = z.infer<typeof labelValue>;
 
+/** How a group of details is shown in a gallery card's popup. */
+export const DETAIL_STYLES = {
+  rows: 'Rows',
+  grid: 'Grid of tiles',
+} as const;
+
+/** A group of { label, value } items under a card's description. */
+export const detailGroupSchema = z.object({
+  /** Shown as a heading above the group, when set. */
+  name: optionalText,
+  /** Rows of label and value, or a grid of tiles for longer lists (like pc specs). */
+  style: z.enum(['rows', 'grid']),
+  items: z.array(labelValue).min(1, 'At least one item'),
+});
+
+export type DetailGroup = z.infer<typeof detailGroupSchema>;
+
 /** A gallery card, as edited in /admin. Photos are the library's ids, in order. */
 export const galleryItemSchema = z.object({
   name: text,
   short: text,
   /** Paragraphs are separated by a line break. */
   description: text,
-  details: z.array(labelValue),
-  specs: z.array(labelValue),
+  details: z.array(detailGroupSchema),
   link: z.object({ label: text, href: url }).nullable(),
   photoIds: z.array(z.string()).min(1, 'At least one photo'),
 });

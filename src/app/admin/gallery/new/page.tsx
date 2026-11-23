@@ -26,7 +26,6 @@ export default async function NewGalleryItemPage() {
           short: '',
           description: '',
           details: [],
-          specs: [],
           link: null,
           photoIds: [],
         }}

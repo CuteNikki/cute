@@ -525,39 +525,48 @@ export function Gallery({
                   {selected.description}
                 </DialogDescription>
 
-                <dl className='mt-4 space-y-2'>
-                  {selected.details.map((detail) => (
-                    <div
-                      key={detail.label}
-                      className='flex items-center justify-between rounded-2xl bg-secondary/60 px-4 py-2 text-sm'
-                    >
-                      <dt className='font-medium text-muted-foreground'>
-                        {detail.label}
-                      </dt>
-                      <dd className='font-semibold text-foreground'>
-                        {detail.value}
-                      </dd>
-                    </div>
-                  ))}
-                </dl>
-
-                {selected.specs && selected.specs.length > 0 && (
-                  <dl className='mt-4 grid grid-cols-2 gap-2.5 sm:grid-cols-3'>
-                    {selected.specs.map((spec) => (
-                      <div
-                        key={spec.label}
-                        className='rounded-2xl bg-secondary/60 p-4'
-                      >
-                        <dt className='text-xs font-bold tracking-wider text-muted-foreground uppercase'>
-                          {spec.label}
-                        </dt>
-                        <dd className='mt-1 text-sm leading-snug font-semibold text-foreground'>
-                          {spec.value}
-                        </dd>
-                      </div>
-                    ))}
-                  </dl>
-                )}
+                {selected.details.map((group, index) => (
+                  <div key={`${group.name}-${index}`} className='mt-4'>
+                    {group.name && (
+                      <h3 className='mb-2 font-display text-sm font-semibold text-accent-foreground'>
+                        {group.name}
+                      </h3>
+                    )}
+                    {group.style === 'grid' ? (
+                      <dl className='grid grid-cols-2 gap-2.5 sm:grid-cols-3'>
+                        {group.items.map((item) => (
+                          <div
+                            key={item.label}
+                            className='rounded-2xl bg-secondary/60 p-4'
+                          >
+                            <dt className='text-xs font-bold tracking-wider text-muted-foreground uppercase'>
+                              {item.label}
+                            </dt>
+                            <dd className='mt-1 text-sm leading-snug font-semibold text-foreground'>
+                              {item.value}
+                            </dd>
+                          </div>
+                        ))}
+                      </dl>
+                    ) : (
+                      <dl className='space-y-2'>
+                        {group.items.map((item) => (
+                          <div
+                            key={item.label}
+                            className='flex items-center justify-between rounded-2xl bg-secondary/60 px-4 py-2 text-sm'
+                          >
+                            <dt className='font-medium text-muted-foreground'>
+                              {item.label}
+                            </dt>
+                            <dd className='font-semibold text-foreground'>
+                              {item.value}
+                            </dd>
+                          </div>
+                        ))}
+                      </dl>
+                    )}
+                  </div>
+                ))}
 
                 {selected.link && (
                   // Styled as one more details row (not a solid button) so it sits quietly with the
