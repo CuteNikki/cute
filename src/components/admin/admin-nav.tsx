@@ -33,7 +33,7 @@ export function AdminNav() {
                 href={href}
                 aria-current={current ? 'page' : undefined}
                 className={cn(
-                  'block rounded-full px-3 py-1.5 text-sm font-semibold text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground',
+                  'block rounded-lg px-3 py-1.5 text-sm font-semibold text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground',
                   current &&
                     'bg-primary/15 text-primary hover:bg-primary/15 hover:text-primary'
                 )}

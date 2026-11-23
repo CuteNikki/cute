@@ -97,6 +97,16 @@
   --sidebar-ring: oklch(0.72 0.16 350);
 }
 
+/* The admin area is for working in, so its corners are much less round than
+   the site's. On body, so its dialogs, popovers and toasts (rendered outside
+   the admin's own wrapper) follow. */
+body:has([data-admin]) {
+  --radius: 0.375rem;
+  /* Worked out on :root from the site's radius, so again here for the
+     dialogs, which read it directly */
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
 .dark {
   --background: oklch(0.22 0.045 330);
   --foreground: oklch(0.94 0.03 340);
