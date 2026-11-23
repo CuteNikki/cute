@@ -107,6 +107,44 @@ body:has([data-admin]) {
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* Slim scrollbars in the theme's colours in the admin area, like dash's,
+   rather than the system's own. Chromium and Safari draw them from these
+   ::-webkit-scrollbar styles; Chromium ignores them wherever scrollbar-width
+   or scrollbar-color is set, so those are only for other browsers, like
+   Firefox. */
+body:has([data-admin]) ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+body:has([data-admin]) ::-webkit-scrollbar-track,
+body:has([data-admin]) ::-webkit-scrollbar-corner {
+  background: transparent;
+}
+body:has([data-admin]) ::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 9999px;
+  background: color-mix(in oklab, var(--muted-foreground) 55%, transparent)
+    padding-box;
+}
+body:has([data-admin]) ::-webkit-scrollbar-thumb:hover {
+  background-color: color-mix(
+    in oklab,
+    var(--muted-foreground) 80%,
+    transparent
+  );
+}
+@supports not selector(::-webkit-scrollbar) {
+  body:has([data-admin]) * {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(
+        in oklab,
+        var(--muted-foreground) 55%,
+        transparent
+      )
+      transparent;
+  }
+}
+
 .dark {
   --background: oklch(0.22 0.045 330);
   --foreground: oklch(0.94 0.03 340);

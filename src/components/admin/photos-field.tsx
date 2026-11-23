@@ -131,7 +131,9 @@ export function PhotosField({
               Tap a photo to add it to the card, again to take it off.
             </DialogDescription>
           </DialogHeader>
-          <ul className='grid max-h-[60vh] grid-cols-3 gap-2 overflow-y-auto sm:grid-cols-5'>
+          {/* Padded inside, and pulled out as much, so a picked photo's outline
+              isn't cut off where the list scrolls */}
+          <ul className='-m-1 grid max-h-[60vh] grid-cols-3 gap-2 overflow-y-auto p-1 sm:grid-cols-5'>
             {library.map((photo) => {
               const picked = ids.includes(photo.id);
               return (
