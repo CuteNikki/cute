@@ -7,6 +7,12 @@ const nextConfig: NextConfig = {
   images: {
     qualities: [10, 50, 75, 100],
     remotePatterns: [
+      // The gallery's photos, in Garage's cute bucket
+      {
+        protocol: 'https',
+        hostname: 'images.niso.moe',
+        pathname: '/cute/**',
+      },
       {
         protocol: 'https',
         hostname: '*.discordapp.net',
